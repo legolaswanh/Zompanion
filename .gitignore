@@ -1,0 +1,7 @@
+﻿Zompanion.sln
+*.csproj
+UserSettings
+Temp
+Logs
+Library
+.vscode
