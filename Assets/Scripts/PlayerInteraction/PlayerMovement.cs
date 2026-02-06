@@ -4,8 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("nimator Params")]
-    [SerializeField] private Animator animator;
+    [Header("Animator Params")]
     [SerializeField] private string moveXParam = "MoveX";
     [SerializeField] private string moveYParam = "MoveY";
     [SerializeField] private string speedParam = "Speed";
@@ -15,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float deadZone = 0.01f;
 
     private Vector2 moveInput;
+    private Animator animator;
     private InputSystem_Actions playerInput;
     private Vector2 lastDir = Vector2.down;
 
