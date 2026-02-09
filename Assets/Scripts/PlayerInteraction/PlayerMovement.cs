@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private InputSystem_Actions playerInput;
     private Vector2 lastDir = Vector2.down;
+    private bool isMoving;
 
 
     private void Awake()
@@ -49,23 +51,25 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        bool isMoving = moveInput.sqrMagnitude > deadZone * deadZone;
+        isMoving = moveInput.sqrMagnitude > deadZone * deadZone;
 
-        // 决定移动方向和最后面向方向
-        Vector2 dir = lastDir;
-        if (isMoving)
-        {
-            if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
-                dir = new Vector2(Mathf.Sign(moveInput.x), 0);
-            else
-                dir = new Vector2(0, Mathf.Sign(moveInput.y));
+        // // 决定移动方向和最后面向方向
+        // Vector2 dir = lastDir;
+        // if (isMoving)
+        // {
+        //     if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
+        //         dir = new Vector2(Mathf.Sign(moveInput.x), 0);
+        //     else
+        //         dir = new Vector2(0, Mathf.Sign(moveInput.y));
 
-            lastDir = dir;
-        }
+        //     lastDir = dir;
+        // }
+
+        lastDir = LastDir();
 
         // 动作
-        animator.SetFloat(moveXParam, dir.x);
-        animator.SetFloat(moveYParam, dir.y);
+        animator.SetFloat(moveXParam, lastDir.x);
+        animator.SetFloat(moveYParam, lastDir.y);
         animator.SetFloat(speedParam, isMoving ? 1f : 0f);
 
         // 位移
@@ -79,5 +83,20 @@ public class PlayerMovement : MonoBehaviour
     private void OnMove(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();
+    }
+
+    public Vector2 LastDir()
+    {
+        // 决定移动方向和最后面向方向
+        Vector2 dir = lastDir;
+        if (isMoving)
+        {
+            if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
+                dir = new Vector2(Mathf.Sign(moveInput.x), 0);
+            else
+                dir = new Vector2(0, Mathf.Sign(moveInput.y));
+        }
+
+        return dir;
     }
 }

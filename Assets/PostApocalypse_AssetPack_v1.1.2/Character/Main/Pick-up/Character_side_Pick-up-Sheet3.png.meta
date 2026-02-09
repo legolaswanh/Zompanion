@@ -121,7 +121,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 23
+        width: 11
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -141,9 +141,9 @@ TextureImporter:
       name: Character_side_Pick-up-Sheet3_1
       rect:
         serializedVersion: 2
-        x: 21
+        x: 11
         y: 0
-        width: 12
+        width: 11
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -159,11 +159,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Character_side_Pick-up-Sheet3_2
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 0
+        width: 11
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2afe9460ca37f0b438e8705eb55d65a2
+      internalID: -1924052318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 0ec47916a4cf43445bdcbd35a72e32ba
     internalID: 0
     vertices: []
     indices: 
@@ -175,6 +197,7 @@ TextureImporter:
     nameFileIdTable:
       Character_side_Pick-up-Sheet3_0: -7434459442944768042
       Character_side_Pick-up-Sheet3_1: 8477977232206987919
+      Character_side_Pick-up-Sheet3_2: -1924052318
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

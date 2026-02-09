@@ -127,7 +127,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 13
+        width: 12
         height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -147,9 +147,9 @@ TextureImporter:
       name: Character_up_punch-Sheet4_1
       rect:
         serializedVersion: 2
-        x: 11
+        x: 12
         y: 0
-        width: 14
+        width: 12
         height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -171,7 +171,7 @@ TextureImporter:
         serializedVersion: 2
         x: 24
         y: 0
-        width: 13
+        width: 12
         height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -191,9 +191,9 @@ TextureImporter:
       name: Character_up_punch-Sheet4_3
       rect:
         serializedVersion: 2
-        x: 35
+        x: 36
         y: 0
-        width: 13
+        width: 12
         height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c2236677c80c7e34d90639ddcafe9fa1
     internalID: 0
     vertices: []
     indices: 
