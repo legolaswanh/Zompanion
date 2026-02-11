@@ -44,28 +44,14 @@ namespace Code.Scripts
         private void Start()
         {
             string nextScene = TransitionSceneData.NextSceneName ?? defaultNextScene;
-            // string textKey = TransitionSceneData.TextKey ?? nextScene;
-
-            // // 初始隐藏所有文字
-            // foreach (var m in textMappings)
-            // {
-            //     if (m.textObject != null)
-            //         m.textObject.SetActive(false);
-            // }
-
-            // // 根据 Key 显示对应文字
-            // foreach (var m in textMappings)
-            // {
-            //     if (m.textObject != null && string.Equals(m.key, textKey, StringComparison.OrdinalIgnoreCase))
-            //     {
-            //         m.textObject.SetActive(true);
-            //         break;
-            //     }
-            // }
-
             TransitionSceneData.Clear();
 
-            // Debug.Log($"[TransitionSceneController] 显示文字 Key={textKey}，加载目标 {nextScene}");
+            // 只有明确配置了要去的场景时才执行过渡流程（例如从关卡结束进入过渡场景时由 TransitionSceneData 传入）；
+            // 否则不自动切场景，避免在普通关卡场景里误触发。
+            if (string.IsNullOrEmpty(nextScene))
+            {
+                return;
+            }
 
             StartCoroutine(TransitionSequence(nextScene));
         }
@@ -109,6 +95,11 @@ namespace Code.Scripts
 
         private void LoadNextScene(string sceneName)
         {
+            if (string.IsNullOrEmpty(sceneName))
+            {
+                Debug.LogWarning("[TransitionSceneController] 目标场景名为空，跳过加载");
+                return;
+            }
             Debug.Log($"[TransitionSceneController] 加载场景: {sceneName}");
             SceneManager.LoadScene(sceneName);
         }

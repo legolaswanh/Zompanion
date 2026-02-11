@@ -116,7 +116,7 @@ namespace Code.Scripts
             Debug.Log("[GameManager] Start（首次场景放置）");
             PlaceOrSpawnPlayerAtSpawnPoint();
 
-            SceneManager.LoadScene(startSceneName);
+            SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);
         }
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
