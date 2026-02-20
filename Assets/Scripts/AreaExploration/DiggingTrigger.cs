@@ -39,7 +39,7 @@ public class DiggingTrigger : MonoBehaviour
         buttonCanvas.gameObject.SetActive(false);
         if (collision.CompareTag("Player"))
         {
-            buttonCanvas.gameObject.SetActive(true);
+            buttonCanvas.gameObject.SetActive(false);
             PlayerInteraction.Instance.ClearCurrentTrigger(this);
         }
     }

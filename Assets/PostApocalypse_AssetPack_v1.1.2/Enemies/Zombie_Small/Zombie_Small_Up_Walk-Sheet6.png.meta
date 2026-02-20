@@ -40,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -54,7 +54,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -121,7 +121,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 40
+        width: 13
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -141,9 +141,9 @@ TextureImporter:
       name: Zombie_Small_Up_Walk-Sheet6_1
       rect:
         serializedVersion: 2
-        x: 38
+        x: 13
         y: 0
-        width: 40
+        width: 13
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -159,11 +159,99 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Zombie_Small_Up_Walk-Sheet6_2
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 0
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69aed5a843851294996fda5007eb29b4
+      internalID: 584321039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zombie_Small_Up_Walk-Sheet6_3
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 0
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c2b0ade05379d841b4f2c27ff2fa8d2
+      internalID: -604701324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zombie_Small_Up_Walk-Sheet6_4
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 0
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: faab350d43cceb446aaa49ba0a22ce35
+      internalID: 327441097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zombie_Small_Up_Walk-Sheet6_5
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 0
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8a63ec72da0f264eaf40b1ebc7e5bc0
+      internalID: 1196595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: cca0176357ea8d64e918a2e75dd3acfd
     internalID: 0
     vertices: []
     indices: 
@@ -175,6 +263,10 @@ TextureImporter:
     nameFileIdTable:
       Zombie_Small_Up_Walk-Sheet6_0: 5844978183212031120
       Zombie_Small_Up_Walk-Sheet6_1: -754419713677275429
+      Zombie_Small_Up_Walk-Sheet6_2: 584321039
+      Zombie_Small_Up_Walk-Sheet6_3: -604701324
+      Zombie_Small_Up_Walk-Sheet6_4: 327441097
+      Zombie_Small_Up_Walk-Sheet6_5: 1196595
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
