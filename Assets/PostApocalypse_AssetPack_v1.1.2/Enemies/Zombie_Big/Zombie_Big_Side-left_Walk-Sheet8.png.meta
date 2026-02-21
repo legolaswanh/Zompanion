@@ -55,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -69,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -136,7 +136,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 33
+        width: 16
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -156,7 +156,7 @@ TextureImporter:
       name: Zombie_Big_Side-left_Walk-Sheet8_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 16
         y: 0
         width: 16
         height: 24
@@ -178,9 +178,9 @@ TextureImporter:
       name: Zombie_Big_Side-left_Walk-Sheet8_2
       rect:
         serializedVersion: 2
-        x: 48
+        x: 32
         y: 0
-        width: 15
+        width: 16
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -200,9 +200,9 @@ TextureImporter:
       name: Zombie_Big_Side-left_Walk-Sheet8_3
       rect:
         serializedVersion: 2
-        x: 64
+        x: 48
         y: 0
-        width: 15
+        width: 16
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -222,9 +222,9 @@ TextureImporter:
       name: Zombie_Big_Side-left_Walk-Sheet8_4
       rect:
         serializedVersion: 2
-        x: 80
+        x: 64
         y: 0
-        width: 15
+        width: 16
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -244,9 +244,9 @@ TextureImporter:
       name: Zombie_Big_Side-left_Walk-Sheet8_5
       rect:
         serializedVersion: 2
-        x: 96
+        x: 80
         y: 0
-        width: 15
+        width: 16
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -266,9 +266,9 @@ TextureImporter:
       name: Zombie_Big_Side-left_Walk-Sheet8_6
       rect:
         serializedVersion: 2
-        x: 111
+        x: 96
         y: 0
-        width: 17
+        width: 16
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -284,11 +284,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Zombie_Big_Side-left_Walk-Sheet8_7
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd83cd49b394ee54c9708e23712b5996
+      internalID: 1530430041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e2d1255d03114c444ba58d5769d57f1b
     internalID: 0
     vertices: []
     indices: 
@@ -305,6 +327,7 @@ TextureImporter:
       Zombie_Big_Side-left_Walk-Sheet8_4: -4230106630381936258
       Zombie_Big_Side-left_Walk-Sheet8_5: 916763592864477932
       Zombie_Big_Side-left_Walk-Sheet8_6: -6313619176783283899
+      Zombie_Big_Side-left_Walk-Sheet8_7: 1530430041
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

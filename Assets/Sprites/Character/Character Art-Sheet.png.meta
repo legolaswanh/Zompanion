@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f0f375d581a99bd44b56a8e55be04ce1
+guid: af3b5c2ef5f3a274f9f65b86fcb05d65
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,6 +117,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -124,10 +137,10 @@ TextureImporter:
       name: Character Art-Sheet_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 0
-        width: 36
-        height: 192
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,10 +159,10 @@ TextureImporter:
       name: Character Art-Sheet_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 127
-        width: 33
-        height: 65
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,10 +181,10 @@ TextureImporter:
       name: Character Art-Sheet_2
       rect:
         serializedVersion: 2
-        x: 82
-        y: 63
-        width: 32
-        height: 65
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,10 +203,10 @@ TextureImporter:
       name: Character Art-Sheet_3
       rect:
         serializedVersion: 2
-        x: 142
-        y: 0
-        width: 36
-        height: 192
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,10 +225,10 @@ TextureImporter:
       name: Character Art-Sheet_4
       rect:
         serializedVersion: 2
-        x: 208
-        y: 127
-        width: 33
-        height: 65
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,10 +247,10 @@ TextureImporter:
       name: Character Art-Sheet_5
       rect:
         serializedVersion: 2
-        x: 210
-        y: 63
-        width: 32
-        height: 65
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,9 +269,9 @@ TextureImporter:
       name: Character Art-Sheet_6
       rect:
         serializedVersion: 2
-        x: 79
-        y: 0
-        width: 33
+        x: 128
+        y: 64
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -278,9 +291,9 @@ TextureImporter:
       name: Character Art-Sheet_7
       rect:
         serializedVersion: 2
-        x: 207
-        y: 0
-        width: 34
+        x: 192
+        y: 64
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -296,11 +309,99 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 677054776755b02419c4b02140209099
+      internalID: 601866145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94aa1805f039c12428b3e9c72a5e9182
+      internalID: -1076248046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 862bc8f8159dc6d43b54e4235f93b692
+      internalID: -815243765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e81464ee14267c48a139a8521201f4a
+      internalID: -820337250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e530e1cc0af4b9a42baad0bf8f7fa074
     internalID: 0
     vertices: []
     indices: 
@@ -312,12 +413,16 @@ TextureImporter:
     nameFileIdTable:
       Character Art-Sheet_0: -2219094299976659042
       Character Art-Sheet_1: 2935494755870683833
+      Character Art-Sheet_10: -815243765
+      Character Art-Sheet_11: -820337250
       Character Art-Sheet_2: 4480181276981771000
       Character Art-Sheet_3: 9206634935640065158
       Character Art-Sheet_4: -6138624690121791663
       Character Art-Sheet_5: 1994508372267022593
       Character Art-Sheet_6: -7831790559063831511
       Character Art-Sheet_7: 3220223580495032605
+      Character Art-Sheet_8: 601866145
+      Character Art-Sheet_9: -1076248046
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
