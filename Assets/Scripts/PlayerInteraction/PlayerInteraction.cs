@@ -9,7 +9,7 @@ public class PlayerInteraction : MonoBehaviour
 
     [Header("Animator Params")]
     [SerializeField] private string digTrigger = "Dig";
-    [SerializeField] private string collectTrigger = "Collect";
+    // [SerializeField] private string collectTrigger = "Collect";
     [SerializeField] private string faceDirection = "FaceDirection";
 
     [Header("玩家的背包数据")]
@@ -21,7 +21,7 @@ public class PlayerInteraction : MonoBehaviour
     private InputSystem_Actions playerInput;
 
     // 核心：记录当前玩家踩在哪个挖掘点上
-    private DiggingTrigger currentActiveTrigger;
+    private GameObject currentActiveTrigger;
 
     private void Awake()
     {
@@ -41,14 +41,14 @@ public class PlayerInteraction : MonoBehaviour
     {
         playerInput.Enable();
 
-        playerInput.Player.Interact.performed += OnDig;
+        playerInput.Player.Interact.performed += OnInteraction;
         // 暂时应该不需要捡东西的操作
         // playerInput.Player.Attack.performed += OnCollect;
     }
 
     private void OnDisable()
     {
-        playerInput.Player.Interact.performed -= OnDig;
+        playerInput.Player.Interact.performed -= OnInteraction;
         // 暂时应该不需要捡东西的操作
         // playerInput.Player.Attack.performed -= OnCollect;
 
@@ -65,12 +65,25 @@ public class PlayerInteraction : MonoBehaviour
         lastDir = playerMovement.LastDir();
     }
 
-    private void OnDig(InputAction.CallbackContext ctx) 
+    private void OnInteraction(InputAction.CallbackContext ctx) 
     {
         if (!ctx.performed) return;
 
         Debug.Log("Pressed E / Dig");
-        Dig();
+        
+        if(currentActiveTrigger != null) 
+        {
+            switch (currentActiveTrigger.tag) {
+                case "DiggingPoint":
+                    Dig(currentActiveTrigger.GetComponent<DiggingTrigger>());
+                    break;
+                case "AssemblyPlatform":
+                    Debug.Log(currentActiveTrigger.name);
+                    OpenAssemblyPlatform(currentActiveTrigger.GetComponent<AssemblyPlatform>());
+                    break;
+            }
+
+        }
     }
 
     // 暂时应该不需要捡东西的操作
@@ -82,7 +95,7 @@ public class PlayerInteraction : MonoBehaviour
     //     Collect();
     // }
 
-    void Dig()
+    void Dig(DiggingTrigger trigger)
     {
         if(animator != null) 
         {
@@ -95,11 +108,19 @@ public class PlayerInteraction : MonoBehaviour
         {
             Debug.Log($"对 {currentActiveTrigger.name} 执行挖掘！");
             // 调用挖掘点的 Interact 方法，把玩家背包数据传过去
-            currentActiveTrigger.Interact(playerInventory);
+            trigger.Interact(playerInventory);
         }
         else
         {
             Debug.Log("附近没有可挖掘的东西。");
+        }
+    }
+
+    void OpenAssemblyPlatform(AssemblyPlatform platform) 
+    {
+        if (currentActiveTrigger != null)
+        {
+            platform.OpenPlatFormUI();
         }
     }
 
@@ -116,21 +137,21 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     // 当玩家进入 Trigger 时，DiggingTrigger 会调用这个
-    public void SetCurrentTrigger(DiggingTrigger trigger)
+    public void SetCurrentTrigger(GameObject trigger)
     {
         currentActiveTrigger = trigger;
-        Debug.Log($"[交互系统] 进入挖掘点: {trigger.gameObject.name}");
+        Debug.Log($"[交互系统] 进入交互点: {trigger.gameObject.name}");
         // 以后可以在这里显示 "按 E 挖掘" 的 UI
     }
 
     // 当玩家离开 Trigger 时，DiggingTrigger 会调用这个
-    public void ClearCurrentTrigger(DiggingTrigger trigger)
+    public void ClearCurrentTrigger(GameObject trigger)
     {
         // 只清空当前记录的那个，防止重叠时误删
         if (currentActiveTrigger == trigger)
         {
             currentActiveTrigger = null;
-            Debug.Log("[交互系统] 离开挖掘点");
+            Debug.Log("[交互系统] 离开交互点");
             // 以后可以在这里隐藏 UI
         }
     }

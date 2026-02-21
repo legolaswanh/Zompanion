@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,12 +8,60 @@ public class AssemblyPlatform : MonoBehaviour
     [SerializeField] private List<ZombieRecipeSO> allRecipes; // 拖入所有可能的配方
     [SerializeField] private Transform spawnPoint; // 僵尸生成的位置
 
+    [Header("调用界面")]
+    [SerializeField] private Canvas platformCanvas;
+    [SerializeField] private Canvas buttonCanvas;
+
     [Header("当前放入的部件 (Runtime)")]
     // 这里简单起见，直接用 ItemDataSO，为空代表没放
     // public ItemDataSO currentHead;
     public ItemDataSO currentTorso;
     public ItemDataSO currentArm;
     public ItemDataSO currentLeg;
+    
+
+    public event Action OnAssemblyCleared;
+    private BoxCollider2D platformCollider;
+
+    void Awake()
+    {
+        platformCollider = GetComponent<BoxCollider2D>();
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("进入组装区域");
+        if (collision != null && collision.CompareTag("Player"))
+        {
+            buttonCanvas.gameObject.SetActive(true);
+            PlayerInteraction.Instance.SetCurrentTrigger(this.gameObject);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        buttonCanvas.gameObject.SetActive(false);
+        if (collision.CompareTag("Player"))
+        {
+            buttonCanvas.gameObject.SetActive(false);
+            PlayerInteraction.Instance.ClearCurrentTrigger(this.gameObject);
+        }
+    }
+
+    public void OpenPlatFormUI()
+    {
+        if(!platformCanvas.gameObject.activeSelf) 
+        {
+            platformCanvas.gameObject.SetActive(true);
+            PlayerMovement.Instance.DisableMove();
+        }
+        else
+        {
+            platformCanvas.gameObject.SetActive(false);
+            PlayerMovement.Instance.EnableMove();
+        }
+        
+    }
 
     // 供 UI 调用：尝试放入物品
     // 返回 true 表示放入成功
@@ -81,6 +130,8 @@ public class AssemblyPlatform : MonoBehaviour
         currentTorso = null;
         currentArm = null;
         currentLeg = null;
-        // 记得通知 UI 刷新
+        // 通知 UI 刷新
+        OnAssemblyCleared?.Invoke(); 
+        Debug.Log("逻辑层已清空，已发送 UI 刷新通知。");
     }
 }

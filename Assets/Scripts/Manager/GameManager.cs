@@ -41,41 +41,54 @@ namespace Code.Scripts
 
         void EnsurePersistentAudioListener()
         {
-            var existing = GetComponentInChildren<AudioListener>(true);
-            if (existing != null)
+            // Main Camera 已经 DontDestroyOnLoad（由 CameraControl 处理），上面自带 AudioListener。
+            // 只需找到它作为持久监听器即可，不再额外创建。
+            var mainCam = GameObject.FindGameObjectWithTag("MainCamera");
+            if (mainCam != null)
             {
-                _persistentAudioListener = existing;
-                ResolveSingleAudioListener();
-                return;
+                _persistentAudioListener = mainCam.GetComponent<AudioListener>();
             }
-            var go = new GameObject("PersistentAudioListener");
-            go.transform.SetParent(transform);
-            _persistentAudioListener = go.AddComponent<AudioListener>();
+
+            // 若 Main Camera 上没有（兜底），再检查自身子物体或创建
+            if (_persistentAudioListener == null)
+            {
+                var existing = GetComponentInChildren<AudioListener>(true);
+                if (existing != null)
+                {
+                    _persistentAudioListener = existing;
+                }
+                else
+                {
+                    var go = new GameObject("PersistentAudioListener");
+                    go.transform.SetParent(transform);
+                    _persistentAudioListener = go.AddComponent<AudioListener>();
+                    Debug.Log("[GameManager] 已创建跨场景 AudioListener（兜底）");
+                }
+            }
+
             ResolveSingleAudioListener();
-            Debug.Log("[GameManager] 已创建跨场景 AudioListener");
         }
 
-        /// <summary>保证场景中只有唯一一个启用的 AudioListener：若当前场景自带监听器则禁用持久监听器，否则启用持久监听器。</summary>
+        /// <summary>保证场景中只有唯一一个启用的 AudioListener。销毁场景里多余的，只保留持久的那个。</summary>
         void ResolveSingleAudioListener()
         {
             if (_persistentAudioListener == null) return;
-            var scene = SceneManager.GetActiveScene();
-            bool sceneHasOtherListener = false;
+
             #if UNITY_2023_1_OR_NEWER
-                var listeners = FindObjectsByType<AudioListener>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                var listeners = FindObjectsByType<AudioListener>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
             #else
-                var listeners = FindObjectsOfType<AudioListener>(true);
+                var listeners = FindObjectsOfType<AudioListener>();
             #endif
+
             foreach (var al in listeners)
             {
                 if (al == _persistentAudioListener) continue;
-                if (al.gameObject.scene == scene && al.enabled)
-                {
-                    sceneHasOtherListener = true;
-                    break;
-                }
+                // 场景里多出来的 AudioListener 直接销毁，避免重复
+                Debug.Log($"[GameManager] 销毁多余 AudioListener: {al.gameObject.name}");
+                Destroy(al);
             }
-            _persistentAudioListener.enabled = !sceneHasOtherListener;
+
+            _persistentAudioListener.enabled = true;
         }
 
         void EnsureTransitionFadeManagerExists()

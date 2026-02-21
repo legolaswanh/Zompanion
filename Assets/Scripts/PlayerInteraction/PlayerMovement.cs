@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance { get; private set;}
+
     [Header("Animator Params")]
     [SerializeField] private string moveXParam = "MoveX";
     [SerializeField] private string moveYParam = "MoveY";
@@ -24,6 +26,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         animator = GetComponent<Animator>();
         playerInput = new InputSystem_Actions();
         rb = GetComponent<Rigidbody2D>();
@@ -32,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInput.Enable();
+        EnableMove();
 
         playerInput.Player.Move.performed += OnMove;
         playerInput.Player.Move.canceled += OnMove;
@@ -43,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         playerInput.Player.Move.performed -= OnMove;
         playerInput.Player.Move.canceled -= OnMove;
 
-        playerInput.Disable();
+        DisableMove();
     }
 
 
@@ -97,5 +106,15 @@ public class PlayerMovement : MonoBehaviour
 
         lastDir = dir;
         return dir;
+    }
+
+    public void DisableMove()
+    {
+        playerInput.Disable();
+    }
+
+    public void EnableMove()
+    {
+        playerInput.Enable();
     }
 }

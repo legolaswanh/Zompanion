@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 5025518811491108590}
   - component: {fileID: 8180325463769609585}
   - component: {fileID: 129403833177989197}
+  - component: {fileID: 2620451981852986911}
+  - component: {fileID: 5643500804411441476}
+  - component: {fileID: 7070658463768984883}
   m_Layer: 5
   m_Name: ItemIcon
   m_TagString: Untagged
@@ -59,7 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -75,6 +78,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2620451981852986911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2290586655993768143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9228835009e8ea545ab94ae32afdccee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!225 &5643500804411441476
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2290586655993768143}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7070658463768984883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2290586655993768143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02194e266c0f9ec4abc43d1f268ceea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 0}
+  iconImage: {fileID: 129403833177989197}
 --- !u!1 &3410259286168593342
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +208,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconImage: {fileID: 129403833177989197}
   amountText: {fileID: 7447339269517598668}
-  slotButton: {fileID: 0}
 --- !u!1 &3760621769714945388
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ public class InventorySlotUI : MonoBehaviour
     [Header("UI Components")]
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI amountText;
-    [SerializeField] private Button slotButton; // 可选：用于点击交互
 
     /// <summary>Prefab 里给 Image 配的默认图，空槽位时恢复显示这个，不禁用 Image。</summary>
     private Sprite _defaultSlotSprite;
@@ -30,6 +29,9 @@ public class InventorySlotUI : MonoBehaviour
             iconImage.sprite = slot.itemData.icon;
             iconImage.color = Color.white;
             iconImage.enabled = true;
+
+            ItemUI itemUI = iconImage.GetComponent<ItemUI>();
+            itemUI.SetItem(slot.itemData);
 
             if (slot.quantity > 1)
             {

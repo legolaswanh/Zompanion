@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - SpawnPoint
+  - DiggingPoint
+  - AssemblyPlatform
+  - InventoryContent
   layers:
   - Default
   - TransparentFX
