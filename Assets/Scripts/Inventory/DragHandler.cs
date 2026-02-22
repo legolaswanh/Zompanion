@@ -26,6 +26,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             // 清理逻辑层对应的部位
             sourceSlot.platform.RemovePart(sourceSlot.acceptableType);
+            sourceSlot.transform.GetComponent<Image>().enabled = true;
         }
         
         // 拖拽时让图标显示在最上层
@@ -70,6 +71,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             
             transform.SetParent(originalParent);
             rectTransform.anchoredPosition = Vector2.zero;
+            assemblySlot.transform.GetComponent<Image>().enabled = false;
             return;
         }
 

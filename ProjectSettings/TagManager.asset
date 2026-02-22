@@ -8,6 +8,7 @@ TagManager:
   - DiggingPoint
   - AssemblyPlatform
   - InventoryContent
+  - InteractiveZombie
   layers:
   - Default
   - TransparentFX

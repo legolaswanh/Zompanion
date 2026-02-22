@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Torso
   description: A torso with a head attached, looking a bit scary.
-  icon: {fileID: -2142726812009774420, guid: e3eeae974539b9a4cacfd7a3248033c5, type: 3}
+  icon: {fileID: 7262119653502517537, guid: 4b0a0cbdb37fdc544bc9c2290cd2fd03, type: 3}
   itemType: 2
-  isStackable: 0
-  maxStackSize: 99
   worldPrefab: {fileID: 0}

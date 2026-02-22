@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIAssemblySlot : MonoBehaviour, IDropHandler
 {
@@ -72,6 +73,7 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
 
                 // 视觉处理：把图标留在合成格里
                 draggedObj.transform.SetParent(this.transform);
+                this.transform.GetComponent<Image>().enabled = false;
                 draggedObj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 Debug.Log($"已放入部位: {draggedItemUI.itemData.itemName}");
             }
@@ -84,6 +86,7 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
+            transform.GetComponent<Image>().enabled = true;
         }
     }
 }

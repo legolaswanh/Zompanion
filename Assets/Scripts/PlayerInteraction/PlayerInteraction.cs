@@ -81,6 +81,9 @@ public class PlayerInteraction : MonoBehaviour
                     Debug.Log(currentActiveTrigger.name);
                     OpenAssemblyPlatform(currentActiveTrigger.GetComponent<AssemblyPlatform>());
                     break;
+                case "InteractiveZombie":
+                    Debug.Log(currentActiveTrigger.name);
+                    break;
             }
 
         }

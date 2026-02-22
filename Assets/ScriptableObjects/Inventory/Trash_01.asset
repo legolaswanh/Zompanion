@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Trash_01
   m_EditorClassIdentifier: 
   itemName: Trash
-  description: A wolf's tooth club, now nothing but junk.
-  icon: {fileID: 6516497753200417860, guid: 7b7f9305b25770e4494fcd4f9b5b63f7, type: 3}
+  description: A rock, nothing but junk.
+  icon: {fileID: 777925937548758176, guid: d7532c3a99088bd4ea993ae9285b1014, type: 3}
   itemType: 0
-  isStackable: 1
-  maxStackSize: 99
   worldPrefab: {fileID: 0}

@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
   m_Name: StoryProp_01
   m_EditorClassIdentifier: 
-  itemName: Storyporp_rock
-  description: "A stone engraved with the words \u201CForever and Ever\u201D."
-  icon: {fileID: 777925937548758176, guid: d7532c3a99088bd4ea993ae9285b1014, type: 3}
+  itemName: Storyporp_01
+  description: "A wood engraved with the words \u201CForever and Ever\u201D."
+  icon: {fileID: -7736771966516219082, guid: f857cad5de54516469c8897d1708b319, type: 3}
   itemType: 5
-  isStackable: 0
-  maxStackSize: 99
   worldPrefab: {fileID: 0}

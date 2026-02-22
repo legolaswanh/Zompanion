@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Legs
   description: Two ordinary, unremarkable legs
-  icon: {fileID: 2195716065293976390, guid: 7b67b47548fc0db4598bf1a64b90b915, type: 3}
+  icon: {fileID: -9088068108723427035, guid: 213d2e3e85ab3b84a8e89f7be18a9ebb, type: 3}
   itemType: 4
-  isStackable: 0
-  maxStackSize: 99
   worldPrefab: {fileID: 0}
