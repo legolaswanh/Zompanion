@@ -125,7 +125,6 @@ public class ZombieManager : MonoBehaviour
 
         SpawnZombieAgent(data, definition);
         ApplySpawnBuff(data, definition);
-        UnlockCodexAndStory(definition);
 
         if (autoFollow)
             SetFollowState(data.instanceId, true);
@@ -193,6 +192,43 @@ public class ZombieManager : MonoBehaviour
         return _codexService != null && _codexService.IsStoryUnlocked(storyId);
     }
 
+    public bool IsZombieCodexUnlocked(string definitionId)
+    {
+        return _codexService != null && _codexService.IsZombieUnlocked(definitionId);
+    }
+
+    public bool UnlockZombieCodex(string definitionId)
+    {
+        if (_codexService == null || string.IsNullOrWhiteSpace(definitionId))
+            return false;
+
+        bool changed = _codexService.UnlockZombie(definitionId);
+        if (changed)
+            OnCodexChanged?.Invoke();
+        return changed;
+    }
+
+    public bool UnlockStory(string storyId)
+    {
+        if (_codexService == null || string.IsNullOrWhiteSpace(storyId))
+            return false;
+
+        bool changed = _codexService.UnlockStory(storyId);
+        if (changed)
+            OnCodexChanged?.Invoke();
+        return changed;
+    }
+
+    public bool UnlockZombieAndStory(string definitionId)
+    {
+        ZombieDefinitionSO definition = GetDefinition(definitionId);
+        if (definition == null) return false;
+
+        bool zombieChanged = UnlockZombieCodex(definition.DefinitionId);
+        bool storyChanged = UnlockStory(definition.StoryId);
+        return zombieChanged || storyChanged;
+    }
+
     private int GetFollowingCount()
     {
         return _zombies.Count(z => z.state == ZombieState.Following);
@@ -240,13 +276,6 @@ public class ZombieManager : MonoBehaviour
         }
 
         data.buffApplied = true;
-    }
-
-    private void UnlockCodexAndStory(ZombieDefinitionSO definition)
-    {
-        if (_codexService == null || definition == null) return;
-        _codexService.UnlockZombie(definition.DefinitionId);
-        _codexService.UnlockStory(definition.StoryId);
     }
 
     private void HandleCodexChanged()
