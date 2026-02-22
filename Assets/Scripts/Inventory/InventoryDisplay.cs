@@ -67,7 +67,7 @@ public class InventoryDisplay : MonoBehaviour
             // 保护机制：防止 UI 格子数量和数据不匹配
             if (i < inventoryData.slots.Count)
             {
-                slotUIList[i].UpdateSlotDisplay(inventoryData.slots[i]);
+                slotUIList[i].UpdateSlotDisplay(inventoryData.slots[i], i);
             }
         }
     }

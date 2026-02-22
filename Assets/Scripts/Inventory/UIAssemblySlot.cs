@@ -9,17 +9,6 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
     [Header("引用")]
     public AssemblyPlatform platform;
 
-    [Header("背包容器，用于退回物品")]
-    public Transform inventoryContent;
-
-    void Start()
-    {
-        if (inventoryContent == null)
-        {
-            GameObject inventoryUIContainer = GameObject.FindWithTag("InventoryContent");
-            if (inventoryUIContainer != null) inventoryContent = inventoryUIContainer.transform;
-        }
-    }
 
     private void OnEnable()
     {
@@ -35,7 +24,6 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("检测到掉落！");
         if (platform == null) return;
 
         // 1. 获取拖拽中的物体
@@ -44,36 +32,48 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
 
         // 2. 获取物品数据
         ItemUI draggedItemUI = draggedObj.GetComponent<ItemUI>();
+        if (draggedItemUI == null || draggedItemUI.itemData == null) return;
         
-        if (draggedItemUI != null && draggedItemUI.itemData != null)
+        if (draggedItemUI.itemData.itemType == acceptableType)
         {
-            // 3. 校验类型：只有类型匹配才允许放入
-            if (draggedItemUI.itemData.itemType == acceptableType)
+            // 1. 尝试将新数据插入逻辑层
+            if (platform.InsertPart(draggedItemUI.itemData))
             {
-                // 调用 InsertPart 方法
-                if (platform.InsertPart(draggedItemUI.itemData))
-                {
-                    // 检查槽位是否已有物品
-                    if (transform.childCount > 0)
-                    {
-                        // 找到当前在合成格里的旧物品
-                        UIDragHandler oldItemDrag = GetComponentInChildren<UIDragHandler>();
-                        if (oldItemDrag != null)
-                        {
-                            // 让旧物品回到它原本在背包里的格子
-                            oldItemDrag.ReturnToOriginalSlot();
-                        }
-                    }
+                // 获取拖拽物品的来源格子 (以便把旧物品塞回去，或者清空来源)
+                UIDragHandler dragHandler = draggedObj.GetComponent<UIDragHandler>();
+                InventorySlotUI sourceInventorySlot = dragHandler != null && dragHandler.originalParent != null 
+                    ? dragHandler.originalParent.GetComponent<InventorySlotUI>() 
+                    : null;
 
-                    // 视觉处理：把图标留在合成格里
-                    draggedObj.transform.SetParent(this.transform);
-                    draggedObj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                    Debug.Log($"已放入部位: {draggedItemUI.itemData.itemName}");
+                // 2. 处理当前格子里可能存在的【旧物品】
+                ItemUI oldItemUI = GetComponentInChildren<ItemUI>();
+                if (oldItemUI != null)
+                {
+                    // --- 发生替换（Swap） ---
+                    if (sourceInventorySlot != null)
+                    {
+                        // 把旧物品的数据，写回到新物品空出来的那个背包格子里
+                        // 这个操作会触发背包 UI 自动生成旧物品的图标
+                        sourceInventorySlot.inventoryData.SetItemAt(sourceInventorySlot.slotIndex, oldItemUI.itemData);
+                    }
+                    
+                    // 逻辑和数据已经转移，销毁合成格里旧物品的视觉残留
+                    Destroy(oldItemUI.gameObject);
                 }
-            }
-            else
-            {
-                Debug.LogWarning($"类型不匹配！这里需要 {acceptableType}");
+                else
+                {
+                    // --- 没有发生替换，单纯放入 ---
+                    if (sourceInventorySlot != null)
+                    {
+                        // 因为是从背包拿出来的，把背包原来的格子数据设为空
+                        sourceInventorySlot.inventoryData.SetItemAt(sourceInventorySlot.slotIndex, null);
+                    }
+                }
+
+                // 视觉处理：把图标留在合成格里
+                draggedObj.transform.SetParent(this.transform);
+                draggedObj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                Debug.Log($"已放入部位: {draggedItemUI.itemData.itemName}");
             }
         }
     }

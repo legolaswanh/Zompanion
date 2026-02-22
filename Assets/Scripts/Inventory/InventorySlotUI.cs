@@ -1,55 +1,76 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class InventorySlotUI : MonoBehaviour
+public class InventorySlotUI : MonoBehaviour, IDropHandler
 {
-    [Header("UI Components")]
-    [SerializeField] private Image iconImage;
-    [SerializeField] private TextMeshProUGUI amountText;
+    [Header("Config")]
+    public int slotIndex; // 这一格在背包里的索引
+    public InventorySO inventoryData; // 引用 SO 方便直接修改数据
+    
+    [Header("Prefabs")]
+    [SerializeField] private GameObject itemIconPrefab;
 
-    /// <summary>Prefab 里给 Image 配的默认图，空槽位时恢复显示这个，不禁用 Image。</summary>
-    private Sprite _defaultSlotSprite;
-    private InventorySlot currentSlot;
 
-    private void Awake()
+    public void OnDrop(PointerEventData eventData)
     {
-        if (iconImage != null)
-            _defaultSlotSprite = iconImage.sprite;
+        GameObject draggedObj = eventData.pointerDrag;
+        if (draggedObj == null) return;
+
+        // 如果这个格子里已经有东西了，就不允许放下
+        ItemUI draggedItem = draggedObj.GetComponent<ItemUI>();
+        if (draggedItem == null || draggedItem.itemData == null) return;
+        
+        // 只有当这个格子是空的时候，才允许放进来
+        // 检查当前格子数据是否为空
+        if (inventoryData.slots[slotIndex].IsEmpty)
+        {
+            // 1. 修改背包数据（这会自动触发 UpdateSlotDisplay，生成新的图标）
+            inventoryData.SetItemAt(slotIndex, draggedItem.itemData);
+
+            // 2. 销毁拖拽中的这个临时物体（因为 UpdateDisplay 会生成一个新的）
+            Destroy(draggedObj);
+
+            // 3. 【重要】如果这个物品是从 AssemblySlot 拖出来的，需要清理 AssemblySlot 的逻辑
+            // 这部分通常由 DragHandler 的 OnBeginDrag 处理了，或者我们可以检查来源
+            UIAssemblySlot sourceAssembly = draggedObj.GetComponent<UIDragHandler>()?.originalParent.GetComponent<UIAssemblySlot>();
+            if (sourceAssembly != null)
+            {
+                sourceAssembly.platform.RemovePart(sourceAssembly.acceptableType);
+            }
+        }
     }
 
     // 刷新格子的显示
-    public void UpdateSlotDisplay(InventorySlot slot)
+    public void UpdateSlotDisplay(InventorySlot slot, int index)
     {
-        currentSlot = slot;
+        slotIndex = index;
 
-        if (slot.itemData != null)
+        // 1. 检查当前格子里有没有 ItemIcon
+        ItemUI currentItemUI = GetComponentInChildren<ItemUI>();
+
+        // 2. 如果数据为空，但有图标 -> 销毁图标
+        if (slot.IsEmpty)
         {
-            // 有物品：显示物品图标和数量
-            iconImage.sprite = slot.itemData.icon;
-            iconImage.color = Color.white;
-            iconImage.enabled = true;
-
-            ItemUI itemUI = iconImage.GetComponent<ItemUI>();
-            itemUI.SetItem(slot.itemData);
-
-            if (slot.quantity > 1)
-            {
-                amountText.text = slot.quantity.ToString();
-                amountText.enabled = true;
-            }
-            else
-            {
-                amountText.enabled = false;
-            }
+            if (currentItemUI != null) Destroy(currentItemUI.gameObject);
+            return;
         }
-        else
+
+        // 3. 如果数据不为空
+        if (!slot.IsEmpty)
         {
-            // 无物品：保持 Image 启用，恢复 Prefab 上配置的默认图，不隐藏
-            iconImage.sprite = _defaultSlotSprite;
-            iconImage.color = new Color(1,1,1,0);
-            iconImage.enabled = true;
-            amountText.enabled = false;
+            // 如果还没有图标，生成一个
+            if (currentItemUI == null)
+            {
+                GameObject obj = Instantiate(itemIconPrefab, transform);
+                currentItemUI = obj.GetComponent<ItemUI>();
+                // 归零坐标
+                obj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            }
+
+            // 更新图标显示
+            currentItemUI.SetItem(slot.itemData);
         }
     }
 }

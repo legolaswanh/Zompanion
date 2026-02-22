@@ -134,4 +134,21 @@ public class AssemblyPlatform : MonoBehaviour
         OnAssemblyCleared?.Invoke(); 
         Debug.Log("逻辑层已清空，已发送 UI 刷新通知。");
     }
+
+    public void RemovePart(ItemType item) 
+    {
+        switch (item)
+        {
+            case ItemType.Torso:
+                currentTorso = null;
+                break;
+            case ItemType.Arm:
+                currentArm = null;
+                break;
+            case ItemType.Leg:
+                currentLeg = null;
+                break;
+        }
+        Debug.Log($"已从逻辑层移除部位: {item}");
+    }
 }

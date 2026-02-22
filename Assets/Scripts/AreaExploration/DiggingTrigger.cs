@@ -82,7 +82,7 @@ public class DiggingTrigger : MonoBehaviour
         ItemDataSO itemToGive = assignedItems[0];
 
         // 尝试加入背包
-        bool success = playerInventory.AddItem(itemToGive, 1);
+        bool success = playerInventory.AddItem(itemToGive);
         if (success)
         {
             Debug.Log($"挖到了: {itemToGive.itemName}！(剩余物品: {assignedItems.Count - 1})");

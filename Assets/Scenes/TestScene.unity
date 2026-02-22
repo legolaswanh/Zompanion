@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StoryZombiePrefab_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1583546875880986148, guid: 691008d0154062d41b42e6a7a430a62e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7799,6 +7803,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NormalZombiePrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8688,7 +8696,7 @@ MonoBehaviour:
   allRecipes:
   - {fileID: 11400000, guid: 3350e4716d9e65c46bd4b5560bbca2c2, type: 2}
   - {fileID: 11400000, guid: a87cadce0b36c28478c17269cd1d83a7, type: 2}
-  spawnPoint: {fileID: 0}
+  spawnPoint: {fileID: 1853297048}
   platformCanvas: {fileID: 6888152957176249336}
   buttonCanvas: {fileID: 731443911}
   currentTorso: {fileID: 0}
@@ -9455,6 +9463,7 @@ GameObject:
   - component: {fileID: 4576054044058614171}
   - component: {fileID: 1692869007}
   - component: {fileID: 1692869006}
+  - component: {fileID: 9108834554108574364}
   m_Layer: 5
   m_Name: AssembleSlot_01
   m_TagString: InventoryContent
@@ -9702,7 +9711,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptableType: 4
   platform: {fileID: 2055856817}
-  inventoryContent: {fileID: 0}
 --- !u!222 &2960468606954518188
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9773,7 +9781,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptableType: 2
   platform: {fileID: 2055856817}
-  inventoryContent: {fileID: 0}
 --- !u!114 &4792775892393991723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10013,7 +10020,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptableType: 3
   platform: {fileID: 2055856817}
-  inventoryContent: {fileID: 0}
 --- !u!114 &6828394211486609345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10290,6 +10296,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273144339601436141}
   m_CullTransparentMesh: 1
+--- !u!114 &9108834554108574364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273144339601436141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9228835009e8ea545ab94ae32afdccee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalParent: {fileID: 0}
 --- !u!1 &9214695181791993655
 GameObject:
   m_ObjectHideFlags: 0

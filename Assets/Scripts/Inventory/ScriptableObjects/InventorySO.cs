@@ -16,22 +16,6 @@ public class InventorySO : ScriptableObject
     [Tooltip("游戏开始时是否自动清空背包？")]
     public bool clearOnStart = true; // 勾选则自动清空，方便测试
 
-    // 清空所有格子的方法
-    [ContextMenu("Clear Inventory")]
-    public void ClearAll()
-    {
-        foreach (var slot in slots)
-        {
-            // 调用单个格子的 Clear 方法（将 item 设为 null，数量设为 0）
-            slot.Clear();
-        }
-        
-        // 通知 UI 刷新
-        OnInventoryUpdated?.Invoke();
-        
-        Debug.Log("背包已重置为空。");
-    }
-
     [Header("Data")]
     public List<InventorySlot> slots = new List<InventorySlot>();
 
@@ -47,62 +31,56 @@ public class InventorySO : ScriptableObject
             slots.Clear();
             for (int i = 0; i < MaxCapacity; i++)
             {
-                slots.Add(new InventorySlot(null, 0));
+                slots.Add(new InventorySlot(null));
             }
         }
     }
+
+    // 清空所有格子的方法
+    [ContextMenu("Clear Inventory")]
+    public void ClearAll()
+    {
+        foreach (var slot in slots)
+        {
+            // 调用单个格子的 Clear 方法（将 item 设为 null，数量设为 0）
+            slot.Clear();
+        }
+        
+        // 通知 UI 刷新
+        OnInventoryUpdated?.Invoke();
+        
+        Debug.Log("背包已重置为空。");
+    }
+    
 
     /// <summary>
     /// 尝试添加物品到背包
     /// </summary>
     /// <returns>返回是否添加成功</returns>
-    public bool AddItem(ItemDataSO item, int amount)
+    public bool AddItem(ItemDataSO item)
     {
-        // 1. 检查是否可堆叠且已存在
-        if (item.isStackable)
+        // 寻找第一个空格子
+        InventorySlot emptySlot = slots.FirstOrDefault(s => s.IsEmpty);
+        
+        if (emptySlot != null)
         {
-            foreach (var slot in slots)
-            {
-                if (!slot.IsEmpty && slot.itemData == item && slot.quantity < item.maxStackSize)
-                {
-                    int spaceInSlot = item.maxStackSize - slot.quantity;
-                    int amountToAdd = Mathf.Min(spaceInSlot, amount);
-                    
-                    slot.AddQuantity(amountToAdd);
-                    amount -= amountToAdd;
-
-                    if (amount <= 0)
-                    {
-                        OnInventoryUpdated?.Invoke();
-                        return true;
-                    }
-                }
-            }
-        }
-
-        // 2. 寻找空格子放入剩余物品
-        while (amount > 0)
-        {
-            InventorySlot emptySlot = slots.FirstOrDefault(s => s.IsEmpty);
-            
-            if (emptySlot != null)
-            {
-                int amountToAdd = item.isStackable ? Mathf.Min(item.maxStackSize, amount) : 1;
-                emptySlot.itemData = item;
-                emptySlot.quantity = amountToAdd;
-                
-                amount -= amountToAdd;
-            }
-            else
-            {
-                // 背包满了，部分或全部添加失败
-                OnInventoryUpdated?.Invoke();
-                return false; // 或者你可以返回剩余未添加的数量
-            }
+            emptySlot.itemData = item;
+            OnInventoryUpdated?.Invoke();
+            return true;
         }
 
         OnInventoryUpdated?.Invoke();
-        return true;
+        return false; // 背包已满
+    }
+
+    // 允许直接修改指定格子的数据（用于拖拽交换/放入）
+    public void SetItemAt(int index, ItemDataSO item)
+    {
+        if(index >= 0 && index < slots.Count)
+        {
+            slots[index].itemData = item;
+            OnInventoryUpdated?.Invoke();
+        }
     }
     
     // 增加由僵尸带来的扩容
@@ -112,7 +90,7 @@ public class InventorySO : ScriptableObject
         // 增加新的空槽位
         for(int i = 0; i < amount; i++)
         {
-            slots.Add(new InventorySlot(null, 0));
+            slots.Add(new InventorySlot(null));
         }
         OnInventoryUpdated?.Invoke();
     }

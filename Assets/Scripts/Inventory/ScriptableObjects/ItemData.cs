@@ -9,10 +9,6 @@ public class ItemDataSO : ScriptableObject
     public Sprite icon;
     public ItemType itemType;
 
-    [Header("Stacking")]
-    public bool isStackable = true;
-    public int maxStackSize = 99;
-
     [Header("Prefab")]
     public GameObject worldPrefab; // 丢弃在场景中时生成的物体
 }
