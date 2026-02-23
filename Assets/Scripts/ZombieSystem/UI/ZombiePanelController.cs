@@ -107,4 +107,3 @@ public class ZombiePanelController : MonoBehaviour
         detailPanel.Bind(zombie, definition, storyUnlocked);
     }
 }
-

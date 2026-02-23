@@ -47,4 +47,3 @@ public class ZombieDetailPanel : MonoBehaviour
         if (storyText != null) storyText.text = "Story: -";
     }
 }
-

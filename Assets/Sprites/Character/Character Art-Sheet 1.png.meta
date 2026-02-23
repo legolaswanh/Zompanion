@@ -1,0 +1,767 @@
+fileFormatVersion: 2
+guid: 9ae28a032fb66694a99faa5e82bd96a7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4787764504766678906
+    second: Character Art-Sheet 1_0
+  - first:
+      213: -5768413909595563458
+    second: Character Art-Sheet 1_1
+  - first:
+      213: -8834722037613033667
+    second: Character Art-Sheet 1_2
+  - first:
+      213: -8790756705593881108
+    second: Character Art-Sheet 1_3
+  - first:
+      213: -8924612928250620982
+    second: Character Art-Sheet 1_4
+  - first:
+      213: -8134233379609175930
+    second: Character Art-Sheet 1_5
+  - first:
+      213: -2948955902594500517
+    second: Character Art-Sheet 1_6
+  - first:
+      213: 7868386740353188269
+    second: Character Art-Sheet 1_7
+  - first:
+      213: 3701153800638259453
+    second: Character Art-Sheet 1_8
+  - first:
+      213: 5875635037200423542
+    second: Character Art-Sheet 1_9
+  - first:
+      213: 1726751643090006343
+    second: Character Art-Sheet 1_10
+  - first:
+      213: -5143881900675936004
+    second: Character Art-Sheet 1_11
+  - first:
+      213: 7031085938437625964
+    second: Character Art-Sheet 1_12
+  - first:
+      213: -2196165895639640216
+    second: Character Art-Sheet 1_13
+  - first:
+      213: 1226741177339522093
+    second: Character Art-Sheet 1_14
+  - first:
+      213: 2929731894633902226
+    second: Character Art-Sheet 1_15
+  - first:
+      213: 3001885524678047390
+    second: Character Art-Sheet 1_16
+  - first:
+      213: 7360578609559800994
+    second: Character Art-Sheet 1_17
+  - first:
+      213: 5357565674359856355
+    second: Character Art-Sheet 1_18
+  - first:
+      213: -6548845828625219281
+    second: Character Art-Sheet 1_19
+  - first:
+      213: -8218673526014142741
+    second: Character Art-Sheet 1_20
+  - first:
+      213: 8807151706270977069
+    second: Character Art-Sheet 1_21
+  - first:
+      213: -6068701497626651479
+    second: Character Art-Sheet 1_22
+  - first:
+      213: 2047076526862046829
+    second: Character Art-Sheet 1_23
+  - first:
+      213: 6989026554560869885
+    second: Character Art-Sheet 1_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_0
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 255
+        width: 36
+        height: 193
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6887821bc817e8db0800000000000000
+      internalID: -4787764504766678906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 383
+        width: 33
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3a52219c1a72ffa0800000000000000
+      internalID: -5768413909595563458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_2
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 319
+        width: 32
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3782ca7d13c46580800000000000000
+      internalID: -8834722037613033667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_3
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 255
+        width: 36
+        height: 193
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ced81380a55f00680800000000000000
+      internalID: -8790756705593881108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_4
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 383
+        width: 33
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac353cd83d7652480800000000000000
+      internalID: -8924612928250620982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_5
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 319
+        width: 32
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 688154896d56d1f80800000000000000
+      internalID: -8134233379609175930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 191
+        width: 26
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5830971b343317d0800000000000000
+      internalID: -2948955902594500517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_7
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 191
+        width: 46
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da145264d00223d60800000000000000
+      internalID: 7868386740353188269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_8
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 255
+        width: 33
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df0612aa5c32d5330800000000000000
+      internalID: 3701153800638259453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_9
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 191
+        width: 50
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67a9b269fe27a8150800000000000000
+      internalID: 5875635037200423542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_10
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 191
+        width: 42
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 741b3bd7877a6f710800000000000000
+      internalID: 1726751643090006343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_11
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 255
+        width: 34
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf056af2aa24d98b0800000000000000
+      internalID: -5143881900675936004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_12
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 200
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6891d1a86f639160800000000000000
+      internalID: 7031085938437625964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_13
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 63
+        width: 26
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8675292f0c6a581e0800000000000000
+      internalID: -2196165895639640216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_14
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 127
+        width: 30
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2caaaae992460110800000000000000
+      internalID: 1226741177339522093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_15
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 63
+        width: 26
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29039c2c2af78a820800000000000000
+      internalID: 2929731894633902226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_16
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 127
+        width: 32
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9672d2eaf6d8a920800000000000000
+      internalID: 3001885524678047390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_17
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 63
+        width: 26
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ac86245f37062660800000000000000
+      internalID: 7360578609559800994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_18
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 127
+        width: 31
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ec9b016895e95a40800000000000000
+      internalID: 5357565674359856355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_19
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 63
+        width: 26
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f21cef78a63dd15a0800000000000000
+      internalID: -6548845828625219281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_20
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 127
+        width: 30
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be61505f8f761fd80800000000000000
+      internalID: -8218673526014142741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_21
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 32
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2cc14780d9493a70800000000000000
+      internalID: 8807151706270977069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_22
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 32
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a4151a2424a7cba0800000000000000
+      internalID: -6068701497626651479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_23
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 32
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6617ab514da86c10800000000000000
+      internalID: 2047076526862046829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Art-Sheet 1_24
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 0
+        width: 32
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df57f563f920ef060800000000000000
+      internalID: 6989026554560869885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Character Art-Sheet 1_0: -4787764504766678906
+      Character Art-Sheet 1_1: -5768413909595563458
+      Character Art-Sheet 1_10: 1726751643090006343
+      Character Art-Sheet 1_11: -5143881900675936004
+      Character Art-Sheet 1_12: 7031085938437625964
+      Character Art-Sheet 1_13: -2196165895639640216
+      Character Art-Sheet 1_14: 1226741177339522093
+      Character Art-Sheet 1_15: 2929731894633902226
+      Character Art-Sheet 1_16: 3001885524678047390
+      Character Art-Sheet 1_17: 7360578609559800994
+      Character Art-Sheet 1_18: 5357565674359856355
+      Character Art-Sheet 1_19: -6548845828625219281
+      Character Art-Sheet 1_2: -8834722037613033667
+      Character Art-Sheet 1_20: -8218673526014142741
+      Character Art-Sheet 1_21: 8807151706270977069
+      Character Art-Sheet 1_22: -6068701497626651479
+      Character Art-Sheet 1_23: 2047076526862046829
+      Character Art-Sheet 1_24: 6989026554560869885
+      Character Art-Sheet 1_3: -8790756705593881108
+      Character Art-Sheet 1_4: -8924612928250620982
+      Character Art-Sheet 1_5: -8134233379609175930
+      Character Art-Sheet 1_6: -2948955902594500517
+      Character Art-Sheet 1_7: 7868386740353188269
+      Character Art-Sheet 1_8: 3701153800638259453
+      Character Art-Sheet 1_9: 5875635037200423542
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

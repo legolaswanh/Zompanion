@@ -18,12 +18,26 @@ public class ZombieManager : MonoBehaviour
     [Header("Config")]
     [SerializeField] [Range(1, 2)] private int maxFollowCount = 2;
     [SerializeField] private bool persistent = true;
+    [SerializeField] private bool requireCodexUnlockForSpawn = true;
     [SerializeField] private bool spawnTestZombiesOnStart;
     [SerializeField] private List<ZombieDefinitionSO> startupDefinitions = new List<ZombieDefinitionSO>();
+
+    [Header("Spawn Placement")]
+    [SerializeField] [Min(0.1f)] private float spawnSideSpacing = 1.15f;
+    [SerializeField] [Min(0f)] private float spawnExtraPairSpacing = 0.65f;
+    [SerializeField] private float spawnRowYOffset = 0f;
+    [SerializeField] [Min(0f)] private float minDistanceToPlayer = 0.8f;
+    [SerializeField] [Min(0f)] private float minDistanceToZombie = 0.55f;
+    [SerializeField] [Min(0f)] private float spawnCheckRadius = 0.3f;
+    [SerializeField] [Min(1)] private int maxSpawnAttempts = 30;
+    [SerializeField] [Min(4)] private int fallbackSpiralSteps = 24;
+    [SerializeField] [Min(0.01f)] private float spawnSearchStep = 0.22f;
+    [SerializeField] private LayerMask spawnBlockedMask;
 
     private readonly List<ZombieInstanceData> _zombies = new List<ZombieInstanceData>();
     private readonly Dictionary<int, ZombieAgent> _agentByInstanceId = new Dictionary<int, ZombieAgent>();
     private readonly Dictionary<string, ZombieDefinitionSO> _definitionById = new Dictionary<string, ZombieDefinitionSO>();
+    private readonly Collider2D[] _spawnOverlapBuffer = new Collider2D[32];
 
     private int _nextInstanceId = 1;
     private ZombieCodexService _codexService;
@@ -59,8 +73,9 @@ public class ZombieManager : MonoBehaviour
 
         if (!spawnTestZombiesOnStart) return;
 
-        for (int i = 0; i < startupDefinitions.Count; i++)
-            SpawnZombie(startupDefinitions[i], i < maxFollowCount);
+        int startupSpawnCount = Mathf.Min(maxFollowCount, startupDefinitions.Count);
+        for (int i = 0; i < startupSpawnCount; i++)
+            SpawnZombie(startupDefinitions[i], true, ignoreCodexUnlock: true);
     }
 
     private void OnEnable()
@@ -85,6 +100,7 @@ public class ZombieManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         TryBindPlayerLeader();
+        SyncPlayerZombieCollisionIgnores();
         RebuildFollowQueue();
     }
 
@@ -106,16 +122,29 @@ public class ZombieManager : MonoBehaviour
         return definition;
     }
 
+    public bool CanSpawnByDefinitionId(string definitionId)
+    {
+        ZombieDefinitionSO definition = GetDefinition(definitionId);
+        if (definition == null) return false;
+        return !requireCodexUnlockForSpawn || IsZombieCodexUnlocked(definition.DefinitionId);
+    }
+
     public bool TryGetZombie(int instanceId, out ZombieInstanceData zombie)
     {
         zombie = _zombies.FirstOrDefault(z => z.instanceId == instanceId);
         return zombie != null;
     }
 
-    public ZombieInstanceData SpawnZombie(ZombieDefinitionSO definition, bool autoFollow = false)
+    public ZombieInstanceData SpawnZombie(ZombieDefinitionSO definition, bool autoFollow = false, bool ignoreCodexUnlock = false)
     {
         if (definition == null || string.IsNullOrWhiteSpace(definition.DefinitionId))
             return null;
+
+        if (requireCodexUnlockForSpawn && !ignoreCodexUnlock && !IsZombieCodexUnlocked(definition.DefinitionId))
+        {
+            Debug.LogWarning($"[ZombieManager] Spawn blocked: codex not unlocked for '{definition.DefinitionId}'.");
+            return null;
+        }
 
         RegisterDefinitions(new[] { definition });
 
@@ -133,16 +162,16 @@ public class ZombieManager : MonoBehaviour
         return data;
     }
 
-    public ZombieInstanceData SpawnZombieByDefinitionId(string definitionId, bool autoFollow = false)
+    public ZombieInstanceData SpawnZombieByDefinitionId(string definitionId, bool autoFollow = false, bool ignoreCodexUnlock = false)
     {
-        return SpawnZombie(GetDefinition(definitionId), autoFollow);
+        return SpawnZombie(GetDefinition(definitionId), autoFollow, ignoreCodexUnlock);
     }
 
     [ContextMenu("Debug Spawn First Startup Zombie")]
     private void DebugSpawnFirstStartupZombie()
     {
         if (startupDefinitions == null || startupDefinitions.Count == 0) return;
-        SpawnZombie(startupDefinitions[0], true);
+        SpawnZombie(startupDefinitions[0], true, ignoreCodexUnlock: true);
     }
 
     public bool SetFollowState(int instanceId, bool following)
@@ -219,16 +248,6 @@ public class ZombieManager : MonoBehaviour
         return changed;
     }
 
-    public bool UnlockZombieAndStory(string definitionId)
-    {
-        ZombieDefinitionSO definition = GetDefinition(definitionId);
-        if (definition == null) return false;
-
-        bool zombieChanged = UnlockZombieCodex(definition.DefinitionId);
-        bool storyChanged = UnlockStory(definition.StoryId);
-        return zombieChanged || storyChanged;
-    }
-
     private int GetFollowingCount()
     {
         return _zombies.Count(z => z.state == ZombieState.Following);
@@ -239,7 +258,8 @@ public class ZombieManager : MonoBehaviour
         if (definition.Prefab == null) return;
 
         Transform parent = zombieContainer != null ? zombieContainer : transform;
-        GameObject zombieObj = Instantiate(definition.Prefab, parent);
+        Vector3 spawnPosition = ResolveSpawnPosition(parent);
+        GameObject zombieObj = Instantiate(definition.Prefab, spawnPosition, Quaternion.identity, parent);
         zombieObj.name = $"Zombie_{data.instanceId}_{definition.DisplayName}";
 
         ZombieAgent agent = zombieObj.GetComponent<ZombieAgent>();
@@ -248,6 +268,104 @@ public class ZombieManager : MonoBehaviour
 
         agent.Initialize(data.instanceId, definition);
         _agentByInstanceId[data.instanceId] = agent;
+        SyncPlayerZombieCollisionIgnores();
+    }
+
+    private Vector3 ResolveSpawnPosition(Transform parent)
+    {
+        Vector3 center = GetSpawnCenter(parent);
+        center.z = parent != null ? parent.position.z : center.z;
+
+        int spawnIndex = Mathf.Max(0, _agentByInstanceId.Count);
+        Vector3 preferred = GetAlternatingSpawnPoint(center, spawnIndex);
+        Transform player = GetPlayerTransform();
+        if (IsSpawnPositionValid(preferred, player))
+            return preferred;
+
+        const float goldenAngle = 2.39996323f;
+        for (int i = 0; i < maxSpawnAttempts; i++)
+        {
+            float angle = i * goldenAngle;
+            float radius = spawnSearchStep * (i + 1);
+            Vector3 candidate = preferred + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
+            if (IsSpawnPositionValid(candidate, player))
+                return candidate;
+        }
+
+        float spiralStep = Mathf.Max(spawnSearchStep, spawnCheckRadius * 1.5f);
+        for (int i = 0; i < fallbackSpiralSteps; i++)
+        {
+            float angle = i * goldenAngle;
+            float radius = spawnSideSpacing + i * spiralStep;
+            Vector3 candidate = center + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
+            if (IsSpawnPositionValid(candidate, player))
+                return candidate;
+        }
+
+        return preferred;
+    }
+
+    private Vector3 GetSpawnCenter(Transform parent)
+    {
+        Transform player = GetPlayerTransform();
+        if (player != null)
+            return player.position;
+
+        if (parent != null)
+            return parent.position;
+
+        return transform.position;
+    }
+
+    private Vector3 GetAlternatingSpawnPoint(Vector3 center, int spawnIndex)
+    {
+        bool spawnLeft = (spawnIndex % 2) == 0;
+        int row = spawnIndex / 2;
+        float x = (spawnLeft ? -1f : 1f) * (spawnSideSpacing + row * spawnExtraPairSpacing);
+        float y = spawnRowYOffset * row;
+        return center + new Vector3(x, y, 0f);
+    }
+
+    private bool IsSpawnPositionValid(Vector3 position, Transform player)
+    {
+        if (player != null && minDistanceToPlayer > 0f)
+        {
+            float distanceToPlayer = Vector2.Distance(position, player.position);
+            if (distanceToPlayer < minDistanceToPlayer)
+                return false;
+        }
+
+        if (minDistanceToZombie > 0f)
+        {
+            foreach (var pair in _agentByInstanceId)
+            {
+                ZombieAgent agent = pair.Value;
+                if (agent == null) continue;
+
+                float distanceToZombie = Vector2.Distance(position, agent.transform.position);
+                if (distanceToZombie < minDistanceToZombie)
+                    return false;
+            }
+        }
+
+        if (spawnCheckRadius <= 0f || spawnBlockedMask.value == 0)
+            return true;
+
+        var filter = new ContactFilter2D
+        {
+            useLayerMask = spawnBlockedMask.value != 0,
+            layerMask = spawnBlockedMask,
+            useTriggers = false
+        };
+        int hitCount = Physics2D.OverlapCircle(position, spawnCheckRadius, filter, _spawnOverlapBuffer);
+        for (int i = 0; i < hitCount; i++)
+        {
+            Collider2D hit = _spawnOverlapBuffer[i];
+            if (hit == null || hit.isTrigger) continue;
+            return false;
+        }
+
+        return true;
     }
 
     private void ApplySpawnBuff(ZombieInstanceData data, ZombieDefinitionSO definition)
@@ -314,18 +432,51 @@ public class ZombieManager : MonoBehaviour
     {
         if (followController == null) return;
 
-        Transform playerTransform = null;
-        if (GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
-            playerTransform = GameManager.Instance.CurrentPlayer.transform;
-
-        if (playerTransform == null)
-        {
-            GameObject playerObj = GameObject.FindWithTag("Player");
-            if (playerObj != null)
-                playerTransform = playerObj.transform;
-        }
+        Transform playerTransform = GetPlayerTransform();
 
         if (playerTransform != null)
             followController.SetLeader(playerTransform);
+    }
+
+    private void SyncPlayerZombieCollisionIgnores()
+    {
+        Collider2D[] playerColliders = GetPlayerColliders();
+        if (playerColliders == null || playerColliders.Length == 0) return;
+
+        foreach (var pair in _agentByInstanceId)
+        {
+            ZombieAgent agent = pair.Value;
+            if (agent == null) continue;
+
+            Collider2D[] zombieColliders = agent.GetComponentsInChildren<Collider2D>(true);
+            for (int i = 0; i < playerColliders.Length; i++)
+            {
+                Collider2D playerCol = playerColliders[i];
+                if (playerCol == null) continue;
+
+                for (int j = 0; j < zombieColliders.Length; j++)
+                {
+                    Collider2D zombieCol = zombieColliders[j];
+                    if (zombieCol == null) continue;
+                    Physics2D.IgnoreCollision(playerCol, zombieCol, true);
+                }
+            }
+        }
+    }
+
+    private Collider2D[] GetPlayerColliders()
+    {
+        Transform playerTransform = GetPlayerTransform();
+        if (playerTransform == null) return null;
+        return playerTransform.GetComponentsInChildren<Collider2D>(true);
+    }
+
+    private Transform GetPlayerTransform()
+    {
+        if (GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
+            return GameManager.Instance.CurrentPlayer.transform;
+
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        return playerObj != null ? playerObj.transform : null;
     }
 }

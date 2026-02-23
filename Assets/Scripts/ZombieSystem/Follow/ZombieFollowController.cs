@@ -5,7 +5,14 @@ public class ZombieFollowController : MonoBehaviour
 {
     [SerializeField] [Min(0.01f)] private float sampleSpacing = 0.12f;
     [SerializeField] [Min(32)] private int maxTrailPoints = 512;
-    [SerializeField] [Min(1)] private int maxFollowers = 2;
+
+    [Header("Player Avoidance")]
+    [SerializeField] [Min(0f)] private float playerAvoidRadius = 0.55f;
+    [SerializeField] [Min(0f)] private float playerAvoidStrength = 1.1f;
+
+    [Header("Follower Separation")]
+    [SerializeField] [Min(0f)] private float followerSeparationRadius = 0.4f;
+    [SerializeField] [Min(0f)] private float followerSeparationStrength = 0.25f;
 
     private Transform _leader;
     private readonly List<ZombieAgent> _followers = new List<ZombieAgent>();
@@ -23,7 +30,7 @@ public class ZombieFollowController : MonoBehaviour
         _followers.Clear();
         if (followers == null) return;
 
-        for (int i = 0; i < followers.Count && i < maxFollowers; i++)
+        for (int i = 0; i < followers.Count; i++)
         {
             ZombieAgent agent = followers[i];
             if (agent == null) continue;
@@ -57,21 +64,71 @@ public class ZombieFollowController : MonoBehaviour
                 followSpeed = follower.Definition.FollowMoveSpeed;
             }
 
-            FollowTrailPoint(follower, targetTrail, followDistance, followSpeed);
+            FollowTrailPoint(follower, i, targetTrail, followDistance, followSpeed);
             RecordTrailPoint(follower.transform);
         }
     }
 
-    private void FollowTrailPoint(ZombieAgent follower, List<Vector3> targetTrail, float followDistance, float speed)
+    private void FollowTrailPoint(ZombieAgent follower, int followerIndex, List<Vector3> targetTrail, float followDistance, float speed)
     {
-        if (targetTrail == null || targetTrail.Count == 0) return;
+        if (targetTrail == null || targetTrail.Count == 0)
+        {
+            follower.SetIdle();
+            return;
+        }
 
         int delaySamples = Mathf.Max(1, Mathf.CeilToInt(followDistance / sampleSpacing));
-        if (targetTrail.Count <= delaySamples) return;
+        if (targetTrail.Count <= delaySamples)
+        {
+            follower.SetIdle();
+            return;
+        }
 
         int index = targetTrail.Count - 1 - delaySamples;
         Vector3 targetPosition = targetTrail[index];
+        targetPosition = ApplyLocalAvoidance(follower, followerIndex, targetPosition);
         follower.MoveTowards(targetPosition, speed);
+    }
+
+    private Vector3 ApplyLocalAvoidance(ZombieAgent follower, int followerIndex, Vector3 targetPosition)
+    {
+        if (follower == null) return targetPosition;
+
+        Vector2 push = Vector2.zero;
+        Vector2 currentPos = follower.transform.position;
+
+        if (_leader != null && playerAvoidRadius > 0f)
+        {
+            Vector2 playerPos = _leader.position;
+            Vector2 diff = currentPos - playerPos;
+            float dist = diff.magnitude;
+            if (dist < playerAvoidRadius)
+            {
+                Vector2 away = dist > 0.0001f ? diff / dist : Random.insideUnitCircle.normalized;
+                float t = (playerAvoidRadius - dist) / Mathf.Max(playerAvoidRadius, 0.0001f);
+                push += away * t * playerAvoidStrength;
+            }
+        }
+
+        if (followerSeparationRadius > 0f && followerSeparationStrength > 0f && followerIndex > 0)
+        {
+            int limit = Mathf.Min(followerIndex, _followers.Count);
+            for (int i = 0; i < limit; i++)
+            {
+                ZombieAgent other = _followers[i];
+                if (other == null || other == follower) continue;
+
+                Vector2 diff = currentPos - (Vector2)other.transform.position;
+                float dist = diff.magnitude;
+                if (dist <= 0.0001f || dist >= followerSeparationRadius) continue;
+
+                Vector2 away = diff / dist;
+                float t = (followerSeparationRadius - dist) / followerSeparationRadius;
+                push += away * t * followerSeparationStrength;
+            }
+        }
+
+        return targetPosition + (Vector3)push;
     }
 
     private List<Vector3> EnsureTrail(Transform target)
@@ -116,4 +173,3 @@ public class ZombieFollowController : MonoBehaviour
         }
     }
 }
-
