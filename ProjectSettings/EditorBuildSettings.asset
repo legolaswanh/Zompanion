@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Persistent.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/HomeScene.unity
+    guid: 7bc0ff04c114b7248a98093c25918ac1
+  - enabled: 1
     path: Assets/Scenes/TestScene.unity
     guid: c16af2f008fca954194f457d448c3c7d
   m_configObjects:
