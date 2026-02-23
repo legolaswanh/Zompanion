@@ -316,6 +316,91 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95576135}
   m_CullTransparentMesh: 1
+--- !u!1 &175698758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 175698761}
+  - component: {fileID: 175698760}
+  - component: {fileID: 175698759}
+  m_Layer: 0
+  m_Name: zombie_manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &175698759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175698758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7f099a2764ecb74d91780dff05ab64a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sampleSpacing: 0.12
+  maxTrailPoints: 512
+  playerAvoidRadius: 0.55
+  playerAvoidStrength: 1.1
+  followerSeparationRadius: 0.4
+  followerSeparationStrength: 0.25
+--- !u!114 &175698760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175698758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c49bd499596a95488a5b70e1ab0038a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: {fileID: 11400000, guid: 9c4949eb36c979b4a910972d931db093, type: 2}
+  followController: {fileID: 175698759}
+  zombieContainer: {fileID: 175698761}
+  maxFollowCount: 2
+  persistent: 1
+  requireCodexUnlockForSpawn: 1
+  spawnTestZombiesOnStart: 1
+  startupDefinitions:
+  - {fileID: 11400000, guid: b271616de98b0814b80105466895b7db, type: 2}
+  - {fileID: 11400000, guid: e92426fc54b081a4e8ff74ff2a1dbd8c, type: 2}
+  spawnSideSpacing: 1.15
+  spawnExtraPairSpacing: 0.65
+  spawnRowYOffset: 0
+  minDistanceToPlayer: 0.8
+  minDistanceToZombie: 0.55
+  spawnCheckRadius: 0.3
+  maxSpawnAttempts: 30
+  fallbackSpiralSteps: 24
+  spawnSearchStep: 0.22
+  spawnBlockedMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!4 &175698761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175698758}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3216153, y: -1.5339875, z: 0.042250138}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &362183681
 GameObject:
   m_ObjectHideFlags: 0
@@ -8999,6 +9084,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1173578605}
   - component: {fileID: 1173578604}
+  - component: {fileID: 1173578606}
   m_Layer: 0
   m_Name: LevelEndTrigger
   m_TagString: Untagged
@@ -9061,12 +9147,24 @@ Transform:
   m_GameObject: {fileID: 1173578603}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.55, y: -5.17, z: 0}
+  m_LocalPosition: {x: 20.55, y: -5.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1173578606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173578603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48975b52d61772740a14c7b4dcb9afc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1250230687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11883,3 +11981,4 @@ SceneRoots:
   - {fileID: 15966807}
   - {fileID: 5185560183453046558}
   - {fileID: 1173578605}
+  - {fileID: 175698761}
