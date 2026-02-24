@@ -33,7 +33,6 @@ namespace Code.Scripts
         {
             if (Instance != null && Instance != this)
             {
-                Debug.Log("[GameManager] 已存在单例，销毁重复实例");
                 Destroy(gameObject);
                 return;
             }
@@ -42,8 +41,8 @@ namespace Code.Scripts
             DontDestroyOnLoad(gameObject);
             EnsureAudioManagerExists();
             EnsureTransitionFadeManagerExists();
+            EnsureSceneTransitionManagerExists();
             EnsurePersistentAudioListener();
-            Debug.Log("[GameManager] 单例已创建，DontDestroyOnLoad");
         }
 
         void EnsurePersistentAudioListener()
@@ -69,7 +68,6 @@ namespace Code.Scripts
                     var go = new GameObject("PersistentAudioListener");
                     go.transform.SetParent(transform);
                     _persistentAudioListener = go.AddComponent<AudioListener>();
-                    Debug.Log("[GameManager] 已创建跨场景 AudioListener（兜底）");
                 }
             }
 
@@ -90,8 +88,6 @@ namespace Code.Scripts
             foreach (var al in listeners)
             {
                 if (al == _persistentAudioListener) continue;
-                // 场景里多出来的 AudioListener 直接销毁，避免重复
-                Debug.Log($"[GameManager] 销毁多余 AudioListener: {al.gameObject.name}");
                 Destroy(al);
             }
 
@@ -105,7 +101,19 @@ namespace Code.Scripts
                 var go = new GameObject("TransitionFadeManager");
                 go.transform.SetParent(transform);
                 go.AddComponent<TransitionFadeManager>();
-                Debug.Log("[GameManager] 已自动创建 TransitionFadeManager");
+            }
+        }
+
+        void EnsureSceneTransitionManagerExists()
+        {
+            // 若场景里已有（例如挂在同一 GameObject 上），则不再创建，避免重复导致后执行的 Awake 把本物体 Destroy 掉
+            if (FindObjectOfType<SceneTransitionManager>(true) != null)
+                return;
+            if (SceneTransitionManager.Instance == null)
+            {
+                var go = new GameObject("SceneTransitionManager");
+                go.transform.SetParent(transform);
+                go.AddComponent<SceneTransitionManager>();
             }
         }
 
@@ -116,7 +124,6 @@ namespace Code.Scripts
                 var go = new GameObject("AudioManager");
                 go.transform.SetParent(transform);
                 go.AddComponent<AudioManager>();
-                Debug.Log("[GameManager] 已自动创建 AudioManager");
             }
         }
 
@@ -133,17 +140,58 @@ namespace Code.Scripts
         void Start()
         {
             ResolveSingleAudioListener();
-            Debug.Log("[GameManager] Start（首次场景放置）");
             PlaceOrSpawnPlayerAtSpawnPoint();
 
+            if (string.IsNullOrEmpty(startSceneName))
+            {
+                Debug.LogWarning("[GameManager] startSceneName 未设置，请在 Persistent 场景的 GameManager 上指定首个加载场景（如 MainMenu）");
+                return;
+            }
             SceneManager.LoadScene(startSceneName, LoadSceneMode.Additive);
         }
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log($"[GameManager] 场景已加载: {scene.name}");
             ResolveSingleAudioListener();
+            DisableDuplicateMainCameras();
+            EnsurePersistentCameraRenders();
             PlaceOrSpawnPlayerAtSpawnPoint();
+
+            if (!string.IsNullOrEmpty(startSceneName) && scene.name == startSceneName && mode == LoadSceneMode.Additive)
+            {
+                if (scene.isLoaded)
+                    SceneManager.SetActiveScene(scene);
+            }
+        }
+
+        /// <summary>
+        /// 确保持久 Main Camera 会清屏并参与渲染，避免过渡后一直黑屏（例如 Clear Flags 被设为 Don't Clear）。
+        /// </summary>
+        void EnsurePersistentCameraRenders()
+        {
+            if (_persistentAudioListener == null) return;
+            var cam = _persistentAudioListener.GetComponent<Camera>();
+            if (cam == null) return;
+            if (!cam.enabled) cam.enabled = true;
+            if (cam.clearFlags == CameraClearFlags.Depth || cam.clearFlags == CameraClearFlags.Nothing)
+            {
+                cam.clearFlags = RenderSettings.skybox != null ? CameraClearFlags.Skybox : CameraClearFlags.SolidColor;
+            }
+        }
+
+        /// <summary>
+        /// 只保留 DontDestroyOnLoad 的 Main Camera 用于渲染，禁用场景内多余的 Main Camera，避免双相机导致黑屏或错乱。
+        /// </summary>
+        void DisableDuplicateMainCameras()
+        {
+            if (_persistentAudioListener == null) return;
+            GameObject persistentCam = _persistentAudioListener.gameObject;
+            GameObject[] mainCams = GameObject.FindGameObjectsWithTag("MainCamera");
+            foreach (var go in mainCams)
+            {
+                if (go != null && go != persistentCam)
+                    go.SetActive(false);
+            }
         }
 
         /// <summary>
@@ -154,10 +202,7 @@ namespace Code.Scripts
         {
             var spawnPoint = GameObject.FindWithTag("SpawnPoint");
             if (spawnPoint == null)
-            {
-                Debug.Log("[GameManager] 未找到 Tag=SpawnPoint，跳过放置玩家");
                 return;
-            }
 
             var spawnTransform = spawnPoint.transform;
             Vector3 pos = spawnTransform.position;
@@ -166,19 +211,14 @@ namespace Code.Scripts
             if (_currentPlayer == null)
             {
                 if (playerPrefab == null)
-                {
-                    Debug.Log("[GameManager] 未设置 Player Prefab，跳过生成");
                     return;
-                }
 
                 _currentPlayer = Instantiate(playerPrefab, pos, rot);
-                _currentPlayer.tag = "Player"; // 保证 EndTrigger 能识别
-                Debug.Log($"[GameManager] 已生成玩家于 SpawnPoint {spawnPoint.name} @ {pos}");
+                _currentPlayer.tag = "Player";
             }
             else
             {
                 _currentPlayer.transform.SetPositionAndRotation(pos, rot);
-                Debug.Log($"[GameManager] 已移动已有玩家到 SpawnPoint {spawnPoint.name} @ {pos}");
             }
         }
 
@@ -189,21 +229,15 @@ namespace Code.Scripts
         public void SetPlayerControlEnabled(bool enabled)
         {
             if (_currentPlayer == null)
-            {
-                Debug.Log("[GameManager] SetPlayerControlEnabled: 无当前玩家，忽略");
                 return;
-            }
 
             foreach (var mb in _currentPlayer.GetComponents<MonoBehaviour>())
             {
                 if (mb != null) mb.enabled = enabled;
             }
 
-            // 禁用时把玩家动作重置为静止，避免保持上一帧的移动/跑步姿态
             if (!enabled)
                 ResetPlayerAnimatorToIdle(_currentPlayer);
-
-            Debug.Log($"[GameManager] 玩家控制已{(enabled ? "开启" : "关闭")}");
         }
 
         /// <summary>
@@ -229,7 +263,6 @@ namespace Code.Scripts
                 Debug.LogWarning("[GameManager] LoadScene: 场景名为空");
                 return;
             }
-            Debug.Log($"[GameManager] 加载场景: {sceneName}");
             SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
         }
 

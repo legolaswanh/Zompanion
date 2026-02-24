@@ -8767,9 +8767,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 142245f6f14d5d24f93616fd913478a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: HomeScene
-  transitionSceneName: 
-  fadeToTransitionDuration: 0.6
   vcamGameObjects: []
   followVCam: {fileID: 0}
   playerFollowPath: 
@@ -9086,7 +9083,7 @@ GameObject:
   - component: {fileID: 1173578604}
   - component: {fileID: 1173578606}
   m_Layer: 0
-  m_Name: LevelEndTrigger
+  m_Name: SceneExitTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9162,9 +9159,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1173578603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48975b52d61772740a14c7b4dcb9afc0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8038563533abe8f4eb22a4c82db0cf7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetSceneName: HomeScene
+  playerTag: Player
 --- !u!1001 &1250230687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9641,7 +9640,7 @@ Transform:
   m_GameObject: {fileID: 1557376511}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.61, y: 5.43, z: -0.03979417}
+  m_LocalPosition: {x: -11.65, y: 5.43, z: -0.03979417}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10768,6 +10767,99 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 5.994566, y: 5.0297694}
   m_EdgeRadius: 0
+--- !u!1 &2060864530
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2060864533}
+  - component: {fileID: 2060864532}
+  - component: {fileID: 2060864531}
+  m_Layer: 0
+  m_Name: SceneExitTrigger (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2060864531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060864530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8038563533abe8f4eb22a4c82db0cf7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneName: HomeScene
+  playerTag: Player
+--- !u!61 &2060864532
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060864530}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.30977058, y: 0.18855596}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.2121468, y: 3.8014035}
+  m_EdgeRadius: 0
+--- !u!4 &2060864533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060864530}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.39, y: 5.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2107348474
 GameObject:
   m_ObjectHideFlags: 0
@@ -11981,4 +12073,5 @@ SceneRoots:
   - {fileID: 15966807}
   - {fileID: 5185560183453046558}
   - {fileID: 1173578605}
+  - {fileID: 2060864533}
   - {fileID: 175698761}

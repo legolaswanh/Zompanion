@@ -251,7 +251,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3653533, y: 1.8239566, z: -901789.75}
+  m_LocalPosition: {x: 2.3653533, y: 1.8239566, z: -903249.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -582,7 +582,7 @@ Transform:
   m_GameObject: {fileID: 2098059714}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3653533, y: 1.8239566, z: -901789.75}
+  m_LocalPosition: {x: 2.3653533, y: 1.8239566, z: -903249.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -611,6 +611,7 @@ GameObject:
   - component: {fileID: 2117082757}
   - component: {fileID: 2117082756}
   - component: {fileID: 2117082758}
+  - component: {fileID: 2117082759}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -633,7 +634,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 1583546875880986148, guid: de47d8ec832c3a145886c6ad8a80ac04, type: 3}
   startSceneName: MainMenu
   firstGameSceneName: HomeScene
-  firstTimeTransitionSceneName: 
+  firstTimeTransitionSceneName: OpeningStory
 --- !u!4 &2117082757
 Transform:
   m_ObjectHideFlags: 0
@@ -662,6 +663,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainHudPrefab: {fileID: 8097799215442810024, guid: 1a65575a388c5a540ae1f06a31dbf05a, type: 3}
+  gameSceneNames:
+  - HomeScene
+  - TestScene
+  - ExplorationScene
+--- !u!114 &2117082759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117082755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c927ca3e4377bd429349027f14c421a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingPanelPrefab: {fileID: 0}
+  fadeInDuration: 0.3
+  fadeOutDuration: 0.4
+  minimumDisplayTime: 0.8
+  postLoadDisplayTime: 1.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

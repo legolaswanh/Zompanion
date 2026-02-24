@@ -9,23 +9,12 @@ using Code.Scripts;
 using Unity.Cinemachine;
 
 /// <summary>
-/// 每关/每场景一个：负责本场景的出生点、入口/出口 Timeline、关卡结束时切到下一场景；
-/// 以及 Cinemachine VCam 切换（激活某台/全部关闭/恢复跟拍）、游戏中触发的 Timeline 播放。
-/// 入口/出口 Timeline 会在玩家加载后，将角色轨绑定到当前 Player 的 Animator（相机由场景/Cinemachine 控制），再播放。
+/// 每关/每场景一个：负责本场景的 Cinemachine VCam 切换（激活某台/全部关闭/恢复跟拍）、
+/// 游戏中触发的 Timeline 播放、传送点等。场景之间的连接由各场景内的 SceneExitTrigger 配置目标场景，统一走 SceneTransitionManager 过渡。
 /// </summary>
 public class GameSceneManager : MonoBehaviour
 {
-    [Header("Next Scene")]
-    [Tooltip("玩家到达 LevelEndTrigger 后要加载的场景名；留空则只播出口 Timeline 不切场景（如结束界面）")]
-    [SerializeField] string nextSceneName;
-
-    [Header("过渡场景")]
-    [Tooltip("过渡场景名；配置后先加载此场景显示文字，再加载 nextSceneName")]
-    [SerializeField] string transitionSceneName;
-    // [Tooltip("过渡场景要显示的文字 Key，与 TransitionSceneController 的 Text Mappings 对应")]
-    // [SerializeField] string transitionTextKey;
-    [Tooltip("关卡结束→过渡场景的淡入黑屏时长（秒）")]
-    [SerializeField] [Min(0f)] float fadeToTransitionDuration = 0.6f;
+    // [Header("Next Scene")] 已移除：场景切换由各场景的 SceneExitTrigger 配置目标场景，统一走 SceneTransitionManager 过渡
 
     // [Header("Timeline (Optional)")]
     // [Tooltip("进入本场景时播放的运镜/过场")]
@@ -55,8 +44,6 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] bool resolvePersistentVCamIfEmpty = true;
 
 
-    bool _isExiting;
-
     private Transform _activatedTelepoint;
 
     // ----- VCam 切换（供 CameraSwitchTrigger 或其它脚本调用） -----
@@ -68,7 +55,6 @@ public class GameSceneManager : MonoBehaviour
         if (vcamGameObjects == null || vcamGameObjects.Count == 0) return;
         foreach (var go in vcamGameObjects)
             if (go != null) go.SetActive(go == vcam);
-        Debug.Log($"[LevelSceneManager] ActivateVCam: {vcam.name}");
     }
 
     /// <summary>全部 VCam SetActive(false)；播 Timeline 前调用，让 Brain 只被 Timeline/Animator 驱动。</summary>
@@ -77,7 +63,6 @@ public class GameSceneManager : MonoBehaviour
         if (vcamGameObjects == null) return;
         foreach (var go in vcamGameObjects)
             if (go != null) go.SetActive(false);
-        Debug.Log("[LevelSceneManager] DisableAllVCams");
     }
 
     /// <summary>只激活跟拍 VCam；Timeline 播完后调用。</summary>
@@ -87,7 +72,6 @@ public class GameSceneManager : MonoBehaviour
         if (vcamGameObjects == null || vcamGameObjects.Count == 0) return;
         foreach (var go in vcamGameObjects)
             if (go != null) go.SetActive(go == followVCam);
-        Debug.Log($"[LevelSceneManager] ActivateFollowVCam: {followVCam.name}");
     }
 
     /// <summary>游戏中触发一段 Timeline（运镜）；会先 DisableAllVCams，播完后 ActivateFollowVCam。可选：播前 BindTimelineToRuntimePlayer。</summary>
@@ -97,14 +81,12 @@ public class GameSceneManager : MonoBehaviour
         DisableAllVCams();
         timeline.stopped += OnTriggeredTimelineStopped;
         timeline.Play();
-        Debug.Log("[LevelSceneManager] PlayTimeline (triggered)");
     }
 
     void OnTriggeredTimelineStopped(PlayableDirector director)
     {
         director.stopped -= OnTriggeredTimelineStopped;
         ActivateFollowVCam();
-        Debug.Log("[LevelSceneManager] 触发的 Timeline 播完，恢复跟拍");
     }
 
     /// <summary>玩家加载后，将所有带 CinemachineCamera 的 VCam 的 Follow 设为当前 Player 的 Transform（或 playerFollowPath 子节点）。</summary>
@@ -127,9 +109,7 @@ public class GameSceneManager : MonoBehaviour
             if (vcam == null) continue;
             vcam.Follow = followTarget;
             bound++;
-            Debug.Log($"[LevelSceneManager] BindFollow: {go.name} -> {followTarget.name}");
         }
-        if (bound > 0) Debug.Log($"[LevelSceneManager] BindFollowVCamsToPlayer 完成，共 {bound} 台");
     }
 
     void Start()
@@ -151,18 +131,9 @@ public class GameSceneManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && _activatedTelepoint != null)
         {
-            if (_activatedTelepoint == null)
-            {
-                Debug.Log("No active telepoint");
-            }
-            else
-            {
-                Debug.Log("R triggered - teleporting to last telepoint");
-                OnPlayerTeleport();
-            }
-            
+            OnPlayerTeleport();
         }
     }
 
@@ -181,7 +152,6 @@ public class GameSceneManager : MonoBehaviour
         if (followVCam == null)
         {
             followVCam = persistentVCam;
-            Debug.Log("[LevelSceneManager] 已从 CameraControl 解析 followVCam（Persistent 相机）");
         }
 
         if (vcamGameObjects == null) vcamGameObjects = new List<GameObject>();
@@ -189,7 +159,6 @@ public class GameSceneManager : MonoBehaviour
         {
             if (!vcamGameObjects.Contains(persistentVCam))
                 vcamGameObjects.Add(persistentVCam);
-            Debug.Log("[LevelSceneManager] 已将 Persistent VCam 加入 vcamGameObjects");
         }
     }
 
@@ -290,67 +259,8 @@ public class GameSceneManager : MonoBehaviour
             GameManager.Instance.SetPlayerControlEnabled(true);
     }
 
-    /// <summary>
-    /// 由 LevelEndTrigger 在玩家进入结束区域时调用。
-    /// </summary>
-    public void OnPlayerReachedEnd()
-    {
-        if (_isExiting) return;
-        _isExiting = true;
-        Debug.Log("[LevelSceneManager] 玩家到达结束点");
-
-        // if (exitTimeline != null)
-        // {
-        //     Debug.Log("[LevelSceneManager] 绑定并播放出口 Timeline");
-        //     BindTimelineToRuntimePlayer(exitTimeline);
-
-        //     if (disablePlayerControlDuringTimeline && GameManager.Instance != null)
-        //         GameManager.Instance.SetPlayerControlEnabled(false);
-
-        //     DisableAllVCams();
-        //     exitTimeline.stopped += OnExitTimelineStopped;
-        //     exitTimeline.Play();
-        // }
-        // else
-        // {
-        //     Debug.Log("[LevelSceneManager] 无出口 Timeline，直接切场景");
-        //     LoadNextScene();
-        // }
-
-        LoadNextScene();
-    }
-
-    // void OnExitTimelineStopped(PlayableDirector director)
-    // {
-    //     director.stopped -= OnExitTimelineStopped;
-    //     Debug.Log("[LevelSceneManager] 出口 Timeline 播完，切场景");
-    //     if (disablePlayerControlDuringTimeline && GameManager.Instance != null)
-    //         GameManager.Instance.SetPlayerControlEnabled(true);
-    //     LoadNextScene();
-    // }
-
-    void LoadNextScene()
-    {
-        if (string.IsNullOrEmpty(nextSceneName))
-        {
-            Debug.Log("[LevelSceneManager] nextSceneName 为空，不加载场景");
-            return;
-        }
-
-        if (!string.IsNullOrEmpty(transitionSceneName))
-        {
-            StartCoroutine(LoadTransitionSceneCoroutine());
-            return;
-        }
-        else
-        {
-            SceneManager.LoadScene(nextSceneName);
-        }
-    }
-
     public void UpdateCurrentTelepoint(Transform currentEnabledTelepoint)
     {
-        Debug.Log("[LevelSceneManager] OnPlayerEnableTrigger");
         _activatedTelepoint = currentEnabledTelepoint;
     }
 
@@ -359,25 +269,4 @@ public class GameSceneManager : MonoBehaviour
         if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
         GameManager.Instance.PlayerTeleport(_activatedTelepoint);
     }
-
-    IEnumerator LoadTransitionSceneCoroutine()
-    {
-        // TransitionSceneData.Set(nextSceneName, string.IsNullOrEmpty(transitionTextKey) ? nextSceneName : transitionTextKey);
-        TransitionSceneData.Set(nextSceneName);
-
-        // 从 AudioManager（跨场景存在）直接保存当前播放的音乐，不依赖场景内 SceneMusicConfig
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.CarryOverCurrentMusic();
-        }
-
-        if (TransitionFadeManager.Instance != null && fadeToTransitionDuration > 0f)
-        {
-            yield return TransitionFadeManager.Instance.FadeIn(fadeToTransitionDuration);
-        }
-
-        // Debug.Log($"[LevelSceneManager] 加载过渡场景 {transitionSceneName}，TextKey={transitionTextKey ?? nextSceneName}");
-        SceneManager.LoadScene(transitionSceneName);
-    }
-
 }

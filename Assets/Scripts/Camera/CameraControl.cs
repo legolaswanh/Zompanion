@@ -31,7 +31,6 @@ public class CameraControl : MonoBehaviour
             if (mainCam != null && mainCam != gameObject)
             {
                 DontDestroyOnLoad(mainCam);
-                Debug.Log("[CameraControl] 已把 Main Camera 设为 DontDestroyOnLoad，与 VCam 一起跨场景保留");
             }
         }
     }
