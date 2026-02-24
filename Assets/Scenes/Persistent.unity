@@ -631,7 +631,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1583546875880986148, guid: de47d8ec832c3a145886c6ad8a80ac04, type: 3}
-  startSceneName: HomeScene
+  startSceneName: MainMenu
+  firstGameSceneName: HomeScene
+  firstTimeTransitionSceneName: 
 --- !u!4 &2117082757
 Transform:
   m_ObjectHideFlags: 0

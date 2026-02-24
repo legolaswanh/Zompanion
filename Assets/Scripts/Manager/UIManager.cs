@@ -1,10 +1,15 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     // 1. 引用 UI 预制体
     [Header("UI Prefabs")]
     [SerializeField] private GameObject mainHudPrefab;
+
+    [Header("背包显示场景")]
+    [Tooltip("背包 UI 只在这些场景中显示；默认进入首个玩法场景 HomeScene 后才激活")]
+    [SerializeField] private string[] gameSceneNames = { "HomeScene", "TestScene", "ExplorationScene" };
 
     private GameObject currentHudInstance;
 
@@ -22,11 +27,44 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        // 4. 生成 UI
-        InitUI();
     }
 
-    private void InitUI()
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        bool isGameScene = IsGameScene(scene.name);
+        if (isGameScene)
+        {
+            EnsureHudExists();
+            if (currentHudInstance != null)
+                currentHudInstance.SetActive(true);
+        }
+        else if (currentHudInstance != null)
+        {
+            currentHudInstance.SetActive(false);
+        }
+    }
+
+    private bool IsGameScene(string sceneName)
+    {
+        if (gameSceneNames == null) return false;
+        foreach (var name in gameSceneNames)
+        {
+            if (name == sceneName) return true;
+        }
+        return false;
+    }
+
+    private void EnsureHudExists()
     {
         if (currentHudInstance == null && mainHudPrefab != null)
         {

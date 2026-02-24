@@ -13,7 +13,14 @@ namespace Code.Scripts
 
         [Header("Player")] [Tooltip("玩家预制体；不赋值则不会生成玩家（例如纯 UI 的开始/结束界面）")] 
         [SerializeField] GameObject playerPrefab;
+        [Tooltip("游戏启动时加载的首个场景（如 MainMenu）")]
         [SerializeField] string startSceneName;
+
+        [Header("主界面/新游戏")]
+        [Tooltip("新游戏要去的首个玩法场景（如 HomeScene、ExplorationScene）")]
+        [SerializeField] string firstGameSceneName = "HomeScene";
+        [Tooltip("初次进入游戏时的过渡/剧情场景；留空则直接进入 firstGameSceneName")]
+        [SerializeField] string firstTimeTransitionSceneName;
 
         GameObject _currentPlayer;
 
@@ -212,6 +219,58 @@ namespace Code.Scripts
             anim.SetBool("IsJump", false);
         }
         
+        /// <summary>
+        /// 加载场景（Single 模式，替换当前场景）。供主界面、存档等调用。
+        /// </summary>
+        public void LoadScene(string sceneName)
+        {
+            if (string.IsNullOrEmpty(sceneName))
+            {
+                Debug.LogWarning("[GameManager] LoadScene: 场景名为空");
+                return;
+            }
+            Debug.Log($"[GameManager] 加载场景: {sceneName}");
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        }
+
+        /// <summary>
+        /// 新游戏：根据配置决定是否经过渡/剧情场景，再进入首个玩法场景。
+        /// </summary>
+        public void LoadNewGame()
+        {
+            if (!string.IsNullOrEmpty(firstTimeTransitionSceneName))
+            {
+                TransitionSceneData.Set(firstGameSceneName);
+                LoadScene(firstTimeTransitionSceneName);
+            }
+            else
+            {
+                LoadScene(firstGameSceneName);
+            }
+        }
+
+        /// <summary>
+        /// 读取存档并加载对应场景。
+        /// </summary>
+        public void LoadSavedGame()
+        {
+            var data = SaveSystem.Load();
+            if (data == null || string.IsNullOrEmpty(data.sceneName))
+            {
+                Debug.LogWarning("[GameManager] 无有效存档");
+                return;
+            }
+            LoadScene(data.sceneName);
+        }
+
+        /// <summary>
+        /// 返回主菜单。
+        /// </summary>
+        public void LoadMainMenu()
+        {
+            LoadScene("MainMenu");
+        }
+
         /// <summary>
         /// 传送Player到指定位置
         /// </summary>
