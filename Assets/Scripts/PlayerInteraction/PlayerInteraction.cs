@@ -82,7 +82,7 @@ public class PlayerInteraction : MonoBehaviour
                     OpenAssemblyPlatform(currentActiveTrigger.GetComponent<AssemblyPlatform>());
                     break;
                 case "InteractiveZombie":
-                    Debug.Log(currentActiveTrigger.name);
+                    TriggerDialogue(currentActiveTrigger.GetComponent<DialogueInteractTrigger>());
                     break;
             }
 
@@ -124,6 +124,14 @@ public class PlayerInteraction : MonoBehaviour
         if (currentActiveTrigger != null)
         {
             platform.OpenPlatFormUI();
+        }
+    }
+
+    void TriggerDialogue(DialogueInteractTrigger dialogue) 
+    {
+        if (currentActiveTrigger != null)
+        {
+            dialogue.Interact();
         }
     }
 
