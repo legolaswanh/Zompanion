@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
   m_Name: ZombieArm_normal
   m_EditorClassIdentifier: 
-  itemName: Arms
+  itemName: Dead Man's Arms
   description: Two ordinary, unremarkable arms
   icon: {fileID: 4278120580491971516, guid: d0f72cca0b8a2a2428433af3349eaeb0, type: 3}
   itemType: 3

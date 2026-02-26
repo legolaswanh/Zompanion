@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using PixelCrushers.DialogueSystem;
 
 public class DiggingTrigger : MonoBehaviour
 {
@@ -50,10 +51,10 @@ public class DiggingTrigger : MonoBehaviour
     // 1. 初始化/清空内容
     public void SetContent(List<ItemDataSO> items)
     {
-        if(isCustomizedPoint) 
-        {
-            return;
-        }
+        // if(isCustomizedPoint) 
+        // {
+        //     return;
+        // }
         
         assignedItems = new List<ItemDataSO>(items);
         isDug = false;
@@ -86,6 +87,34 @@ public class DiggingTrigger : MonoBehaviour
 
         // 如果坑里有东西，取第一个
         ItemDataSO itemToGive = assignedItems[0];
+
+        if(isCustomizedPoint) 
+        {
+            switch (itemToGive.itemName) 
+            {
+                case "A Mysterious Book":
+                    DialogueLua.SetVariable("hasBook", true);
+                    Debug.Log("挖到了书，这里应该变状态");
+                    break;
+                case "Dead Man's Arms":
+                    DialogueLua.SetVariable("hasFirstArm", true);
+                    Debug.Log("挖到了胳膊，这里应该变状态");
+                    break;
+            }
+
+            DialogueSystemTrigger[] allTriggers = GetComponents<DialogueSystemTrigger>();
+
+            foreach (DialogueSystemTrigger trigger in allTriggers)
+            {
+                if (trigger != null && trigger.enabled)
+                {
+                    // 向这个 Trigger 发送 "OnUse" 消息，激活 DS 的 On Use 触发器
+                    // currentDialogueTrigger.gameObject.SendMessage("OnUse", this.transform, SendMessageOptions.DontRequireReceiver);
+                    trigger.OnUse();
+                }
+            }
+            
+        }
 
         // 尝试加入背包
         bool success = playerInventory.AddItem(itemToGive);

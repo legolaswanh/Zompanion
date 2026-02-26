@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using PixelCrushers.DialogueSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -47,6 +48,10 @@ public class PlayerMovement : MonoBehaviour
         EnableMove();
         playerInput.Player.Move.performed += OnMove;
         playerInput.Player.Move.canceled += OnMove;
+
+        // 订阅全局对话开始/结束事件
+        DialogueManager.instance.conversationStarted += OnConversationStarted;
+        DialogueManager.instance.conversationEnded += OnConversationEnded;
     }
 
     private void OnDisable()
@@ -54,6 +59,10 @@ public class PlayerMovement : MonoBehaviour
         playerInput.Player.Move.performed -= OnMove;
         playerInput.Player.Move.canceled -= OnMove;
         DisableMove();
+
+        // 取消订阅，防止报错
+        DialogueManager.instance.conversationStarted -= OnConversationStarted;
+        DialogueManager.instance.conversationEnded -= OnConversationEnded;
     }
 
     private void Update()
@@ -119,6 +128,19 @@ public class PlayerMovement : MonoBehaviour
 
     public void EnableMove()
     {
+        playerInput.Enable();
+    }
+
+    private void OnConversationStarted(Transform actor)
+    {
+        // 对话开始，禁用输入
+        playerInput.Disable(); 
+
+    }
+
+    private void OnConversationEnded(Transform actor)
+    {
+        // 对话结束，恢复输入
         playerInput.Enable();
     }
 }
