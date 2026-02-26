@@ -5,6 +5,7 @@ public class DiggingTrigger : MonoBehaviour
 {
     [Header("运行时状态 (自动分配)")]
     // 这个列表存储了该点位被分配到的所有物品
+    [SerializeField] public bool isCustomizedPoint = false;
     [SerializeField] private List<ItemDataSO> assignedItems = new List<ItemDataSO>();
     
     [Header("配置")]
@@ -49,6 +50,11 @@ public class DiggingTrigger : MonoBehaviour
     // 1. 初始化/清空内容
     public void SetContent(List<ItemDataSO> items)
     {
+        if(isCustomizedPoint) 
+        {
+            return;
+        }
+        
         assignedItems = new List<ItemDataSO>(items);
         isDug = false;
     }
@@ -124,5 +130,7 @@ public class DiggingTrigger : MonoBehaviour
         {
             col.enabled = false; 
         }
+
+        this.gameObject.SetActive(false);
     }
 }

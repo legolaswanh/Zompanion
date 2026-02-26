@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq; // 必须引用，用于列表操作
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine.Assertions.Must; // 必须引用，用于列表操作
 
 public class SceneLootManager : MonoBehaviour
 {
@@ -24,7 +26,7 @@ public class SceneLootManager : MonoBehaviour
 
         // 1. 获取场景中所有挖掘点
         // FindObjectsByType 是 Unity 2023/Unity 6 的新 API，性能更好
-        List<DiggingTrigger> allSpots = FindObjectsByType<DiggingTrigger>(FindObjectsSortMode.None).ToList();
+        List<DiggingTrigger> allSpots = FindObjectsByType<DiggingTrigger>(FindObjectsSortMode.None).Where(trigger => !trigger.isCustomizedPoint).ToList();;
         
         if (allSpots.Count == 0)
         {

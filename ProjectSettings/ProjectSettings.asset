@@ -580,8 +580,8 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   scriptingDefineSymbols:
-    Standalone: TMP_PRESENT;USE_NEW_INPUT;USE_PHYSICS2D;USE_CINEMACHINE_3
-    WebGL: TMP_PRESENT;USE_NEW_INPUT;USE_PHYSICS2D;USE_CINEMACHINE_3
+    Standalone: TMP_PRESENT;USE_NEW_INPUT;USE_CINEMACHINE_3;USE_PHYSICS2D
+    WebGL: TMP_PRESENT;USE_NEW_INPUT;USE_CINEMACHINE_3;USE_PHYSICS2D
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
