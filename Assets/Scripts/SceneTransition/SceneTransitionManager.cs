@@ -172,6 +172,9 @@ public class SceneTransitionManager : MonoBehaviour
             yield return TransitionFadeManager.Instance.FadeIn(fadeInDuration);
         }
 
+        if (SceneStateManager.Instance != null)
+            SceneStateManager.Instance.CaptureCurrentSceneState();
+
         var startTime = Time.unscaledTime;
         var asyncOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         if (asyncOp == null)

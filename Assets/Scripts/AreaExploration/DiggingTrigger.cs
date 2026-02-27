@@ -2,8 +2,17 @@ using UnityEngine;
 using System.Collections.Generic;
 using PixelCrushers.DialogueSystem;
 
-public class DiggingTrigger : MonoBehaviour
+public class DiggingTrigger : MonoBehaviour, ISaveable
 {
+    [System.Serializable]
+    public class DiggingTriggerState
+    {
+        public bool isDug;
+        public List<string> assignedItemNames;
+        public bool isActive;
+        public bool colliderEnabled;
+    }
+
     [Header("运行时状态 (自动分配)")]
     // 这个列表存储了该点位被分配到的所有物品
     [SerializeField] public bool isCustomizedPoint = false;
@@ -161,5 +170,52 @@ public class DiggingTrigger : MonoBehaviour
         }
 
         this.gameObject.SetActive(false);
+    }
+
+    // ── ISaveable ──
+
+    public string CaptureState()
+    {
+        var names = new List<string>();
+        if (assignedItems != null)
+        {
+            foreach (var item in assignedItems)
+                names.Add(item != null ? item.itemName : null);
+        }
+        var state = new DiggingTriggerState
+        {
+            isDug = isDug,
+            assignedItemNames = names,
+            isActive = gameObject.activeSelf,
+            colliderEnabled = col != null && col.enabled
+        };
+        return JsonUtility.ToJson(state);
+    }
+
+    public void RestoreState(string stateJson)
+    {
+        var state = JsonUtility.FromJson<DiggingTriggerState>(stateJson);
+        isDug = state.isDug;
+
+        assignedItems = new List<ItemDataSO>();
+        if (state.assignedItemNames != null)
+        {
+            foreach (var name in state.assignedItemNames)
+            {
+                var item = ItemLookup.Get(name);
+                if (item != null) assignedItems.Add(item);
+            }
+        }
+
+        if (isDug)
+        {
+            if (dugSprite != null && spriteRenderer != null)
+                spriteRenderer.sprite = dugSprite;
+        }
+
+        if (col != null)
+            col.enabled = state.colliderEnabled;
+
+        gameObject.SetActive(state.isActive);
     }
 }

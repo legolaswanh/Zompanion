@@ -2287,6 +2287,7 @@ GameObject:
   - component: {fileID: 226784244}
   - component: {fileID: 226784243}
   - component: {fileID: 226784246}
+  - component: {fileID: 226784247}
   m_Layer: 0
   m_Name: Platform
   m_TagString: AssemblyPlatform
@@ -2432,6 +2433,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 7.097866, y: 6.104888}
   m_EdgeRadius: 0
+--- !u!114 &226784247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226784242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68983709414d4d241bdf1eeb99d73d0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueId: 908bd6c0-a98f-4239-bfb0-699a1f78e7f2
 --- !u!1001 &256786004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19776,6 +19790,8 @@ GameObject:
   - component: {fileID: 1923009378}
   - component: {fileID: 1923009377}
   - component: {fileID: 1923009379}
+  - component: {fileID: 1923009380}
+  - component: {fileID: 1923009381}
   m_Layer: 0
   m_Name: Dialogue Trigger 01
   m_TagString: Untagged
@@ -19836,8 +19852,8 @@ MonoBehaviour:
   skipBarkIfNoValidEntries: 0
   cacheBarkLines: 0
   conversation: FirstStartConversation
-  conversationConversant: {fileID: 0}
-  conversationActor: {fileID: 0}
+  conversationConversant: {fileID: 1923009378}
+  conversationActor: {fileID: 296348495667915517, guid: de47d8ec832c3a145886c6ad8a80ac04, type: 3}
   startConversationEntryID: -1
   startConversationEntryTitle: 
   overrideDialogueUI: {fileID: 0}
@@ -19855,20 +19871,24 @@ MonoBehaviour:
   showCursorDuringConversation: 0
   pauseGameDuringConversation: 0
   setActiveActions: []
-  setEnabledActions:
-  - condition:
-      luaConditions: []
-      questConditions: []
-      acceptedTags: []
-      acceptedGameObjects: []
-      luaWizardIndex: 0
-      lastEvaluationValue: 0
-    target: {fileID: 1923009379}
-    state: 1
+  setEnabledActions: []
   setAnimatorStateActions: []
   onExecute:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1923009377}
+        m_TargetAssemblyTypeName: PixelCrushers.DialogueSystem.Wrappers.DialogueSystemTrigger,
+          Assembly-CSharp-firstpass
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   useConversationTitlePicker: 1
   useBarkTitlePicker: 1
   useQuestNamePicker: 1
@@ -19934,6 +19954,31 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.2229795, y: 2.1210642}
   m_EdgeRadius: 0
+--- !u!114 &1923009380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923009375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68983709414d4d241bdf1eeb99d73d0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueId: 781b9264-7e0a-4303-8f4e-c3d7da7245ac
+--- !u!114 &1923009381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923009375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cbbb621915f88145890c77ef8a831ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2033897168
 GameObject:
   m_ObjectHideFlags: 0
@@ -20310,6 +20355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptableType: 4
   platform: {fileID: 226784243}
+  itemIconPrefab: {fileID: 2390937968642615122, guid: b9475713035d389469f2eaa81ce8cc28, type: 3}
 --- !u!222 &2960468606954518188
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20380,6 +20426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptableType: 2
   platform: {fileID: 226784243}
+  itemIconPrefab: {fileID: 2390937968642615122, guid: b9475713035d389469f2eaa81ce8cc28, type: 3}
 --- !u!114 &4792775892393991723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20619,6 +20666,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptableType: 3
   platform: {fileID: 226784243}
+  itemIconPrefab: {fileID: 2390937968642615122, guid: b9475713035d389469f2eaa81ce8cc28, type: 3}
 --- !u!114 &6828394211486609345
 MonoBehaviour:
   m_ObjectHideFlags: 0

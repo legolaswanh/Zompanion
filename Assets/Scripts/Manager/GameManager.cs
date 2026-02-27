@@ -42,6 +42,7 @@ namespace Code.Scripts
             EnsureAudioManagerExists();
             EnsureTransitionFadeManagerExists();
             EnsureSceneTransitionManagerExists();
+            EnsureSceneStateManagerExists();
             EnsurePersistentAudioListener();
         }
 
@@ -114,6 +115,16 @@ namespace Code.Scripts
                 var go = new GameObject("SceneTransitionManager");
                 go.transform.SetParent(transform);
                 go.AddComponent<SceneTransitionManager>();
+            }
+        }
+
+        void EnsureSceneStateManagerExists()
+        {
+            if (SceneStateManager.Instance == null)
+            {
+                var go = new GameObject("SceneStateManager");
+                go.transform.SetParent(transform);
+                go.AddComponent<SceneStateManager>();
             }
         }
 
@@ -263,6 +274,7 @@ namespace Code.Scripts
                 Debug.LogWarning("[GameManager] LoadScene: 场景名为空");
                 return;
             }
+            SceneStateManager.Instance?.CaptureCurrentSceneState();
             SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
         }
 

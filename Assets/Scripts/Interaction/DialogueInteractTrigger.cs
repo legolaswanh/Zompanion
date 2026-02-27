@@ -1,8 +1,14 @@
 using UnityEngine;
 using PixelCrushers.DialogueSystem;
 
-public class DialogueInteractTrigger : MonoBehaviour
+public class DialogueInteractTrigger : MonoBehaviour, ISaveable
 {
+    [System.Serializable]
+    public class DialogueInteractTriggerState
+    {
+        public bool isTalking;
+    }
+
     [Header("对话配置")]
     [Tooltip("在 Dialogue Database 中创建的 Conversation 标题")]
     [SerializeField] private string conversationTitle;
@@ -45,5 +51,18 @@ public class DialogueInteractTrigger : MonoBehaviour
             buttonCanvas.gameObject.SetActive(false);
             PlayerInteraction.Instance.ClearCurrentTrigger(this.gameObject);
         }
+    }
+
+    // ── ISaveable ──
+
+    public string CaptureState()
+    {
+        return JsonUtility.ToJson(new DialogueInteractTriggerState { isTalking = isTalking });
+    }
+
+    public void RestoreState(string stateJson)
+    {
+        var state = JsonUtility.FromJson<DialogueInteractTriggerState>(stateJson);
+        isTalking = state.isTalking;
     }
 }

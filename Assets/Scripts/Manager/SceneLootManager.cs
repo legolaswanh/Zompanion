@@ -11,7 +11,11 @@ public class SceneLootManager : MonoBehaviour
 
     private void Start()
     {
-        // 游戏开始时自动分配，或者你可以改为由 GameManager 调用
+        if (SceneStateManager.Instance != null &&
+            SceneStateManager.Instance.HasSceneState(gameObject.scene.name))
+        {
+            return;
+        }
         DistributeLoot();
     }
 

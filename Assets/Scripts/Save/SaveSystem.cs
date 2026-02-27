@@ -22,11 +22,7 @@ namespace Code.Scripts
             public int version;
             public string sceneName;
             public long saveTimeTicks;
-
-            // 预留：过渡场景、剧情进度等
-            // public string transitionSceneName;
-            // public string storyProgressKey;
-            // public List<string> inventoryItemGuids;
+            public string sceneStatesJson;
         }
 
         /// <summary>是否存在存档</summary>
@@ -41,11 +37,18 @@ namespace Code.Scripts
             try
             {
                 var scene = SceneManager.GetActiveScene();
+
+                if (SceneStateManager.Instance != null)
+                    SceneStateManager.Instance.CaptureCurrentSceneState();
+
                 var data = new SaveData
                 {
                     version = CurrentVersion,
                     sceneName = scene.name,
-                    saveTimeTicks = DateTime.UtcNow.Ticks
+                    saveTimeTicks = DateTime.UtcNow.Ticks,
+                    sceneStatesJson = SceneStateManager.Instance != null
+                        ? SceneStateManager.Instance.SerializeAllToJson()
+                        : null
                 };
 
                 var json = JsonUtility.ToJson(data, true);
@@ -78,6 +81,9 @@ namespace Code.Scripts
                     Debug.LogWarning("[SaveSystem] 存档数据无效");
                     return null;
                 }
+                if (SceneStateManager.Instance != null && !string.IsNullOrEmpty(data.sceneStatesJson))
+                    SceneStateManager.Instance.DeserializeAllFromJson(data.sceneStatesJson);
+
                 Debug.Log($"[SaveSystem] 读取存档: {data.sceneName}");
                 return data;
             }

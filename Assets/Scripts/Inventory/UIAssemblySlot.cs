@@ -10,17 +10,28 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
     [Header("引用")]
     public AssemblyPlatform platform;
 
+    [Header("图标")]
+    [Tooltip("与背包格子共用同一个 ItemIcon 预制体")]
+    [SerializeField] private GameObject itemIconPrefab;
+
 
     private void OnEnable()
     {
-        // 订阅事件
-        if (platform != null) platform.OnAssemblyCleared += ClearSlotUI;
+        if (platform != null)
+        {
+            platform.OnAssemblyCleared += ClearSlotUI;
+            platform.OnAssemblyRestored += RefreshSlotUI;
+            RefreshSlotUI();
+        }
     }
 
     private void OnDisable()
     {
-        // 取消订阅，防止内存泄漏
-        if (platform != null) platform.OnAssemblyCleared -= ClearSlotUI;
+        if (platform != null)
+        {
+            platform.OnAssemblyCleared -= ClearSlotUI;
+            platform.OnAssemblyRestored -= RefreshSlotUI;
+        }
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -73,8 +84,8 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
 
                 // 视觉处理：把图标留在合成格里
                 draggedObj.transform.SetParent(this.transform);
-                this.transform.GetComponent<Image>().enabled = false;
                 draggedObj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                GetComponent<Image>().enabled = false;
                 Debug.Log($"已放入部位: {draggedItemUI.itemData.itemName}");
             }
         }
@@ -82,11 +93,42 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
 
     private void ClearSlotUI()
     {
-        // 遍历并销毁这个格子里所有的子物体（即拖进来的 ItemIcon）
         foreach (Transform child in transform)
-        {
             Destroy(child.gameObject);
-            transform.GetComponent<Image>().enabled = true;
+
+        GetComponent<Image>().enabled = true;
+    }
+
+    /// <summary>
+    /// 状态恢复后刷新图标：根据 platform 数据重建 ItemIcon。
+    /// 先在根 Canvas 下实例化，再 SetParent(worldPositionStays=true) 到本槽位，
+    /// 复现拖拽放入时的 transform 行为（自动补偿父级缩放、缓存正确的 Canvas 引用）。
+    /// </summary>
+    private void RefreshSlotUI()
+    {
+        ClearSlotUI();
+
+        if (platform == null) return;
+        ItemDataSO item = platform.GetPart(acceptableType);
+        if (item == null) return;
+
+        if (itemIconPrefab == null)
+        {
+            Debug.LogWarning($"[UIAssemblySlot] {gameObject.name} 未配置 itemIconPrefab，无法恢复图标");
+            return;
         }
+
+        Canvas rootCanvas = GetComponentInParent<Canvas>()?.rootCanvas;
+        Transform spawnParent = rootCanvas != null ? rootCanvas.transform : transform;
+
+        GameObject obj = Instantiate(itemIconPrefab, spawnParent);
+        obj.transform.SetParent(transform);
+        obj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+        var itemUI = obj.GetComponent<ItemUI>();
+        if (itemUI != null)
+            itemUI.SetItem(item);
+
+        GetComponent<Image>().enabled = false;
     }
 }

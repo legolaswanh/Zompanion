@@ -2,8 +2,16 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssemblyPlatform : MonoBehaviour
+public class AssemblyPlatform : MonoBehaviour, ISaveable
 {
+    [System.Serializable]
+    public class AssemblyPlatformState
+    {
+        public string currentTorsoName;
+        public string currentArmName;
+        public string currentLegName;
+    }
+
     [Header("配置")]
     [SerializeField] private List<ZombieRecipeSO> allRecipes; // 拖入所有可能的配方
     [SerializeField] private Transform spawnPoint; // 僵尸生成的位置
@@ -21,6 +29,7 @@ public class AssemblyPlatform : MonoBehaviour
     
 
     public event Action OnAssemblyCleared;
+    public event Action OnAssemblyRestored;
     private BoxCollider2D platformCollider;
 
     void Awake()
@@ -150,5 +159,39 @@ public class AssemblyPlatform : MonoBehaviour
                 break;
         }
         Debug.Log($"已从逻辑层移除部位: {item}");
+    }
+
+    /// <summary>根据部位类型获取当前放置的部件，供 UIAssemblySlot 刷新图标用。</summary>
+    public ItemDataSO GetPart(ItemType type)
+    {
+        return type switch
+        {
+            ItemType.Torso => currentTorso,
+            ItemType.Arm => currentArm,
+            ItemType.Leg => currentLeg,
+            _ => null
+        };
+    }
+
+    // ── ISaveable ──
+
+    public string CaptureState()
+    {
+        var state = new AssemblyPlatformState
+        {
+            currentTorsoName = currentTorso != null ? currentTorso.itemName : null,
+            currentArmName = currentArm != null ? currentArm.itemName : null,
+            currentLegName = currentLeg != null ? currentLeg.itemName : null
+        };
+        return JsonUtility.ToJson(state);
+    }
+
+    public void RestoreState(string stateJson)
+    {
+        var state = JsonUtility.FromJson<AssemblyPlatformState>(stateJson);
+        currentTorso = ItemLookup.Get(state.currentTorsoName);
+        currentArm = ItemLookup.Get(state.currentArmName);
+        currentLeg = ItemLookup.Get(state.currentLegName);
+        OnAssemblyRestored?.Invoke();
     }
 }
