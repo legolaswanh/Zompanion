@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using PixelCrushers.DialogueSystem;
+using System.Collections;
 
 public class DiggingTrigger : MonoBehaviour, ISaveable
 {
@@ -27,6 +28,9 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
 
 
     public Canvas buttonCanvas;
+    public GameObject itemDisplayUI;
+
+    private ItemDataSO itemToGive;
     
     private void Awake()
     {
@@ -95,53 +99,48 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
         }
 
         // 如果坑里有东西，取第一个
-        ItemDataSO itemToGive = assignedItems[0];
+        itemToGive = assignedItems[0];
 
-        if(isCustomizedPoint) 
-        {
-            switch (itemToGive.itemName) 
-            {
-                case "A Mysterious Book":
-                    DialogueLua.SetVariable("hasBook", true);
-                    Debug.Log("挖到了书，这里应该变状态");
-                    break;
-                case "Dead Man's Arms":
-                    DialogueLua.SetVariable("hasFirstArm", true);
-                    Debug.Log("挖到了胳膊，这里应该变状态");
-                    break;
-            }
-
-            DialogueSystemTrigger[] allTriggers = GetComponents<DialogueSystemTrigger>();
-
-            foreach (DialogueSystemTrigger trigger in allTriggers)
-            {
-                if (trigger != null && trigger.enabled)
-                {
-                    // 向这个 Trigger 发送 "OnUse" 消息，激活 DS 的 On Use 触发器
-                    // currentDialogueTrigger.gameObject.SendMessage("OnUse", this.transform, SendMessageOptions.DontRequireReceiver);
-                    trigger.OnUse();
-                }
-            }
-            
-        }
 
         // 尝试加入背包
         bool success = playerInventory.AddItem(itemToGive);
         if (success)
         {
             Debug.Log($"挖到了: {itemToGive.itemName}！(剩余物品: {assignedItems.Count - 1})");
-            
-            // 只有进背包了，才从坑里移除
-            assignedItems.RemoveAt(0);
 
-            // 可以在这里播放“叮”的一声或者挖掘特效
+            StartCoroutine(DiggingSequence(playerInventory));
         }
         else
         {
-            Debug.Log("背包满了！挖不出来！");
-            // 背包满了就不移除，玩家清理背包后可以继续来挖
-            return; 
+            Debug.Log("背包满了！");
         }
+    }
+
+    private IEnumerator DiggingSequence(InventorySO playerInventory)
+    {
+        yield return new WaitForSeconds(0.7f); 
+
+        // while (PlayerInteraction.Instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime < 0.1f)
+        // {
+        //     yield return null;
+        // }
+
+        // 3. 动画播完了，现在执行原本的 UI 逻辑
+        Debug.Log($"挖掘动画播放完毕，展示物品: {itemToGive.itemName}");
+
+        // 展示挖到的物品
+        GameObject itemUIPrefab = Instantiate(itemDisplayUI);
+        itemUIPrefab.GetComponent<ItemDisplayUI>().ShowItem(
+            itemToGive.icon, 
+            itemToGive.itemName,
+            itemToGive.description, 
+            () => { CustomizedPoint(); }
+        );
+
+        // 只有进背包了，才从坑里移除
+        assignedItems.RemoveAt(0);
+
+        // 可以在这里播放“叮”的一声或者挖掘特效
 
         // 再次检查：刚才挖完之后，坑空了吗？
         if (assignedItems.Count == 0)
@@ -217,5 +216,36 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
             col.enabled = state.colliderEnabled;
 
         gameObject.SetActive(state.isActive);
+    }
+
+    public void CustomizedPoint() 
+    {
+        if(isCustomizedPoint) 
+        {
+            switch (itemToGive.itemName) 
+            {
+                case "A Mysterious Book":
+                    DialogueLua.SetVariable("hasBook", true);
+                    Debug.Log("挖到了书，这里应该变状态");
+                    break;
+                case "Dead Man's Arms":
+                    DialogueLua.SetVariable("hasFirstArm", true);
+                    Debug.Log("挖到了胳膊，这里应该变状态");
+                    break;
+            }
+
+            DialogueSystemTrigger[] allTriggers = GetComponents<DialogueSystemTrigger>();
+
+            foreach (DialogueSystemTrigger trigger in allTriggers)
+            {
+                if (trigger != null && trigger.enabled)
+                {
+                    // 向这个 Trigger 发送 "OnUse" 消息，激活 DS 的 On Use 触发器
+                    // currentDialogueTrigger.gameObject.SendMessage("OnUse", this.transform, SendMessageOptions.DontRequireReceiver);
+                    trigger.OnUse();
+                }
+            }
+            
+        }
     }
 }

@@ -29,7 +29,6 @@ public class SceneLootManager : MonoBehaviour
         }
 
         // 1. 获取场景中所有挖掘点
-        // FindObjectsByType 是 Unity 2023/Unity 6 的新 API，性能更好
         List<DiggingTrigger> allSpots = FindObjectsByType<DiggingTrigger>(FindObjectsSortMode.None).Where(trigger => !trigger.isCustomizedPoint).ToList();;
         
         if (allSpots.Count == 0)

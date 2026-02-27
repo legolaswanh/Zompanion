@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using PixelCrushers.DialogueSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class PlayerInteraction : MonoBehaviour
 
     // 核心：记录当前玩家踩在哪个挖掘点上
     private GameObject currentActiveTrigger;
+
+    [Header("玩家的Bark Trigger")]
+    [SerializeField] public BarkOnIdle barkTrigger;
 
     private void Awake()
     {
