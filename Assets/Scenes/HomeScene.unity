@@ -17256,6 +17256,118 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &892879768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 892879769}
+  - component: {fileID: 892879770}
+  m_Layer: 3
+  m_Name: ZombieDialogueTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &892879769
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892879768}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1487753184}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &892879770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892879768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c593457cd8105e148906690e1707c592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trigger: 32
+  delayOneFrame: 0
+  condition:
+    luaConditions: []
+    questConditions: []
+    acceptedTags: []
+    acceptedGameObjects: []
+    luaWizardIndex: -1
+    lastEvaluationValue: 0
+  setQuestState: 1
+  questName: 
+  questState: 0
+  setQuestEntryState: 0
+  questEntryNumber: 1
+  questEntryState: 0
+  setAnotherQuestEntryState: 0
+  anotherQuestEntryNumber: 1
+  anotherQuestEntryState: 0
+  luaCode: 
+  sequence: 
+  sequenceSpeaker: {fileID: 0}
+  sequenceListener: {fileID: 0}
+  waitOneFrameOnStartOrEnable: 1
+  alertMessage: 
+  textTable: {fileID: 0}
+  alertDuration: 0
+  sendMessages: []
+  barkSource: 0
+  barkConversation: 
+  barkEntryID: -1
+  barkEntryTitle: 
+  barkText: 
+  barkTextSequence: 
+  barker: {fileID: 0}
+  barkTarget: {fileID: 0}
+  barkOrder: 0
+  allowBarksDuringConversations: 0
+  skipBarkIfNoValidEntries: 0
+  cacheBarkLines: 0
+  conversation: 
+  conversationConversant: {fileID: 0}
+  conversationActor: {fileID: 0}
+  startConversationEntryID: -1
+  startConversationEntryTitle: 
+  overrideDialogueUI: {fileID: 0}
+  additionalActorOverrides: []
+  exclusive: 0
+  replace: 0
+  queue: 0
+  skipIfNoValidEntries: 0
+  preventRestartOnSameFrameEnded: 0
+  stopConversationOnTriggerExit: 0
+  marginToAllowTriggerExit: 0.2
+  stopConversationIfTooFar: 0
+  maxConversationDistance: 5
+  monitorConversationDistanceFrequency: 1
+  showCursorDuringConversation: 0
+  pauseGameDuringConversation: 0
+  setActiveActions: []
+  setEnabledActions: []
+  setAnimatorStateActions: []
+  onExecute:
+    m_PersistentCalls:
+      m_Calls: []
+  useConversationTitlePicker: 1
+  useBarkTitlePicker: 1
+  useQuestNamePicker: 1
+  selectedDatabase: {fileID: 11400000, guid: 96a2aa9b90ce36b41816f45d3767cf4f, type: 2}
 --- !u!1 &895266213
 GameObject:
   m_ObjectHideFlags: 0
@@ -17499,7 +17611,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1200880508}
   - component: {fileID: 1200880507}
-  - component: {fileID: 1200880510}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -17539,20 +17650,6 @@ Transform:
   - {fileID: 340345041}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1200880510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1200880506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92bd3a26c88430d4fa779855a8ecb2d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  oldFurniture: {fileID: 0}
-  platformObject: {fileID: 0}
 --- !u!1 &1282660206
 GameObject:
   m_ObjectHideFlags: 0
@@ -18388,6 +18485,71 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!1001 &1487753183
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.65505695
+      objectReference: {fileID: 0}
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.4406333
+      objectReference: {fileID: 0}
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_Name
+      value: NormalZombiePrefab (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 892879769}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+--- !u!4 &1487753184 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+  m_PrefabInstance: {fileID: 1487753183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1584178349
 GameObject:
   m_ObjectHideFlags: 0
@@ -21467,3 +21629,4 @@ SceneRoots:
   - {fileID: 1665708603}
   - {fileID: 871006983}
   - {fileID: 4604238865956225224}
+  - {fileID: 1487753183}
