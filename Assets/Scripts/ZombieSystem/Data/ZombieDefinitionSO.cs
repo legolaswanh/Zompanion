@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Zompanion.ZombieSystem;
 
@@ -10,11 +11,10 @@ public class ZombieDefinitionSO : ScriptableObject
     [SerializeField] private ZombieType zombieType = ZombieType.Normal;
     [SerializeField] private ZombieCategory category = ZombieCategory.Unknown;
 
-    [Header("Body Part Recipe")]
-    [SerializeField] private ZombieBodyParts requiredParts = new ZombieBodyParts();
-
     [Header("Visual")]
     [SerializeField] private GameObject prefab;
+    [SerializeField] private Sprite codexIcon;
+    [SerializeField] private string codexNumber = "001";
 
     [Header("Follow")]
     [SerializeField] [Min(0.1f)] private float followMoveSpeed = 2.8f;
@@ -32,8 +32,9 @@ public class ZombieDefinitionSO : ScriptableObject
     public string DisplayName => displayName;
     public ZombieType Type => zombieType;
     public ZombieCategory Category => category;
-    public ZombieBodyParts RequiredParts => requiredParts;
     public GameObject Prefab => prefab;
+    public Sprite CodexIcon => codexIcon;
+    public string CodexNumber => codexNumber;
     public float FollowMoveSpeed => followMoveSpeed;
     public float FollowDistance => followDistance;
     public ZombieBuffType BuffType => buffType;
@@ -46,5 +47,13 @@ public class ZombieDefinitionSO : ScriptableObject
         if (string.IsNullOrWhiteSpace(definitionId))
             definitionId = name.ToLowerInvariant().Replace(" ", "_");
     }
+}
+
+[CreateAssetMenu(fileName = "ZombieCatalog", menuName = "Zombie/Zombie Catalog")]
+public class ZombieCatalogSO : ScriptableObject
+{
+    [SerializeField] private List<ZombieDefinitionSO> definitions = new List<ZombieDefinitionSO>();
+
+    public IReadOnlyList<ZombieDefinitionSO> Definitions => definitions;
 }
 
