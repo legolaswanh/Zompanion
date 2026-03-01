@@ -11,9 +11,6 @@ public class ZombieDefinitionSO : ScriptableObject
     [SerializeField] private ZombieType zombieType = ZombieType.Normal;
     [SerializeField] private ZombieCategory category = ZombieCategory.Unknown;
 
-    [Header("Body Part Recipe")]
-    [SerializeField] private ZombieBodyParts requiredParts = new ZombieBodyParts();
-
     [Header("Visual")]
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite codexIcon;
@@ -35,7 +32,6 @@ public class ZombieDefinitionSO : ScriptableObject
     public string DisplayName => displayName;
     public ZombieType Type => zombieType;
     public ZombieCategory Category => category;
-    public ZombieBodyParts RequiredParts => requiredParts;
     public GameObject Prefab => prefab;
     public Sprite CodexIcon => codexIcon;
     public string CodexNumber => codexNumber;
