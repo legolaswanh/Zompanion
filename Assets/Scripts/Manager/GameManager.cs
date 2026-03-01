@@ -22,6 +22,12 @@ namespace Code.Scripts
         [Tooltip("初次进入游戏时的过渡/剧情场景；留空则直接进入 firstGameSceneName")]
         [SerializeField] string firstTimeTransitionSceneName;
 
+        [Header("Zombie System")]
+        [Tooltip("Runtime ZombieSystem prefab initialized by GameManager.")]
+        [SerializeField] GameObject zombieSystemPrefab;
+        [Tooltip("Initialize ZombieSystem during GameManager Awake.")]
+        [SerializeField] bool initializeZombieSystemOnStartup = true;
+
         GameObject _currentPlayer;
 
         AudioListener _persistentAudioListener;
@@ -43,7 +49,34 @@ namespace Code.Scripts
             EnsureTransitionFadeManagerExists();
             EnsureSceneTransitionManagerExists();
             EnsureSceneStateManagerExists();
+            EnsureZombieSystemExists();
             EnsurePersistentAudioListener();
+        }
+
+        void EnsureZombieSystemExists()
+        {
+            if (!initializeZombieSystemOnStartup)
+                return;
+
+            if (ZombieManager.Instance != null)
+                return;
+
+#if UNITY_2023_1_OR_NEWER
+            if (FindFirstObjectByType<ZombieManager>(FindObjectsInactive.Include) != null)
+                return;
+#else
+            if (FindObjectOfType<ZombieManager>(true) != null)
+                return;
+#endif
+
+            if (zombieSystemPrefab == null)
+            {
+                Debug.LogWarning("[GameManager] ZombieSystem prefab is not assigned; zombie system initialization skipped.");
+                return;
+            }
+
+            var zombieSystem = Instantiate(zombieSystemPrefab);
+            zombieSystem.name = zombieSystemPrefab.name;
         }
 
         void EnsurePersistentAudioListener()

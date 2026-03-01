@@ -108,6 +108,14 @@ public class ZombieManager : MonoBehaviour
         foreach (ZombieDefinitionSO definition in definitions)
         {
             if (definition == null || string.IsNullOrWhiteSpace(definition.DefinitionId)) continue;
+
+            if (_definitionById.TryGetValue(definition.DefinitionId, out ZombieDefinitionSO existingById) &&
+                existingById != null &&
+                existingById != definition)
+            {
+                Debug.LogWarning($"[ZombieManager] Duplicate zombie definitionId '{definition.DefinitionId}'. Using latest definition asset '{definition.name}'.");
+            }
+
             _definitionById[definition.DefinitionId] = definition;
 
             bool exists = false;
@@ -132,9 +140,13 @@ public class ZombieManager : MonoBehaviour
         _catalogDefinitions.Clear();
 
         if (zombieCatalog == null || zombieCatalog.Definitions == null)
+        {
+            Debug.LogWarning("[ZombieManager] ZombieCatalog is missing or empty. Catalog definitions will not initialize.");
             return;
+        }
 
         RegisterDefinitions(zombieCatalog.Definitions);
+        Debug.Log($"[ZombieManager] Catalog initialized. Source count: {zombieCatalog.Definitions.Count}, unique definitionId count: {_catalogDefinitions.Count}.");
     }
 
     public ZombieDefinitionSO GetDefinition(string definitionId)
@@ -157,18 +169,43 @@ public class ZombieManager : MonoBehaviour
         return _zombies.Any(z => z.definitionId == definitionId && z.state == ZombieState.Following);
     }
 
-    public bool TryToggleFollowByDefinitionId(string definitionId)
+    public bool IsDefinitionWorking(string definitionId)
+    {
+        if (string.IsNullOrWhiteSpace(definitionId)) return false;
+        return _zombies.Any(z => z.definitionId == definitionId && z.state == ZombieState.Working);
+    }
+
+    public List<string> GetFollowingDefinitionIdsOrdered()
+    {
+        return _zombies
+            .Where(z => z.state == ZombieState.Following)
+            .OrderBy(z => z.followOrder < 0 ? int.MaxValue : z.followOrder)
+            .ThenBy(z => z.instanceId)
+            .Take(maxFollowCount)
+            .Select(z => z.definitionId)
+            .ToList();
+    }
+
+    public bool TrySetFollowByDefinitionId(string definitionId, bool follow)
     {
         if (string.IsNullOrWhiteSpace(definitionId))
             return false;
 
+        if (!follow)
+        {
+            ZombieInstanceData following = _zombies.FirstOrDefault(
+                z => z.definitionId == definitionId && z.state == ZombieState.Following);
+            if (following == null)
+                return true;
+
+            return SetFollowState(following.instanceId, false);
+        }
+
         if (!IsZombieCodexUnlocked(definitionId))
             return false;
 
-        ZombieInstanceData following = _zombies.FirstOrDefault(
-            z => z.definitionId == definitionId && z.state == ZombieState.Following);
-        if (following != null)
-            return SetFollowState(following.instanceId, false);
+        if (IsDefinitionFollowing(definitionId))
+            return true;
 
         ZombieInstanceData existing = _zombies.FirstOrDefault(z => z.definitionId == definitionId);
         if (existing == null)
@@ -178,6 +215,11 @@ public class ZombieManager : MonoBehaviour
             return false;
 
         return SetFollowState(existing.instanceId, true);
+    }
+
+    public bool TryToggleFollowByDefinitionId(string definitionId)
+    {
+        return TrySetFollowByDefinitionId(definitionId, !IsDefinitionFollowing(definitionId));
     }
 
     public bool TryGetZombie(int instanceId, out ZombieInstanceData zombie)
@@ -232,6 +274,47 @@ public class ZombieManager : MonoBehaviour
             return;
 
         SpawnZombie(definition, true, ignoreCodexUnlock: true);
+    }
+
+    [ContextMenu("Debug Unlock All Zombie Codex")]
+    private void DebugUnlockAllZombieCodex()
+    {
+        if (_catalogDefinitions.Count == 0)
+            RebuildCatalogDefinitions();
+
+        int unlockedCount = 0;
+        for (int i = 0; i < _catalogDefinitions.Count; i++)
+        {
+            ZombieDefinitionSO definition = _catalogDefinitions[i];
+            if (definition == null) continue;
+            if (UnlockZombieCodex(definition.DefinitionId))
+                unlockedCount++;
+        }
+
+        Debug.Log($"[ZombieManager] Debug unlocked zombie codex entries: {unlockedCount}/{_catalogDefinitions.Count}.");
+    }
+
+    [ContextMenu("Debug Unlock All Zombie Codex + Story")]
+    private void DebugUnlockAllZombieCodexAndStory()
+    {
+        if (_catalogDefinitions.Count == 0)
+            RebuildCatalogDefinitions();
+
+        int unlockedZombieCount = 0;
+        int unlockedStoryCount = 0;
+        for (int i = 0; i < _catalogDefinitions.Count; i++)
+        {
+            ZombieDefinitionSO definition = _catalogDefinitions[i];
+            if (definition == null) continue;
+
+            if (UnlockZombieCodex(definition.DefinitionId))
+                unlockedZombieCount++;
+
+            if (UnlockStory(definition.StoryId))
+                unlockedStoryCount++;
+        }
+
+        Debug.Log($"[ZombieManager] Debug unlocked zombie codex entries: {unlockedZombieCount}/{_catalogDefinitions.Count}, stories: {unlockedStoryCount}");
     }
 
     public bool SetFollowState(int instanceId, bool following)

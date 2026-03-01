@@ -16,3 +16,4 @@ MonoBehaviour:
   armItem: {fileID: 11400000, guid: 49bc195a9919f684b9ec0ded42238cd3, type: 2}
   legItem: {fileID: 11400000, guid: d8743d83ab77d2d4eaa3e443f3944239, type: 2}
   zombiePrefab: {fileID: 1583546875880986148, guid: 691008d0154062d41b42e6a7a430a62e, type: 3}
+  resultDefinition: {fileID: 11400000, guid: e92426fc54b081a4e8ff74ff2a1dbd8c, type: 2}

@@ -62,7 +62,7 @@ public class ZombieDetailPanel : MonoBehaviour
             titleText.text = unlocked ? definition.DisplayName : "???";
 
         if (idText != null)
-            idText.text = $"No.: {definition.CodexNumber}";
+            idText.text = $"ID: {definition.DefinitionId}";
 
         if (typeText != null)
             typeText.text = unlocked ? $"Type: {definition.Type} / {definition.Category}" : "Type: Locked";

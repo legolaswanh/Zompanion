@@ -12,18 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83d18938b4b3d504d8892ef83ceff851, type: 3}
   m_Name: ZombieDefinition_Normal
   m_EditorClassIdentifier: 
-  definitionId: zombie_default
-  displayName: Zombie
+  definitionId: zombie_normal
+  displayName: Normal Zombie
   zombieType: 0
   category: 0
-  requiredParts:
-    torso: {fileID: 0}
-    arm: {fileID: 0}
-    leg: {fileID: 0}
   prefab: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+  codexIcon: {fileID: 327441097, guid: 98fcb13f85902954092c626d3e69ee1a, type: 3}
   followMoveSpeed: 2.8
   followDistance: 0.75
   buffType: 0
   buffValue: 0
-  storyId: story_zombie_01
+  storyId: story_zombie_normal
   shortDescription: A companion zombie.

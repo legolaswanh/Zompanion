@@ -1,15 +1,16 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
 
 public class ItemDisplayUI : MonoBehaviour
 {
-    [Header("UI组件")]
+    [Header("UI")]
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
-    private Action onWindowClosed; // 用于存储关闭窗口后要执行的回调
+
+    private Action onWindowClosed;
 
     public void ShowItem(Sprite icon, string name, string description, Action callback)
     {
@@ -18,18 +19,19 @@ public class ItemDisplayUI : MonoBehaviour
         itemDescriptionText.text = description;
         onWindowClosed = callback;
         gameObject.SetActive(true);
-        
-        // 暂停游戏时间
-        Time.timeScale = 0; 
-    }
 
+        UIPauseState.RequestPause(this);
+    }
 
     public void CloseWindow()
     {
-        // gameObject.SetActive(false);
-        Time.timeScale = 1;
-        // 执行后续动作（比如触发对话）
+        UIPauseState.ReleasePause(this);
         onWindowClosed?.Invoke();
-        Destroy(this.gameObject);
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        UIPauseState.ReleasePause(this);
     }
 }
