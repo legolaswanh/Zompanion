@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
   m_Name: ZombieArm_story_01
   m_EditorClassIdentifier: 
-  itemName: Arms
+  itemName: Sturdy Arms
   description: Two rather thick arms.
   useInfo: Assemble with other parts
   icon: {fileID: -315293389943409586, guid: 958d8af21d8937c47a4974a622ded5f4, type: 3}
   itemType: 3
+  timelineObjectName: 
   worldPrefab: {fileID: 0}

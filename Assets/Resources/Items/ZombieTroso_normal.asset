@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
   m_Name: ZombieTroso_normal
   m_EditorClassIdentifier: 
-  itemName: Torso
+  itemName: Dead Man's Torso
   description: A torso with a head attached, looking a bit scary.
   useInfo: Assemble with other parts
   icon: {fileID: 7262119653502517537, guid: 4b0a0cbdb37fdc544bc9c2290cd2fd03, type: 3}
   itemType: 2
+  timelineObjectName: 
   worldPrefab: {fileID: 0}

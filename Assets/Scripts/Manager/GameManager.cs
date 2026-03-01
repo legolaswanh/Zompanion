@@ -49,6 +49,7 @@ namespace Code.Scripts
             EnsureTransitionFadeManagerExists();
             EnsureSceneTransitionManagerExists();
             EnsureSceneStateManagerExists();
+            EnsureTimelineManagerExists();
             EnsureZombieSystemExists();
             EnsurePersistentAudioListener();
         }
@@ -158,6 +159,16 @@ namespace Code.Scripts
                 var go = new GameObject("SceneStateManager");
                 go.transform.SetParent(transform);
                 go.AddComponent<SceneStateManager>();
+            }
+        }
+
+        void EnsureTimelineManagerExists()
+        {
+            if (TimelineManager.Instance == null)
+            {
+                var go = new GameObject("TimelineManager");
+                go.transform.SetParent(transform);
+                go.AddComponent<TimelineManager>();
             }
         }
 

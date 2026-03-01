@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c0e6c974ca4487448b4c83c3a25f010, type: 3}
+  m_Name: Scene 02
+  m_EditorClassIdentifier: 
+  guaranteedLoot:
+  - item: {fileID: 11400000, guid: 49bc195a9919f684b9ec0ded42238cd3, type: 2}
+    count: 1
+    isKeyItem: 1
+  - item: {fileID: 11400000, guid: d8743d83ab77d2d4eaa3e443f3944239, type: 2}
+    count: 1
+    isKeyItem: 1
+  - item: {fileID: 11400000, guid: c4ddec5470842524a9c7870f5554c354, type: 2}
+    count: 1
+    isKeyItem: 1
+  - item: {fileID: 11400000, guid: dc4dd4bb1dc85eb448c9376aca1f71e2, type: 2}
+    count: 1
+    isKeyItem: 1
+  - item: {fileID: 11400000, guid: 89a56ffcc89f1174e91e65140ca29d00, type: 2}
+    count: 1
+    isKeyItem: 1
+  - item: {fileID: 11400000, guid: 60f635997164ef949af8e112c73fd051, type: 2}
+    count: 1
+    isKeyItem: 1
+  randomFillerPool:
+  - {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
+  - {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
+  - {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
+  - {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
+  fallbackItem: {fileID: 0}
+  developerNotes: 

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
   m_Name: ZombieTroso_story_01
   m_EditorClassIdentifier: 
-  itemName: Torso
+  itemName: Sturdy Torso
   description: A torso with a head attached, muscularly built.
   useInfo: Assemble with other parts
   icon: {fileID: 4927925328679512274, guid: 9ec465370223c1e4781b136a6f0df1a3, type: 3}
   itemType: 2
+  timelineObjectName: 
   worldPrefab: {fileID: 0}

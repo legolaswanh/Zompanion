@@ -17,4 +17,5 @@ MonoBehaviour:
   useInfo: Assemble with other parts
   icon: {fileID: 4278120580491971516, guid: d0f72cca0b8a2a2428433af3349eaeb0, type: 3}
   itemType: 3
+  timelineObjectName: 
   worldPrefab: {fileID: 0}

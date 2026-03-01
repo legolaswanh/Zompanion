@@ -9,12 +9,6 @@ public class DialogueInteractTrigger : MonoBehaviour, ISaveable
         public bool isTalking;
     }
 
-    [Header("对话配置")]
-    [Tooltip("在 Dialogue Database 中创建的 Conversation 标题")]
-    [SerializeField] private string conversationTitle;
-    
-    // 对话目标（通常是这个 NPC 自己），DS 摄像机会用到
-    [SerializeField] private Transform conversant; 
 
     private bool isTalking = false;
     public Canvas buttonCanvas;
@@ -26,11 +20,10 @@ public class DialogueInteractTrigger : MonoBehaviour, ISaveable
         
         // 检查对话是否正在进行（防止重复触发）
         if (DialogueManager.isConversationActive) return;
-
-        Debug.Log($"[Dialogue] 开始对话: {conversationTitle}");
         
         // 触发对话！
-        DialogueManager.StartConversation(conversationTitle, PlayerInteraction.Instance.transform, conversant);
+        DialogueSystemTrigger trigger = GetComponent<DialogueSystemTrigger>();
+        trigger.OnUse();
         isTalking = true;
     }
 

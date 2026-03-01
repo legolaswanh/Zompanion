@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
-public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Config")]
     public int slotIndex; // 这一格在背包里的索引
@@ -56,6 +57,7 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
         if (slot.IsEmpty)
         {
             if (currentItemUI != null) Destroy(currentItemUI.gameObject);
+            currentItem = null;
             return;
         }
 
@@ -94,5 +96,46 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
     public void OnDisable() 
     {
         if(TooltipManager.Instance != null) TooltipManager.Instance.Hide();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        // 检查是否是鼠标左键点击，且格子内有物品
+        if (eventData.button == PointerEventData.InputButton.Left && currentItem != null)
+        {
+            if (currentItem.itemType == ItemType.InteractiveProp
+                && SceneManager.GetActiveScene().name == "HomeScene")
+            {
+                UseSpecialItem();
+                // ActivatePlatform platform = FindObjectsByType<ActivatePlatform>
+            }
+        }
+    }
+
+    private void UseSpecialItem()
+    {
+        var item = currentItem;
+        Debug.Log($"使用了特殊物品: {item.itemName}");
+
+        if (!string.IsNullOrEmpty(item.timelineObjectName))
+        {
+            var go = GameObject.Find(item.timelineObjectName);
+            if (go != null)
+            {
+                var director = go.GetComponent<PlayableDirector>();
+                if (director != null)
+                    TimelineManager.Instance.Play(director);
+                else
+                    Debug.LogWarning($"[InventorySlotUI] GameObject '{item.timelineObjectName}' 上没有 PlayableDirector");
+            }
+            else
+            {
+                Debug.LogWarning($"[InventorySlotUI] 未找到名为 '{item.timelineObjectName}' 的 GameObject");
+            }
+        }
+
+        inventoryData.RemoveItem(item);
+        currentItem = null;
+        TooltipManager.Instance?.Hide();
     }
 }

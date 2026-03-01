@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
+  m_Name: StoryProp_03
+  m_EditorClassIdentifier: 
+  itemName: A painting
+  description: A ink-wash landscape painting depicts beautiful natural scenery.
+  useInfo: Maybe it belongs to the zombie
+  icon: {fileID: -7736771966516219082, guid: f857cad5de54516469c8897d1708b319, type: 3}
+  itemType: 5
+  timelineObjectName: 
+  worldPrefab: {fileID: 0}

@@ -13,6 +13,11 @@ public class CameraControl : MonoBehaviour
     /// </summary>
     public GameObject VCamGameObject => gameObject;
 
+    /// <summary>
+    /// 获取 Persistent Main Camera 上的 CinemachineBrain，供 TimelineManager 运行时绑定 Cinemachine Track。
+    /// </summary>
+    public CinemachineBrain Brain => Camera.main != null ? Camera.main.GetComponent<CinemachineBrain>() : null;
+
     private void Awake() 
     {
         if(Instance != null) 

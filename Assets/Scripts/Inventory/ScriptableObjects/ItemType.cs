@@ -5,5 +5,6 @@ public enum ItemType
     Torso,      // 尸块：躯干
     Arm,        // 尸块：手臂 
     Leg,        // 尸块：腿部 
-    StoryProp   // 剧情/关键道具 
+    StoryProp,   // 剧情/关键道具 
+    InteractiveProp
 }
