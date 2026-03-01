@@ -10,6 +10,10 @@ public class ItemDataSO : ScriptableObject
     public Sprite icon;
     public ItemType itemType;
 
+    [Header("Timeline")]
+    [Tooltip("场景中 Timeline GameObject 的名称；使用物品时按此名称查找 PlayableDirector。留空则不播放 Timeline。")]
+    public string timelineObjectName;
+
     [Header("Prefab")]
-    public GameObject worldPrefab; // 丢弃在场景中时生成的物体
+    public GameObject worldPrefab;
 }

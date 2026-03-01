@@ -14,24 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseCapacity: 10
   extraCapacity: 0
+  clearOnStart: 1
   slots:
   - itemData: {fileID: 0}
-    quantity: 0
   - itemData: {fileID: 0}
-    quantity: 0
   - itemData: {fileID: 0}
-    quantity: 0
   - itemData: {fileID: 0}
-    quantity: 0
   - itemData: {fileID: 0}
-    quantity: 0
   - itemData: {fileID: 0}
-    quantity: 0
   - itemData: {fileID: 0}
-    quantity: 0
   - itemData: {fileID: 0}
-    quantity: 0
   - itemData: {fileID: 0}
-    quantity: 0
   - itemData: {fileID: 0}
-    quantity: 0

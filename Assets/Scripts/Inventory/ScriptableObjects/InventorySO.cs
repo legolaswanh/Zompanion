@@ -94,4 +94,19 @@ public class InventorySO : ScriptableObject
         }
         OnInventoryUpdated?.Invoke();
     }
+
+    public void RemoveItem(ItemDataSO item)
+    {
+        if (item == null) return;
+
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].itemData == item)
+            {
+                slots[i].Clear();
+                OnInventoryUpdated?.Invoke();
+                return;
+            }
+        }
+    }
 }
