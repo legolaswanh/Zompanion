@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
   m_Name: ZombieLeg_normal
   m_EditorClassIdentifier: 
-  itemName: Legs
+  itemName: Dead Man's Legs
   description: Two ordinary, unremarkable legs
   useInfo: Assemble with other parts
   icon: {fileID: -9088068108723427035, guid: 213d2e3e85ab3b84a8e89f7be18a9ebb, type: 3}
   itemType: 4
+  timelineObjectName: 
   worldPrefab: {fileID: 0}

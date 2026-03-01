@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
-  m_Name: ZombieArm_normal
+  m_Name: StoryProp_02
   m_EditorClassIdentifier: 
-  itemName: Dead Man's Arms
-  description: Two ordinary, unremarkable arms
-  useInfo: Assemble with other parts
-  icon: {fileID: 4278120580491971516, guid: d0f72cca0b8a2a2428433af3349eaeb0, type: 3}
-  itemType: 3
+  itemName: A scroll
+  description: A scroll detailing geographical information and local customs.
+  useInfo: Maybe it belongs to the zombie
+  icon: {fileID: -950110555504886579, guid: 28d2f4b906421bc46a93484664f8354b, type: 3}
+  itemType: 5
   timelineObjectName: 
   worldPrefab: {fileID: 0}

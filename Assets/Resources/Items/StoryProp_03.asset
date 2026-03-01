@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
-  m_Name: ZombieArm_normal
+  m_Name: StoryProp_03
   m_EditorClassIdentifier: 
-  itemName: Dead Man's Arms
-  description: Two ordinary, unremarkable arms
-  useInfo: Assemble with other parts
-  icon: {fileID: 4278120580491971516, guid: d0f72cca0b8a2a2428433af3349eaeb0, type: 3}
-  itemType: 3
+  itemName: A painting
+  description: A ink-wash landscape painting depicts beautiful natural scenery.
+  useInfo: Maybe it belongs to the zombie
+  icon: {fileID: -7736771966516219082, guid: f857cad5de54516469c8897d1708b319, type: 3}
+  itemType: 5
   timelineObjectName: 
   worldPrefab: {fileID: 0}

@@ -77,12 +77,12 @@ public class PlayerInteraction : MonoBehaviour
         
         if(currentActiveTrigger != null) 
         {
-            switch (currentActiveTrigger.tag) {
+            switch (currentActiveTrigger.tag) 
+            {
                 case "DiggingPoint":
                     Dig(currentActiveTrigger.GetComponent<DiggingTrigger>());
                     break;
                 case "AssemblyPlatform":
-                    Debug.Log(currentActiveTrigger.name);
                     OpenAssemblyPlatform(currentActiveTrigger.GetComponent<AssemblyPlatform>());
                     break;
                 case "InteractiveZombie":
