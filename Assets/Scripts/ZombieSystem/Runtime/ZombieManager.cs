@@ -11,6 +11,7 @@ public class ZombieManager : MonoBehaviour
     public static ZombieManager Instance { get; private set; }
 
     [Header("Refs")]
+    [SerializeField] private ZombieCatalogSO zombieCatalog;
     [SerializeField] private InventorySO playerInventory;
     [SerializeField] private ZombieFollowController followController;
     [SerializeField] private Transform zombieContainer;
@@ -19,8 +20,6 @@ public class ZombieManager : MonoBehaviour
     [SerializeField] [Range(1, 2)] private int maxFollowCount = 2;
     [SerializeField] private bool persistent = true;
     [SerializeField] private bool requireCodexUnlockForSpawn = true;
-    [SerializeField] private bool spawnTestZombiesOnStart;
-    [SerializeField] private List<ZombieDefinitionSO> startupDefinitions = new List<ZombieDefinitionSO>();
 
     [Header("Spawn Placement")]
     [SerializeField] [Min(0.1f)] private float spawnSideSpacing = 1.15f;
@@ -37,6 +36,7 @@ public class ZombieManager : MonoBehaviour
     private readonly List<ZombieInstanceData> _zombies = new List<ZombieInstanceData>();
     private readonly Dictionary<int, ZombieAgent> _agentByInstanceId = new Dictionary<int, ZombieAgent>();
     private readonly Dictionary<string, ZombieDefinitionSO> _definitionById = new Dictionary<string, ZombieDefinitionSO>();
+    private readonly List<ZombieDefinitionSO> _catalogDefinitions = new List<ZombieDefinitionSO>();
     private readonly Collider2D[] _spawnOverlapBuffer = new Collider2D[32];
 
     private int _nextInstanceId = 1;
@@ -46,6 +46,8 @@ public class ZombieManager : MonoBehaviour
     public event Action OnCodexChanged;
 
     public IReadOnlyList<ZombieInstanceData> Zombies => _zombies;
+    public IReadOnlyList<ZombieDefinitionSO> CatalogDefinitions => _catalogDefinitions;
+    public int MaxFollowCount => maxFollowCount;
 
     private void Awake()
     {
@@ -64,18 +66,13 @@ public class ZombieManager : MonoBehaviour
 
         if (followController == null)
             followController = GetComponentInChildren<ZombieFollowController>(true);
+
+        RebuildCatalogDefinitions();
     }
 
     private void Start()
     {
-        RegisterDefinitions(startupDefinitions);
         TryBindPlayerLeader();
-
-        if (!spawnTestZombiesOnStart) return;
-
-        int startupSpawnCount = Mathf.Min(maxFollowCount, startupDefinitions.Count);
-        for (int i = 0; i < startupSpawnCount; i++)
-            SpawnZombie(startupDefinitions[i], true, ignoreCodexUnlock: true);
     }
 
     private void OnEnable()
@@ -112,7 +109,32 @@ public class ZombieManager : MonoBehaviour
         {
             if (definition == null || string.IsNullOrWhiteSpace(definition.DefinitionId)) continue;
             _definitionById[definition.DefinitionId] = definition;
+
+            bool exists = false;
+            for (int i = 0; i < _catalogDefinitions.Count; i++)
+            {
+                ZombieDefinitionSO existing = _catalogDefinitions[i];
+                if (existing == null) continue;
+                if (existing.DefinitionId != definition.DefinitionId) continue;
+                _catalogDefinitions[i] = definition;
+                exists = true;
+                break;
+            }
+
+            if (!exists)
+                _catalogDefinitions.Add(definition);
         }
+    }
+
+    private void RebuildCatalogDefinitions()
+    {
+        _definitionById.Clear();
+        _catalogDefinitions.Clear();
+
+        if (zombieCatalog == null || zombieCatalog.Definitions == null)
+            return;
+
+        RegisterDefinitions(zombieCatalog.Definitions);
     }
 
     public ZombieDefinitionSO GetDefinition(string definitionId)
@@ -127,6 +149,35 @@ public class ZombieManager : MonoBehaviour
         ZombieDefinitionSO definition = GetDefinition(definitionId);
         if (definition == null) return false;
         return !requireCodexUnlockForSpawn || IsZombieCodexUnlocked(definition.DefinitionId);
+    }
+
+    public bool IsDefinitionFollowing(string definitionId)
+    {
+        if (string.IsNullOrWhiteSpace(definitionId)) return false;
+        return _zombies.Any(z => z.definitionId == definitionId && z.state == ZombieState.Following);
+    }
+
+    public bool TryToggleFollowByDefinitionId(string definitionId)
+    {
+        if (string.IsNullOrWhiteSpace(definitionId))
+            return false;
+
+        if (!IsZombieCodexUnlocked(definitionId))
+            return false;
+
+        ZombieInstanceData following = _zombies.FirstOrDefault(
+            z => z.definitionId == definitionId && z.state == ZombieState.Following);
+        if (following != null)
+            return SetFollowState(following.instanceId, false);
+
+        ZombieInstanceData existing = _zombies.FirstOrDefault(z => z.definitionId == definitionId);
+        if (existing == null)
+            existing = SpawnZombieByDefinitionId(definitionId, autoFollow: false, ignoreCodexUnlock: false);
+
+        if (existing == null)
+            return false;
+
+        return SetFollowState(existing.instanceId, true);
     }
 
     public bool TryGetZombie(int instanceId, out ZombieInstanceData zombie)
@@ -167,11 +218,20 @@ public class ZombieManager : MonoBehaviour
         return SpawnZombie(GetDefinition(definitionId), autoFollow, ignoreCodexUnlock);
     }
 
-    [ContextMenu("Debug Spawn First Startup Zombie")]
-    private void DebugSpawnFirstStartupZombie()
+    [ContextMenu("Debug Spawn First Catalog Zombie")]
+    private void DebugSpawnFirstCatalogZombie()
     {
-        if (startupDefinitions == null || startupDefinitions.Count == 0) return;
-        SpawnZombie(startupDefinitions[0], true, ignoreCodexUnlock: true);
+        if (_catalogDefinitions.Count == 0)
+            RebuildCatalogDefinitions();
+
+        if (_catalogDefinitions.Count == 0)
+            return;
+
+        ZombieDefinitionSO definition = _catalogDefinitions[0];
+        if (definition == null)
+            return;
+
+        SpawnZombie(definition, true, ignoreCodexUnlock: true);
     }
 
     public bool SetFollowState(int instanceId, bool following)
@@ -231,10 +291,7 @@ public class ZombieManager : MonoBehaviour
         if (_codexService == null || string.IsNullOrWhiteSpace(definitionId))
             return false;
 
-        bool changed = _codexService.UnlockZombie(definitionId);
-        if (changed)
-            OnCodexChanged?.Invoke();
-        return changed;
+        return _codexService.UnlockZombie(definitionId);
     }
 
     public bool UnlockStory(string storyId)
@@ -242,10 +299,7 @@ public class ZombieManager : MonoBehaviour
         if (_codexService == null || string.IsNullOrWhiteSpace(storyId))
             return false;
 
-        bool changed = _codexService.UnlockStory(storyId);
-        if (changed)
-            OnCodexChanged?.Invoke();
-        return changed;
+        return _codexService.UnlockStory(storyId);
     }
 
     private int GetFollowingCount()
