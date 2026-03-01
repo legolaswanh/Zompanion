@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Torso
   description: A torso with a head attached, looking a bit scary.
+  useInfo: Assemble with other parts
   icon: {fileID: 7262119653502517537, guid: 4b0a0cbdb37fdc544bc9c2290cd2fd03, type: 3}
   itemType: 2
   worldPrefab: {fileID: 0}

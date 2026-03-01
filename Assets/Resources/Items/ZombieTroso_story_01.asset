@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Torso
   description: A torso with a head attached, muscularly built.
+  useInfo: Assemble with other parts
   icon: {fileID: 4927925328679512274, guid: 9ec465370223c1e4781b136a6f0df1a3, type: 3}
   itemType: 2
   worldPrefab: {fileID: 0}

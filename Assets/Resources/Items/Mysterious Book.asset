@@ -15,6 +15,7 @@ MonoBehaviour:
   itemName: A Mysterious Book
   description: A mysterious book, seemingly filled with various talismans and Taoist
     practices.
+  useInfo: Left click to use
   icon: {fileID: -2142726812009774420, guid: e3eeae974539b9a4cacfd7a3248033c5, type: 3}
   itemType: 5
   worldPrefab: {fileID: 0}

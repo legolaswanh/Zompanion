@@ -6,6 +6,7 @@ public class ItemDataSO : ScriptableObject
     [Header("Basic Info")]
     public string itemName;
     [TextArea] public string description;
+    public string useInfo;
     public Sprite icon;
     public ItemType itemType;
 

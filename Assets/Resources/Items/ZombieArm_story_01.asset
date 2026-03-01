@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Arms
   description: Two rather thick arms.
+  useInfo: Assemble with other parts
   icon: {fileID: -315293389943409586, guid: 958d8af21d8937c47a4974a622ded5f4, type: 3}
   itemType: 3
   worldPrefab: {fileID: 0}

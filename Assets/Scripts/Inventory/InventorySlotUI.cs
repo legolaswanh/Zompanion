@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class InventorySlotUI : MonoBehaviour, IDropHandler
+public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Config")]
     public int slotIndex; // 这一格在背包里的索引
@@ -11,6 +11,8 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
     
     [Header("Prefabs")]
     [SerializeField] private GameObject itemIconPrefab;
+
+    public ItemDataSO currentItem;
 
 
     public void OnDrop(PointerEventData eventData)
@@ -71,6 +73,26 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
 
             // 更新图标显示
             currentItemUI.SetItem(slot.itemData);
+            currentItem = slot.itemData;
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (currentItem != null)
+        {
+            TooltipManager.Instance.ShowTooltip(currentItem.icon, currentItem.itemName, currentItem.useInfo);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        TooltipManager.Instance.Hide();
+    }
+
+    // 注意：如果物品被拖走或使用掉了，也要记得调用 Hide()
+    public void OnDisable() 
+    {
+        if(TooltipManager.Instance != null) TooltipManager.Instance.Hide();
     }
 }

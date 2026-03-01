@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Legs
   description: Two ordinary, unremarkable legs
+  useInfo: Assemble with other parts
   icon: {fileID: -9088068108723427035, guid: 213d2e3e85ab3b84a8e89f7be18a9ebb, type: 3}
   itemType: 4
   worldPrefab: {fileID: 0}
