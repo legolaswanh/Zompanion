@@ -2314,6 +2314,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 226784245}
   platformCanvas: {fileID: 6888152957176249336}
   buttonCanvas: {fileID: 731443911}
+  summonCanvasPrefab: {fileID: 773202189200225987, guid: cda36554c4b759d4eb789f0db32f5c24, type: 3}
   currentTorso: {fileID: 0}
   currentArm: {fileID: 0}
   currentLeg: {fileID: 0}

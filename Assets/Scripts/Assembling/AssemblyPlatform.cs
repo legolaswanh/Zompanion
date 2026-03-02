@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,16 +13,17 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
     }
 
     [Header("配置")]
-    [SerializeField] private List<ZombieRecipeSO> allRecipes; // 拖入所有可能的配方
-    [SerializeField] private Transform spawnPoint; // 僵尸生成的位置
+    [SerializeField] private List<ZombieRecipeSO> allRecipes;
+    [SerializeField] private Transform spawnPoint;
 
     [Header("调用界面")]
     [SerializeField] private Canvas platformCanvas;
     [SerializeField] private Canvas buttonCanvas;
 
+    [Header("小游戏")]
+    [SerializeField] private SummonCanvas summonCanvasPrefab;
+
     [Header("当前放入的部件 (Runtime)")]
-    // 这里简单起见，直接用 ItemDataSO，为空代表没放
-    // public ItemDataSO currentHead;
     public ItemDataSO currentTorso;
     public ItemDataSO currentArm;
     public ItemDataSO currentLeg;
@@ -30,10 +31,24 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
     public event Action OnAssemblyCleared;
     public event Action OnAssemblyRestored;
     private BoxCollider2D platformCollider;
+    private ZombieRecipeSO _pendingRecipe;
+    private SummonCanvas _summonCanvasInstance;
 
     void Awake()
     {
         platformCollider = GetComponent<BoxCollider2D>();
+    }
+
+    void OnEnable() { }
+
+    void OnDisable()
+    {
+        if (_summonCanvasInstance != null)
+        {
+            _summonCanvasInstance.OnMiniGameCompleted -= HandleMiniGameResult;
+            Destroy(_summonCanvasInstance.gameObject);
+            _summonCanvasInstance = null;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -70,15 +85,10 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
         }
     }
 
-    // 供 UI 调用：尝试放入物品
-    // 返回 true 表示放入成功
     public bool InsertPart(ItemDataSO item)
     {
         switch (item.itemType)
         {
-            // case ItemType.Head:
-            //     currentHead = item;
-            //     return true;
             case ItemType.Torso:
                 currentTorso = item;
                 return true;
@@ -94,17 +104,14 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
         }
     }
 
-    // 供 UI 调用：点击“组装”按钮
     public void Assemble()
     {
-        // 1. 检查是否所有部位都齐了
         if (currentTorso == null || currentArm == null || currentLeg == null)
         {
             Debug.Log("部件不全，无法组装！");
             return;
         }
 
-        // 2. 遍历配方，寻找匹配项
         ZombieRecipeSO matchedRecipe = null;
         foreach (var recipe in allRecipes)
         {
@@ -115,30 +122,66 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
             }
         }
 
-        // 3. 生成结果
         if (matchedRecipe != null && matchedRecipe.zombiePrefab != null)
         {
-            TryUnlockCodexByRecipe(matchedRecipe);
-            Instantiate(matchedRecipe.zombiePrefab, spawnPoint.position, Quaternion.identity);
-            Debug.Log("组装成功！生成了: " + matchedRecipe.zombiePrefab.name);
+            _pendingRecipe = matchedRecipe;
 
-            // 4. 清空台子（消耗掉）
-            ClearPlatform();
+            if (summonCanvasPrefab != null)
+            {
+                platformCanvas.gameObject.SetActive(false);
+
+                var go = Instantiate(summonCanvasPrefab.gameObject);
+                _summonCanvasInstance = go.GetComponent<SummonCanvas>();
+                _summonCanvasInstance.OnMiniGameCompleted += HandleMiniGameResult;
+                _summonCanvasInstance.StartDraw();
+            }
+            else
+            {
+                SpawnZombie(_pendingRecipe);
+            }
         }
         else
         {
             Debug.Log("[AssemblyPlatform] Assemble failed: no matching recipe.");
-            // 可选：生成一个默认的“失败品”僵尸，或者退回材料
         }
+    }
+
+    private void HandleMiniGameResult(bool success)
+    {
+        if (_summonCanvasInstance != null)
+        {
+            _summonCanvasInstance.OnMiniGameCompleted -= HandleMiniGameResult;
+            Destroy(_summonCanvasInstance.gameObject);
+            _summonCanvasInstance = null;
+        }
+
+        PlayerMovement.Instance.EnableMove();
+
+        if (success && _pendingRecipe != null)
+        {
+            SpawnZombie(_pendingRecipe);
+        }
+        else
+        {
+            Debug.Log("[AssemblyPlatform] 小游戏未通过，组装取消");
+            _pendingRecipe = null;
+        }
+    }
+
+    private void SpawnZombie(ZombieRecipeSO recipe)
+    {
+        TryUnlockCodexByRecipe(recipe);
+        Instantiate(recipe.zombiePrefab, spawnPoint.position, Quaternion.identity);
+        Debug.Log("组装成功！生成了: " + recipe.zombiePrefab.name);
+        _pendingRecipe = null;
+        ClearPlatform();
     }
 
     public void ClearPlatform()
     {
-        // currentHead = null;
         currentTorso = null;
         currentArm = null;
         currentLeg = null;
-        // 通知 UI 刷新
         OnAssemblyCleared?.Invoke();
         Debug.Log("[AssemblyPlatform] Cleared current parts and notified UI.");
     }
@@ -160,7 +203,6 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
         Debug.Log($"已从逻辑层移除部位: {item}");
     }
 
-    // Unlock codex entry when a recipe assembles successfully.
     private bool TryUnlockCodexByRecipe(ZombieRecipeSO recipe)
     {
         if (recipe == null || recipe.resultDefinition == null)
