@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class ZombieDetailPanel : MonoBehaviour
 {
+    [Header("Fields")]
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text idText;
     [SerializeField] private TMP_Text typeText;
@@ -19,6 +20,8 @@ public class ZombieDetailPanel : MonoBehaviour
             Clear();
             return;
         }
+
+        SetDetailVisible(true);
 
         if (titleText != null)
             titleText.text = zombie.displayName;
@@ -41,22 +44,18 @@ public class ZombieDetailPanel : MonoBehaviour
 
     public void Clear()
     {
-        if (titleText != null) titleText.text = "No Selection";
-        if (idText != null) idText.text = "ID: -";
-        if (typeText != null) typeText.text = "Type: -";
-        if (stateText != null) stateText.text = "State: -";
-        if (buffText != null) buffText.text = "Buff: -";
-        if (storyText != null) storyText.text = "Story: -";
-        if (portraitImage != null) portraitImage.color = Color.clear;
+        SetDetailVisible(false);
     }
 
-    public void BindDefinition(ZombieDefinitionSO definition, bool unlocked, bool following, bool storyUnlocked, Sprite lockedIcon)
+    public void BindDefinition(ZombieDefinitionSO definition, bool unlocked, bool following, bool storyUnlocked)
     {
         if (definition == null)
         {
             Clear();
             return;
         }
+
+        SetDetailVisible(true);
 
         if (titleText != null)
             titleText.text = unlocked ? definition.DisplayName : "???";
@@ -83,9 +82,19 @@ public class ZombieDetailPanel : MonoBehaviour
 
         if (portraitImage != null)
         {
-            Sprite target = definition.CodexIcon != null ? definition.CodexIcon : lockedIcon;
+            Sprite target = definition.CodexIcon;
             portraitImage.sprite = target;
-            portraitImage.color = unlocked ? Color.white : Color.black;
+            portraitImage.color = target != null ? (unlocked ? Color.white : Color.black) : Color.clear;
+        }
+    }
+
+    private void SetDetailVisible(bool visible)
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Transform child = transform.GetChild(i);
+            if (child != null)
+                child.gameObject.SetActive(visible);
         }
     }
 }

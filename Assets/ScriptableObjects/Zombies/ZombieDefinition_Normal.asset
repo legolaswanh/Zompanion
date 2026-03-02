@@ -17,7 +17,7 @@ MonoBehaviour:
   zombieType: 0
   category: 0
   prefab: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-  codexIcon: {fileID: 1520775917184352554, guid: 12d086a9ec74fb64ca81699f97175eaf, type: 3}
+  codexIcon: {fileID: 21300000, guid: 12d086a9ec74fb64ca81699f97175eaf, type: 3}
   followMoveSpeed: 2.8
   followDistance: 0.75
   buffType: 0
