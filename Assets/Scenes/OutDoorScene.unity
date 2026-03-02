@@ -6005,6 +6005,10 @@ PrefabInstance:
       value: NormalZombiePrefab (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
       propertyPath: m_TagString
       value: InteractiveZombie
       objectReference: {fileID: 0}
@@ -9363,8 +9367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bb0f7b0f757884fb27c71ff2dbfc1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversationTitle: 
-  conversant: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
   buttonCanvas: {fileID: 1443216260}
 --- !u!61 &2024277869
 BoxCollider2D:
