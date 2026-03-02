@@ -2288,6 +2288,7 @@ GameObject:
   - component: {fileID: 226784243}
   - component: {fileID: 226784246}
   - component: {fileID: 226784247}
+  - component: {fileID: 226784248}
   m_Layer: 0
   m_Name: Platform
   m_TagString: AssemblyPlatform
@@ -2446,6 +2447,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniqueId: 908bd6c0-a98f-4239-bfb0-699a1f78e7f2
+--- !u!114 &226784248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226784242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9946c818b8d2b4044a4d3b16fbb36b33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &256786004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16182,6 +16195,8 @@ GameObject:
   - component: {fileID: 653272862}
   - component: {fileID: 653272861}
   - component: {fileID: 653272864}
+  - component: {fileID: 653272865}
+  - component: {fileID: 653272866}
   m_Layer: 0
   m_Name: Yard Furnture2 (1)
   m_TagString: Untagged
@@ -16500,6 +16515,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &653272865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653272859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68983709414d4d241bdf1eeb99d73d0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueId: 14402305-b4d3-4d1e-a2ef-f60f8f963ffa
+--- !u!114 &653272866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653272859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9946c818b8d2b4044a4d3b16fbb36b33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &674495677
 GameObject:
   m_ObjectHideFlags: 0
@@ -18735,6 +18775,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NormalZombiePrefab (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -18761,6 +18805,8 @@ GameObject:
   - component: {fileID: 1584178351}
   - component: {fileID: 1584178353}
   - component: {fileID: 1584178354}
+  - component: {fileID: 1584178355}
+  - component: {fileID: 1584178356}
   m_Layer: 0
   m_Name: Yard Furnture2
   m_TagString: Untagged
@@ -19190,6 +19236,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1584178355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584178349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68983709414d4d241bdf1eeb99d73d0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueId: 646f707f-b852-4bac-abf6-c3984f0ddfea
+--- !u!114 &1584178356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584178349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9946c818b8d2b4044a4d3b16fbb36b33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1665708601
 GameObject:
   m_ObjectHideFlags: 0
