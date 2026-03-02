@@ -83,9 +83,8 @@ public class ZombieDetailPanel : MonoBehaviour
 
         if (portraitImage != null)
         {
-            Sprite target = unlocked ? definition.CodexIcon : lockedIcon;
-            if (target != null)
-                portraitImage.sprite = target;
+            Sprite target = definition.CodexIcon != null ? definition.CodexIcon : lockedIcon;
+            portraitImage.sprite = target;
             portraitImage.color = unlocked ? Color.white : Color.black;
         }
     }

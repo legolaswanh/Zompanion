@@ -44,9 +44,8 @@ public class ZombieEntryView : MonoBehaviour
 
         if (iconImage != null)
         {
-            Sprite icon = unlocked && definition != null ? definition.CodexIcon : lockedIcon;
-            if (icon != null)
-                iconImage.sprite = icon;
+            Sprite icon = definition != null && definition.CodexIcon != null ? definition.CodexIcon : lockedIcon;
+            iconImage.sprite = icon;
             iconImage.color = unlocked ? Color.white : Color.black;
         }
 
