@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ZombieCodexPanelController : MonoBehaviour
 {
@@ -7,7 +8,6 @@ public class ZombieCodexPanelController : MonoBehaviour
     [SerializeField] private ZombieEntryView entryPrefab;
     [SerializeField] private Transform entryRoot;
     [SerializeField] private ZombieDetailPanel detailPanel;
-    [SerializeField] private Sprite lockedIcon;
 
     private string _selectedDefinitionId;
     private bool _initialized;
@@ -40,6 +40,12 @@ public class ZombieCodexPanelController : MonoBehaviour
 
             TryInitialize();
         }
+
+        if (_initialized && Input.GetMouseButtonDown(0) && !string.IsNullOrWhiteSpace(_selectedDefinitionId))
+        {
+            if (!IsPointerOverAnyEntryItem())
+                ClearSelection();
+        }
     }
 
     private void TryInitialize()
@@ -56,6 +62,7 @@ public class ZombieCodexPanelController : MonoBehaviour
         zombieManager.OnCodexChanged += RefreshView;
         zombieManager.OnZombieListChanged += RefreshView;
 
+        _selectedDefinitionId = null;
         RefreshView();
         _initialized = true;
     }
@@ -85,7 +92,6 @@ public class ZombieCodexPanelController : MonoBehaviour
                 unlocked,
                 isFollowing: following,
                 selected: selected,
-                lockedIcon: lockedIcon,
                 onSelect: HandleSelect);
 
             if (selected)
@@ -93,15 +99,7 @@ public class ZombieCodexPanelController : MonoBehaviour
         }
 
         if (!selectedExists)
-        {
             _selectedDefinitionId = null;
-            for (int i = 0; i < catalog.Count; i++)
-            {
-                if (catalog[i] == null) continue;
-                _selectedDefinitionId = catalog[i].DefinitionId;
-                break;
-            }
-        }
 
         RefreshDetail();
     }
@@ -109,7 +107,16 @@ public class ZombieCodexPanelController : MonoBehaviour
     private void HandleSelect(string definitionId)
     {
         _selectedDefinitionId = definitionId;
-        RefreshDetail();
+        RefreshView();
+    }
+
+    private void ClearSelection()
+    {
+        if (string.IsNullOrWhiteSpace(_selectedDefinitionId))
+            return;
+
+        _selectedDefinitionId = null;
+        RefreshView();
     }
 
     private void RefreshDetail()
@@ -133,6 +140,33 @@ public class ZombieCodexPanelController : MonoBehaviour
         bool unlocked = zombieManager.IsZombieCodexUnlocked(definition.DefinitionId);
         bool following = unlocked && zombieManager.IsDefinitionFollowing(definition.DefinitionId);
         bool storyUnlocked = unlocked && zombieManager.IsStoryUnlocked(definition.StoryId);
-        detailPanel.BindDefinition(definition, unlocked, following, storyUnlocked, lockedIcon);
+        detailPanel.BindDefinition(definition, unlocked, following, storyUnlocked);
+    }
+
+    private bool IsPointerOverAnyEntryItem()
+    {
+        if (entryRoot == null || !entryRoot.gameObject.activeInHierarchy)
+            return false;
+
+        Canvas canvas = entryRoot.GetComponentInParent<Canvas>();
+        Camera eventCamera = null;
+        if (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay)
+            eventCamera = canvas.worldCamera;
+
+        for (int i = 0; i < entryRoot.childCount; i++)
+        {
+            RectTransform childRect = entryRoot.GetChild(i) as RectTransform;
+            if (childRect == null || !childRect.gameObject.activeInHierarchy)
+                continue;
+
+            Selectable selectable = childRect.GetComponentInChildren<Selectable>(true);
+            if (selectable == null || !selectable.interactable)
+                continue;
+
+            if (RectTransformUtility.RectangleContainsScreenPoint(childRect, Input.mousePosition, eventCamera))
+                return true;
+        }
+
+        return false;
     }
 }

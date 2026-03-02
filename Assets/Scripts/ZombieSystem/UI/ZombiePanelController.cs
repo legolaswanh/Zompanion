@@ -11,18 +11,19 @@ public class ZombiePanelController : MonoBehaviour
     [Header("List")]
     [SerializeField] private ZombieEntryView entryPrefab;
     [SerializeField] private Transform entryRoot;
-    [SerializeField] private Sprite lockedIcon;
 
     [Header("Slots")]
     [SerializeField] private Button slotAButton;
     [SerializeField] private Button slotBButton;
+    [SerializeField] private Image slotABackgroundImage;
+    [SerializeField] private Image slotBBackgroundImage;
     [SerializeField] private Image slotAImage;
     [SerializeField] private Image slotBImage;
     [SerializeField] private TMP_Text slotAText;
     [SerializeField] private TMP_Text slotBText;
     [SerializeField] private Button confirmButton;
-    [SerializeField] private GameObject slotASelectedMarker;
-    [SerializeField] private GameObject slotBSelectedMarker;
+    [SerializeField] private Color normalSlotBackgroundColor = Color.white;
+    [SerializeField] private Color selectedSlotBackgroundColor = new Color(0.75f, 0.75f, 0.75f, 1f);
 
     private readonly List<ZombieDefinitionSO> _candidateDefinitions = new List<ZombieDefinitionSO>();
     private readonly string[] _slotDefinitionIds = new string[2];
@@ -249,7 +250,6 @@ public class ZombiePanelController : MonoBehaviour
                 unlocked: true,
                 isFollowing: following,
                 selected: selected,
-                lockedIcon: lockedIcon,
                 onSelect: HandleSelectCandidate);
         }
     }
@@ -274,11 +274,8 @@ public class ZombiePanelController : MonoBehaviour
         RefreshSlotIcon(slotAImage, slotADefinition);
         RefreshSlotIcon(slotBImage, slotCount > 1 ? slotBDefinition : null);
 
-        if (slotASelectedMarker != null)
-            slotASelectedMarker.SetActive(HasValidSelectedSlot() && _selectedSlotIndex == 0);
-
-        if (slotBSelectedMarker != null)
-            slotBSelectedMarker.SetActive(HasValidSelectedSlot() && _selectedSlotIndex == 1);
+        ApplySlotSelectionVisual(GetSlotBackgroundImage(slotABackgroundImage, slotAButton), HasValidSelectedSlot() && _selectedSlotIndex == 0);
+        ApplySlotSelectionVisual(GetSlotBackgroundImage(slotBBackgroundImage, slotBButton), HasValidSelectedSlot() && _selectedSlotIndex == 1);
 
         if (confirmButton != null)
         {
@@ -346,6 +343,22 @@ public class ZombiePanelController : MonoBehaviour
         Color color = targetImage.color;
         color.a = icon != null ? 1f : 0f;
         targetImage.color = color;
+    }
+
+    private Image GetSlotBackgroundImage(Image configuredImage, Button fallbackButton)
+    {
+        if (configuredImage != null)
+            return configuredImage;
+
+        return fallbackButton != null ? fallbackButton.image : null;
+    }
+
+    private void ApplySlotSelectionVisual(Image backgroundImage, bool selected)
+    {
+        if (backgroundImage == null)
+            return;
+
+        backgroundImage.color = selected ? selectedSlotBackgroundColor : normalSlotBackgroundColor;
     }
 
     private void DeleteSlotAssignment(int slotIndex)
