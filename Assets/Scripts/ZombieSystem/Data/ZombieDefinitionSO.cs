@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Zompanion.ZombieSystem;
 
@@ -14,7 +13,6 @@ public class ZombieDefinitionSO : ScriptableObject
     [Header("Visual")]
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite codexIcon;
-    [SerializeField] private string codexNumber = "001";
 
     [Header("Follow")]
     [SerializeField] [Min(0.1f)] private float followMoveSpeed = 2.8f;
@@ -34,7 +32,6 @@ public class ZombieDefinitionSO : ScriptableObject
     public ZombieCategory Category => category;
     public GameObject Prefab => prefab;
     public Sprite CodexIcon => codexIcon;
-    public string CodexNumber => codexNumber;
     public float FollowMoveSpeed => followMoveSpeed;
     public float FollowDistance => followDistance;
     public ZombieBuffType BuffType => buffType;
@@ -44,16 +41,8 @@ public class ZombieDefinitionSO : ScriptableObject
 
     private void OnValidate()
     {
-        if (string.IsNullOrWhiteSpace(definitionId))
+        if (string.IsNullOrWhiteSpace(definitionId) || definitionId == "zombie_default")
             definitionId = name.ToLowerInvariant().Replace(" ", "_");
     }
-}
-
-[CreateAssetMenu(fileName = "ZombieCatalog", menuName = "Zombie/Zombie Catalog")]
-public class ZombieCatalogSO : ScriptableObject
-{
-    [SerializeField] private List<ZombieDefinitionSO> definitions = new List<ZombieDefinitionSO>();
-
-    public IReadOnlyList<ZombieDefinitionSO> Definitions => definitions;
 }
 

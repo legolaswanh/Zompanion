@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d2c36e0178ad2e48829e9ec3f8f5045, type: 3}
+  m_Name: ZombieCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieCatalogSO
+  definitions:
+  - {fileID: 11400000, guid: b271616de98b0814b80105466895b7db, type: 2}
+  - {fileID: 11400000, guid: e92426fc54b081a4e8ff74ff2a1dbd8c, type: 2}

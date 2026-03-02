@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 21bcea0fd0cbc7c4b9aff60f1da388b9
+guid: 82afe588083fb3046b1b6eae72654ea6
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: 7806906841765645891
     second: fuzhi2_0
+  - first:
+      213: -4637977838434124822
+    second: fuzhi2_1
+  - first:
+      213: -7460524516758843757
+    second: fuzhi2_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +106,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fuzhi2_0
+      name: fuzhi2_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 373
-        height: 1024
+        x: 21
+        y: 19
+        width: 249
+        height: 652
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 34e020ae864b75c60800000000000000
-      internalID: 7806906841765645891
+      spriteID: 39e0f74ca74e67890800000000000000
+      internalID: -7460524516758843757
       vertices: []
       indices: 
       edges: []
@@ -125,7 +131,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: bf962c685ffae7343a327cc31264d898
     internalID: 0
     vertices: []
     indices: 
@@ -136,6 +142,8 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       fuzhi2_0: 7806906841765645891
+      fuzhi2_1: -4637977838434124822
+      fuzhi2_2: -7460524516758843757
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

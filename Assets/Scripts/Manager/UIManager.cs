@@ -1,32 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    // 1. 引用 UI 预制体
     [Header("UI Prefabs")]
     [SerializeField] private GameObject mainHudPrefab;
+    [SerializeField] private List<GameObject> runtimeHudPrefabs = new List<GameObject>();
 
-    [Header("背包显示场景")]
-    [Tooltip("背包 UI 只在这些场景中显示；默认进入首个玩法场景 HomeScene 后才激活")]
+    [Header("Game Scenes")]
     [SerializeField] private string[] gameSceneNames = { "HomeScene", "TestScene", "ExplorationScene" };
 
-    private GameObject currentHudInstance;
+    private GameObject _mainHudInstance;
+    private readonly Dictionary<GameObject, GameObject> _runtimeHudInstances = new Dictionary<GameObject, GameObject>();
 
     private void Awake()
     {
-        // 2. 核心：确保这个物体（以及挂载的Manager）在切换场景时不会被销毁
-        // 注意：这行代码会让挂载此脚本的物体（GameManager）变成“不死之身”
         DontDestroyOnLoad(gameObject);
-        
-        // 3. 检查单例（防止切回主菜单再切回来时出现两个 Manager）
-        // 简单处理：如果发现已经有别的 UIManager，就把自己销毁
+
         if (FindObjectsByType<UIManager>(FindObjectsSortMode.None).Length > 1)
         {
             Destroy(gameObject);
             return;
         }
-
     }
 
     private void OnEnable()
@@ -43,35 +39,65 @@ public class UIManager : MonoBehaviour
     {
         bool isGameScene = IsGameScene(scene.name);
         if (isGameScene)
-        {
             EnsureHudExists();
-            if (currentHudInstance != null)
-                currentHudInstance.SetActive(true);
-        }
-        else if (currentHudInstance != null)
-        {
-            currentHudInstance.SetActive(false);
-        }
+
+        SetHudActive(isGameScene);
     }
 
     private bool IsGameScene(string sceneName)
     {
-        if (gameSceneNames == null) return false;
-        foreach (var name in gameSceneNames)
+        if (gameSceneNames == null)
+            return false;
+
+        for (int i = 0; i < gameSceneNames.Length; i++)
         {
-            if (name == sceneName) return true;
+            if (gameSceneNames[i] == sceneName)
+                return true;
         }
+
         return false;
     }
 
     private void EnsureHudExists()
     {
-        if (currentHudInstance == null && mainHudPrefab != null)
+        EnsureHudInstance(mainHudPrefab, ref _mainHudInstance);
+
+        if (runtimeHudPrefabs == null)
+            return;
+
+        for (int i = 0; i < runtimeHudPrefabs.Count; i++)
         {
-            currentHudInstance = Instantiate(mainHudPrefab);
-            
-            // 关键：把生成的 UI 也设为“不销毁”，或者让它成为 Manager 的子物体
-            DontDestroyOnLoad(currentHudInstance);
+            GameObject prefab = runtimeHudPrefabs[i];
+            if (prefab == null || prefab == mainHudPrefab)
+                continue;
+
+            if (_runtimeHudInstances.TryGetValue(prefab, out GameObject existing) && existing != null)
+                continue;
+
+            GameObject instance = Instantiate(prefab);
+            DontDestroyOnLoad(instance);
+            _runtimeHudInstances[prefab] = instance;
+        }
+    }
+
+    private static void EnsureHudInstance(GameObject prefab, ref GameObject instance)
+    {
+        if (instance != null || prefab == null)
+            return;
+
+        instance = Instantiate(prefab);
+        DontDestroyOnLoad(instance);
+    }
+
+    private void SetHudActive(bool active)
+    {
+        if (_mainHudInstance != null)
+            _mainHudInstance.SetActive(active);
+
+        foreach (var pair in _runtimeHudInstances)
+        {
+            if (pair.Value != null)
+                pair.Value.SetActive(active);
         }
     }
 }

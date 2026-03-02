@@ -330,7 +330,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -10023.675}
+  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -10223.675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -761,7 +761,7 @@ Transform:
   m_GameObject: {fileID: 2098059714}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -10023.675}
+  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -10223.675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -814,6 +814,8 @@ MonoBehaviour:
   startSceneName: MainMenu
   firstGameSceneName: HomeScene
   firstTimeTransitionSceneName: OpeningStory
+  zombieSystemPrefab: {fileID: 5976684307110652954, guid: 071ed37bcf3c75248bd4842cc602fd78, type: 3}
+  initializeZombieSystemOnStartup: 1
 --- !u!4 &2117082757
 Transform:
   m_ObjectHideFlags: 0
@@ -842,6 +844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainHudPrefab: {fileID: 8097799215442810024, guid: 1a65575a388c5a540ae1f06a31dbf05a, type: 3}
+  runtimeHudPrefabs: []
   gameSceneNames:
   - HomeScene
   - OutDoorScene
