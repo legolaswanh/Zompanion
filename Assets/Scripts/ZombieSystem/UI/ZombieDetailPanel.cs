@@ -1,9 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ZombieDetailPanel : MonoBehaviour
 {
+    private static Sprite _blackFallbackSprite;
+
     [Header("Fields")]
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text idText;
@@ -11,7 +14,8 @@ public class ZombieDetailPanel : MonoBehaviour
     [SerializeField] private TMP_Text stateText;
     [SerializeField] private TMP_Text buffText;
     [SerializeField] private TMP_Text storyText;
-    [SerializeField] private Image portraitImage;
+    [FormerlySerializedAs("portraitImage")]
+    [SerializeField] private Image detailPortraitImage;
 
     public void Bind(ZombieInstanceData zombie, ZombieDefinitionSO definition, bool storyUnlocked)
     {
@@ -40,6 +44,16 @@ public class ZombieDetailPanel : MonoBehaviour
 
         if (storyText != null)
             storyText.text = storyUnlocked ? "Story: Unlocked" : "Story: Locked";
+
+        if (detailPortraitImage != null)
+        {
+            Sprite target = definition != null ? definition.CodexDetailImage : null;
+            if (target == null)
+                target = GetBlackFallbackSprite();
+
+            detailPortraitImage.sprite = target;
+            detailPortraitImage.color = Color.white;
+        }
     }
 
     public void Clear()
@@ -80,12 +94,29 @@ public class ZombieDetailPanel : MonoBehaviour
         if (storyText != null)
             storyText.text = !unlocked ? "Story: Locked" : (storyUnlocked ? "Story: Unlocked" : "Story: Locked");
 
-        if (portraitImage != null)
+        if (detailPortraitImage != null)
         {
-            Sprite target = definition.CodexIcon;
-            portraitImage.sprite = target;
-            portraitImage.color = target != null ? (unlocked ? Color.white : Color.black) : Color.clear;
+            Sprite target = definition.CodexDetailImage;
+            if (target == null)
+                target = GetBlackFallbackSprite();
+
+            detailPortraitImage.sprite = target;
+            detailPortraitImage.color = unlocked ? Color.white : Color.black;
         }
+    }
+
+    private static Sprite GetBlackFallbackSprite()
+    {
+        if (_blackFallbackSprite != null)
+            return _blackFallbackSprite;
+
+        Texture2D texture = Texture2D.blackTexture;
+        _blackFallbackSprite = Sprite.Create(
+            texture,
+            new Rect(0f, 0f, texture.width, texture.height),
+            new Vector2(0.5f, 0.5f),
+            100f);
+        return _blackFallbackSprite;
     }
 
     private void SetDetailVisible(bool visible)

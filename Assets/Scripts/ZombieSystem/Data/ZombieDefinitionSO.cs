@@ -13,6 +13,7 @@ public class ZombieDefinitionSO : ScriptableObject
     [Header("Visual")]
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite codexIcon;
+    [SerializeField] private Sprite codexDetailImage;
 
     [Header("Follow")]
     [SerializeField] [Min(0.1f)] private float followMoveSpeed = 2.8f;
@@ -32,6 +33,7 @@ public class ZombieDefinitionSO : ScriptableObject
     public ZombieCategory Category => category;
     public GameObject Prefab => prefab;
     public Sprite CodexIcon => codexIcon;
+    public Sprite CodexDetailImage => codexDetailImage;
     public float FollowMoveSpeed => followMoveSpeed;
     public float FollowDistance => followDistance;
     public ZombieBuffType BuffType => buffType;

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8e2dbb33b8eecd842908bd2ca7adcebb
+guid: e39c36c7142bbb042924930235c12ae4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -139877998241646806
-    second: codex_bg_0
+      213: 574973649779915196
+    second: job_pannel_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: codex_bg_0
+      name: job_pannel_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 8
-        width: 1019
-        height: 1011
+        x: 0
+        y: 0
+        width: 36
+        height: 174
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a27f9e2a3bd0f0ef0800000000000000
-      internalID: -139877998241646806
+      spriteID: cb97756fc77baf700800000000000000
+      internalID: 574973649779915196
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      codex_bg_0: -139877998241646806
+      job_pannel_0: 574973649779915196
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
