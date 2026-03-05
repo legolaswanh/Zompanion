@@ -17,9 +17,9 @@ TagManager:
   - Water
   - UI
   - Line
-  - 
-  - 
-  - 
+  - DimmerLayer
+  - SummonLayer
+  - TopUILayer
   - 
   - 
   - 
@@ -57,6 +57,15 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2100321463
+    locked: 0
+  - name: DimmerLayer
+    uniqueID: 864858713
+    locked: 0
+  - name: SummonLayer
+    uniqueID: 3963394455
+    locked: 0
+  - name: TopUILayer
+    uniqueID: 3364513497
     locked: 0
   m_RenderingLayers:
   - Default
