@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using Zompanion.ZombieSystem;
 
 [Serializable]
@@ -14,6 +15,11 @@ public class ZombieInstanceData
     public ZombieModifierApplyMode appliedModifierApplyMode = ZombieModifierApplyMode.OnSpawn;
     public float appliedModifierValue;
     public string unlockStoryId;
+    public bool hasHomeAnchor;
+    public string homeSceneName;
+    public Vector3 homePosition;
+    public Vector3 homeEulerAngles;
+    public bool pendingReturnToHome;
 
     public ZombieInstanceData(int id, string defId, string name)
     {

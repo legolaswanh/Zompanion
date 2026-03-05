@@ -88,6 +88,7 @@ public class ZombieManager : MonoBehaviour
     {
         ResolveRuntimeReferences();
         TryBindPlayerLeader();
+        UpdateAgentScenePresence(applyHomeSnap: true);
     }
 
     private void OnEnable()
@@ -114,6 +115,7 @@ public class ZombieManager : MonoBehaviour
         ResolveRuntimeReferences();
         TryBindPlayerLeader();
         ReparentAllAgentsToContainer();
+        UpdateAgentScenePresence(applyHomeSnap: true);
         SyncPlayerZombieCollisionIgnores();
         RebuildFollowQueue();
     }
@@ -272,6 +274,40 @@ public class ZombieManager : MonoBehaviour
         return zombie != null;
     }
 
+    public bool SetZombieHomeAnchor(int instanceId, string sceneName, Vector3 position, Vector3 eulerAngles)
+    {
+        if (!TryGetZombie(instanceId, out ZombieInstanceData zombie))
+            return false;
+
+        if (string.IsNullOrWhiteSpace(sceneName))
+            sceneName = GetActiveSceneName();
+
+        zombie.hasHomeAnchor = true;
+        zombie.homeSceneName = sceneName;
+        zombie.homePosition = position;
+        zombie.homeEulerAngles = eulerAngles;
+        zombie.pendingReturnToHome = false;
+
+        UpdateAgentScenePresence(applyHomeSnap: false);
+        OnZombieListChanged?.Invoke();
+        return true;
+    }
+
+    public bool CaptureZombieCurrentTransformAsHomeAnchor(int instanceId)
+    {
+        if (!TryGetZombie(instanceId, out ZombieInstanceData zombie))
+            return false;
+
+        if (!_agentByInstanceId.TryGetValue(instanceId, out ZombieAgent agent) || agent == null)
+            return false;
+
+        return SetZombieHomeAnchor(
+            instanceId,
+            GetActiveSceneName(),
+            agent.transform.position,
+            agent.transform.eulerAngles);
+    }
+
     public ZombieInstanceData SpawnZombie(ZombieDefinitionSO definition, bool autoFollow = false, bool ignoreCodexUnlock = false)
     {
         if (definition == null || string.IsNullOrWhiteSpace(definition.DefinitionId))
@@ -290,13 +326,19 @@ public class ZombieManager : MonoBehaviour
         {
             existing.displayName = definition.DisplayName;
             existing.unlockStoryId = definition.StoryId;
-            EnsureZombieAgent(existing, definition);
+
+            if (autoFollow || ShouldZombieBeVisibleInScene(existing, GetActiveSceneName()))
+                EnsureZombieAgent(existing, definition);
+
+            EnsureHomeAnchorIfMissing(existing);
 
             bool handledByFollowState = false;
             if (autoFollow)
                 handledByFollowState = SetFollowState(existing.instanceId, true);
             else if (existing.state == ZombieState.Following)
                 RebuildFollowQueue();
+
+            UpdateAgentScenePresence(applyHomeSnap: false);
 
             if (!handledByFollowState)
                 OnZombieListChanged?.Invoke();
@@ -308,11 +350,13 @@ public class ZombieManager : MonoBehaviour
         _zombies.Add(data);
 
         EnsureZombieAgent(data, definition);
+        EnsureHomeAnchorIfMissing(data);
         ApplySpawnModifier(data, definition);
 
         if (autoFollow)
             SetFollowState(data.instanceId, true);
 
+        UpdateAgentScenePresence(applyHomeSnap: false);
         OnZombieListChanged?.Invoke();
         return data;
     }
@@ -389,12 +433,32 @@ public class ZombieManager : MonoBehaviour
         if (following)
         {
             if (zombie.state == ZombieState.Following)
+            {
+                EnsureZombieAgent(zombie, definition);
+                if (_agentByInstanceId.TryGetValue(zombie.instanceId, out ZombieAgent existingFollowAgent) &&
+                    existingFollowAgent != null &&
+                    !existingFollowAgent.gameObject.activeSelf)
+                {
+                    existingFollowAgent.gameObject.SetActive(true);
+                }
+
+                UpdateAgentScenePresence(applyHomeSnap: false);
                 return true;
+            }
 
             if (GetFollowingCount() >= maxFollowCount)
                 return false;
 
             EnsureZombieAgent(zombie, definition);
+            EnsureHomeAnchorIfMissing(zombie);
+            zombie.pendingReturnToHome = false;
+
+            if (_agentByInstanceId.TryGetValue(zombie.instanceId, out ZombieAgent followAgent) &&
+                followAgent != null &&
+                !followAgent.gameObject.activeSelf)
+            {
+                followAgent.gameObject.SetActive(true);
+            }
 
             zombie.state = ZombieState.Following;
             ApplyFollowModifier(zombie, definition);
@@ -407,9 +471,11 @@ public class ZombieManager : MonoBehaviour
             RemoveFollowModifier(zombie);
             zombie.state = ZombieState.Idle;
             zombie.followOrder = -1;
+            HandleTransitionToNonFollowingState(zombie);
         }
 
         RebuildFollowQueue();
+        UpdateAgentScenePresence(applyHomeSnap: false);
         OnZombieListChanged?.Invoke();
         return true;
     }
@@ -424,8 +490,10 @@ public class ZombieManager : MonoBehaviour
 
         zombie.state = working ? ZombieState.Working : ZombieState.Idle;
         zombie.followOrder = -1;
+        HandleTransitionToNonFollowingState(zombie);
 
         RebuildFollowQueue();
+        UpdateAgentScenePresence(applyHomeSnap: false);
         OnZombieListChanged?.Invoke();
         return true;
     }
@@ -792,6 +860,127 @@ public class ZombieManager : MonoBehaviour
 
         GameObject playerObj = GameObject.FindWithTag("Player");
         return playerObj != null ? playerObj.transform : null;
+    }
+
+    private void EnsureHomeAnchorIfMissing(ZombieInstanceData zombie)
+    {
+        if (zombie == null || zombie.hasHomeAnchor)
+            return;
+
+        Vector3 anchorPosition;
+        Vector3 anchorEuler;
+        if (_agentByInstanceId.TryGetValue(zombie.instanceId, out ZombieAgent agent) && agent != null)
+        {
+            anchorPosition = agent.transform.position;
+            anchorEuler = agent.transform.eulerAngles;
+        }
+        else
+        {
+            anchorPosition = GetSpawnCenter(GetZombieContainer());
+            anchorEuler = Vector3.zero;
+        }
+
+        zombie.homeSceneName = GetActiveSceneName();
+        zombie.homePosition = anchorPosition;
+        zombie.homeEulerAngles = anchorEuler;
+        zombie.hasHomeAnchor = true;
+        zombie.pendingReturnToHome = false;
+    }
+
+    private void HandleTransitionToNonFollowingState(ZombieInstanceData zombie)
+    {
+        if (zombie == null)
+            return;
+
+        EnsureHomeAnchorIfMissing(zombie);
+        if (!zombie.hasHomeAnchor || string.IsNullOrWhiteSpace(zombie.homeSceneName))
+            return;
+
+        string activeSceneName = GetActiveSceneName();
+        bool isAwayFromHome = !string.Equals(activeSceneName, zombie.homeSceneName, StringComparison.Ordinal);
+        if (!isAwayFromHome)
+        {
+            zombie.pendingReturnToHome = false;
+            return;
+        }
+
+        zombie.pendingReturnToHome = true;
+        if (!_agentByInstanceId.TryGetValue(zombie.instanceId, out ZombieAgent agent) || agent == null)
+            return;
+
+        agent.transform.SetPositionAndRotation(zombie.homePosition, Quaternion.Euler(zombie.homeEulerAngles));
+        if (agent.gameObject.activeSelf)
+            agent.gameObject.SetActive(false);
+    }
+
+    private bool ShouldZombieBeVisibleInScene(ZombieInstanceData zombie, string sceneName)
+    {
+        if (zombie == null)
+            return false;
+
+        if (zombie.state == ZombieState.Following)
+            return true;
+
+        if (!zombie.hasHomeAnchor || string.IsNullOrWhiteSpace(zombie.homeSceneName))
+            return true;
+
+        return string.Equals(zombie.homeSceneName, sceneName, StringComparison.Ordinal);
+    }
+
+    private void UpdateAgentScenePresence(bool applyHomeSnap)
+    {
+        CleanupMissingAgents();
+        string activeSceneName = GetActiveSceneName();
+
+        for (int i = 0; i < _zombies.Count; i++)
+        {
+            ZombieInstanceData zombie = _zombies[i];
+            if (zombie == null)
+                continue;
+
+            bool shouldBeVisible = ShouldZombieBeVisibleInScene(zombie, activeSceneName);
+            if (!_agentByInstanceId.TryGetValue(zombie.instanceId, out ZombieAgent agent) || agent == null)
+            {
+                if (!shouldBeVisible)
+                    continue;
+
+                ZombieDefinitionSO definition = GetDefinition(zombie.definitionId);
+                if (definition == null || definition.Prefab == null)
+                    continue;
+
+                EnsureZombieAgent(zombie, definition);
+                _agentByInstanceId.TryGetValue(zombie.instanceId, out agent);
+            }
+
+            if (agent == null)
+                continue;
+
+            if (!shouldBeVisible)
+            {
+                if (agent.gameObject.activeSelf)
+                    agent.gameObject.SetActive(false);
+                continue;
+            }
+
+            if (!agent.gameObject.activeSelf)
+                agent.gameObject.SetActive(true);
+
+            bool inHomeScene = zombie.hasHomeAnchor &&
+                               !string.IsNullOrWhiteSpace(zombie.homeSceneName) &&
+                               string.Equals(zombie.homeSceneName, activeSceneName, StringComparison.Ordinal);
+
+            if (zombie.state != ZombieState.Following && inHomeScene && (applyHomeSnap || zombie.pendingReturnToHome))
+            {
+                agent.transform.SetPositionAndRotation(zombie.homePosition, Quaternion.Euler(zombie.homeEulerAngles));
+                zombie.pendingReturnToHome = false;
+            }
+        }
+    }
+
+    private static string GetActiveSceneName()
+    {
+        Scene active = SceneManager.GetActiveScene();
+        return active.IsValid() ? active.name : string.Empty;
     }
 
     private void ReparentAllAgentsToContainer()
