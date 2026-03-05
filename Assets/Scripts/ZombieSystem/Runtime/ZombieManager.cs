@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Code.Scripts;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zompanion.ZombieSystem;
@@ -71,6 +72,9 @@ public class ZombieManager : MonoBehaviour
         Instance = this;
         if (persistent)
             DontDestroyOnLoad(gameObject);
+
+        if (GetComponent<ZombieCodexSaveable>() == null)
+            gameObject.AddComponent<ZombieCodexSaveable>();
 
         _codexService = new ZombieCodexService();
         _codexService.OnCodexUpdated += HandleCodexChanged;
@@ -247,7 +251,7 @@ public class ZombieManager : MonoBehaviour
             return SetFollowState(following.instanceId, false);
         }
 
-        if (!IsZombieCodexUnlocked(definitionId))
+        if (!IsZombieCodexUnlocked(definitionId) || !AreAllStoriesUnlockedForZombie(definitionId))
             return false;
 
         if (IsDefinitionFollowing(definitionId))
@@ -508,6 +512,36 @@ public class ZombieManager : MonoBehaviour
         return _codexService != null && _codexService.IsZombieUnlocked(definitionId);
     }
 
+    /// <summary>
+    /// 检查指定僵尸的全部剧情段是否均已解锁。
+    /// 用于跟随/派遣等能力的解锁条件。
+    /// </summary>
+    public bool AreAllStoriesUnlockedForZombie(string definitionId)
+    {
+        if (_codexService == null || string.IsNullOrWhiteSpace(definitionId))
+            return false;
+
+        ZombieDefinitionSO definition = GetDefinition(definitionId);
+        if (definition == null)
+            return false;
+
+        IReadOnlyList<ZombieStorySegmentConfig> segments = definition.StorySegments;
+        if (segments != null && segments.Count > 0)
+        {
+            foreach (ZombieStorySegmentConfig seg in segments)
+            {
+                if (seg == null || string.IsNullOrWhiteSpace(seg.storyId))
+                    continue;
+                if (!_codexService.IsStoryUnlocked(seg.storyId))
+                    return false;
+            }
+            return true;
+        }
+
+        string primaryStoryId = definition.StoryId;
+        return !string.IsNullOrWhiteSpace(primaryStoryId) && _codexService.IsStoryUnlocked(primaryStoryId);
+    }
+
     public bool UnlockZombieCodex(string definitionId)
     {
         if (_codexService == null || string.IsNullOrWhiteSpace(definitionId))
@@ -521,7 +555,40 @@ public class ZombieManager : MonoBehaviour
         if (_codexService == null || string.IsNullOrWhiteSpace(storyId))
             return false;
 
-        return _codexService.UnlockStory(storyId);
+        bool added = _codexService.UnlockStory(storyId);
+        if (added)
+            DialogueLua.SetVariable("story_" + storyId, true);
+
+        return added;
+    }
+
+    /// <summary>捕获图鉴状态供 SaveSystem 存档。</summary>
+    public string CaptureCodexState()
+    {
+        if (_codexService == null)
+            return null;
+
+        ZombieCodexSaveData data = _codexService.ExportState();
+        return data != null ? JsonUtility.ToJson(data) : null;
+    }
+
+    /// <summary>从 SaveSystem 读档恢复图鉴状态。</summary>
+    public void RestoreCodexState(string stateJson)
+    {
+        if (_codexService == null || string.IsNullOrWhiteSpace(stateJson))
+            return;
+
+        ZombieCodexSaveData data = JsonUtility.FromJson<ZombieCodexSaveData>(stateJson);
+        _codexService.ImportState(data);
+
+        if (data?.unlockedStoryIds != null)
+        {
+            foreach (string storyId in data.unlockedStoryIds)
+            {
+                if (!string.IsNullOrWhiteSpace(storyId))
+                    DialogueLua.SetVariable("story_" + storyId, true);
+            }
+        }
     }
 
     private int GetFollowingCount()

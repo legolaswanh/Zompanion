@@ -139,8 +139,8 @@ public class ZombieCodexPanelController : MonoBehaviour
 
         bool unlocked = zombieManager.IsZombieCodexUnlocked(definition.DefinitionId);
         bool following = unlocked && zombieManager.IsDefinitionFollowing(definition.DefinitionId);
-        bool storyUnlocked = unlocked && zombieManager.IsStoryUnlocked(definition.StoryId);
-        detailPanel.BindDefinition(definition, unlocked, following, storyUnlocked);
+        bool storyUnlocked = unlocked && zombieManager.AreAllStoriesUnlockedForZombie(definition.DefinitionId);
+        detailPanel.BindDefinition(definition, unlocked, following, storyUnlocked, zombieManager);
     }
 
     private bool IsPointerOverAnyEntryItem()

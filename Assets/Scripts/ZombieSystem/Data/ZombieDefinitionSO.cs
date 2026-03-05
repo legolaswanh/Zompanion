@@ -1,6 +1,18 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zompanion.ZombieSystem;
+
+[Serializable]
+public class ZombieStorySegmentConfig
+{
+    [Tooltip("剧情 ID，如 story_zombie_01_seg1")]
+    public string storyId;
+
+    [Tooltip("提交此物品解锁该段剧情")]
+    public ItemDataSO requiredItem;
+}
 
 [CreateAssetMenu(fileName = "ZombieDefinition", menuName = "Zombie/Zombie Definition")]
 public class ZombieDefinitionSO : ScriptableObject
@@ -31,7 +43,18 @@ public class ZombieDefinitionSO : ScriptableObject
     [FormerlySerializedAs("abilityValue")] [SerializeField] [HideInInspector] private float legacyAbilityValue = 0f;
 
     [Header("Codex & Story")]
-    [SerializeField] private string storyId = "story_zombie_01";
+    [FormerlySerializedAs("storyId")]
+    [SerializeField]
+    [HideInInspector]
+    private string _legacyStoryId = "story_zombie_01";
+
+    [Tooltip("多段剧情配置，每段需提交 requiredItem 解锁")]
+    [SerializeField]
+    private List<ZombieStorySegmentConfig> storySegments = new List<ZombieStorySegmentConfig>();
+
+    [Tooltip("Dialogue System 中的 Conversation 标题，用于「对话」入口。若为空则使用默认僵尸对话。")]
+    [SerializeField] private string dialogueConversationTitle = "ZombieDefault";
+
     [SerializeField] [TextArea] private string shortDescription = "A companion zombie.";
 
     public string DefinitionId => definitionId;
@@ -45,8 +68,58 @@ public class ZombieDefinitionSO : ScriptableObject
     public ZombieModifierType ModifierType => modifierType;
     public ZombieModifierApplyMode ModifierApplyMode => modifierApplyMode;
     public float ModifierValue => modifierValue;
-    public string StoryId => storyId;
+
+    /// <summary>
+    /// 主剧情 ID，用于兼容旧逻辑。若有 storySegments 则返回第一段，否则返回 legacy storyId。
+    /// </summary>
+    public string StoryId => GetPrimaryStoryId();
+
+    /// <summary>
+    /// 多段剧情配置。为空时使用 _legacyStoryId 作为唯一剧情。
+    /// </summary>
+    public IReadOnlyList<ZombieStorySegmentConfig> StorySegments =>
+        storySegments != null && storySegments.Count > 0
+            ? storySegments
+            : null;
+
     public string ShortDescription => shortDescription;
+
+    /// <summary>
+    /// Dialogue System 中用于与僵尸对话的 Conversation 标题。若为空则使用 "ZombieDefault"。
+    /// </summary>
+    public string DialogueConversationTitle =>
+        string.IsNullOrWhiteSpace(dialogueConversationTitle) ? "ZombieDefault" : dialogueConversationTitle;
+
+    private string GetPrimaryStoryId()
+    {
+        if (storySegments != null && storySegments.Count > 0)
+        {
+            var first = storySegments[0];
+            if (first != null && !string.IsNullOrWhiteSpace(first.storyId))
+                return first.storyId;
+        }
+
+        return _legacyStoryId;
+    }
+
+    /// <summary>
+    /// 根据物品查找对应的剧情 ID，若匹配则返回 storyId，否则返回 null。
+    /// </summary>
+    public string GetStoryIdForItem(ItemDataSO item)
+    {
+        if (item == null || storySegments == null)
+            return null;
+
+        foreach (var seg in storySegments)
+        {
+            if (seg == null)
+                continue;
+            if (seg.requiredItem == item)
+                return seg.storyId;
+        }
+
+        return null;
+    }
 
     private void OnEnable()
     {

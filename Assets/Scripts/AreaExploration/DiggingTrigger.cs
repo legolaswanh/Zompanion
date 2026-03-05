@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using PixelCrushers.DialogueSystem;
 using UnityEngine;
@@ -22,7 +22,6 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
     [SerializeField] private Sprite dugSprite;
 
     [Header("UI")]
-    public Canvas buttonCanvas;
     public GameObject itemDisplayUI;
 
     private bool isDug;
@@ -34,11 +33,13 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
 
     private ItemDataSO pendingItem;
     private InventorySO pendingInventory;
+    private InteractButtonCanvasSpawner _spawner;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
+        _spawner = GetComponent<InteractButtonCanvasSpawner>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -46,8 +47,7 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
         if (collision == null || !collision.CompareTag("Player"))
             return;
 
-        if (buttonCanvas != null)
-            buttonCanvas.gameObject.SetActive(true);
+        _spawner?.Show();
 
         if (PlayerInteraction.Instance != null)
             PlayerInteraction.Instance.SetCurrentTrigger(gameObject);
@@ -58,8 +58,7 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
         if (collision == null || !collision.CompareTag("Player"))
             return;
 
-        if (buttonCanvas != null)
-            buttonCanvas.gameObject.SetActive(false);
+        _spawner?.Hide();
 
         if (PlayerInteraction.Instance != null)
             PlayerInteraction.Instance.ClearCurrentTrigger(gameObject);

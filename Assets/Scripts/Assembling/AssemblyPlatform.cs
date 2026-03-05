@@ -18,7 +18,6 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
 
     [Header("调用界面")]
     [SerializeField] private Canvas platformCanvas;
-    [SerializeField] private Canvas buttonCanvas;
 
     [Header("小游戏")]
     [SerializeField] private SummonCanvas summonCanvasPrefab;
@@ -33,10 +32,12 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
     private BoxCollider2D platformCollider;
     private ZombieRecipeSO _pendingRecipe;
     private SummonCanvas _summonCanvasInstance;
+    private InteractButtonCanvasSpawner _spawner;
 
     void Awake()
     {
         platformCollider = GetComponent<BoxCollider2D>();
+        _spawner = GetComponent<InteractButtonCanvasSpawner>();
     }
 
     void OnEnable() { }
@@ -56,17 +57,16 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
         Debug.Log("进入组装区域");
         if (collision != null && collision.CompareTag("Player"))
         {
-            buttonCanvas.gameObject.SetActive(true);
+            _spawner?.Show();
             PlayerInteraction.Instance.SetCurrentTrigger(this.gameObject);
         }
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        buttonCanvas.gameObject.SetActive(false);
-        if (collision.CompareTag("Player"))
+        if (collision != null && collision.CompareTag("Player"))
         {
-            buttonCanvas.gameObject.SetActive(false);
+            _spawner?.Hide();
             PlayerInteraction.Instance.ClearCurrentTrigger(this.gameObject);
         }
     }

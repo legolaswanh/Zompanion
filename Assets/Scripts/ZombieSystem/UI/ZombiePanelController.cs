@@ -521,7 +521,7 @@ public class ZombiePanelController : MonoBehaviour
             string definitionId = definition.DefinitionId;
             if (string.IsNullOrWhiteSpace(definitionId))
                 continue;
-            if (!zombieManager.IsZombieCodexUnlocked(definitionId))
+            if (!zombieManager.AreAllStoriesUnlockedForZombie(definitionId))
                 continue;
 
             _candidateDefinitions.Add(definition);
@@ -989,11 +989,11 @@ public class ZombiePanelController : MonoBehaviour
 
     private void BindButtons(bool bind)
     {
-        if (confirmButton == null)
-            return;
-
-        confirmButton.onClick.RemoveListener(ConfirmSelection);
-        if (bind)
-            confirmButton.onClick.AddListener(ConfirmSelection);
+        if (confirmButton != null)
+        {
+            confirmButton.onClick.RemoveListener(ConfirmSelection);
+            if (bind)
+                confirmButton.onClick.AddListener(ConfirmSelection);
+        }
     }
 }

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83d18938b4b3d504d8892ef83ceff851, type: 3}
-  m_Name: ZombieDefinition_Normal
+  m_Name: ZombieDefinition_Monk
   m_EditorClassIdentifier: 
-  definitionId: zombie_normal
-  displayName: Normal Zombie
+  definitionId: zombie_monk
+  displayName: A Fat Monk Zombie
   category: 0
   prefab: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
   codexIcon: {fileID: 21300000, guid: 12d086a9ec74fb64ca81699f97175eaf, type: 3}
@@ -29,8 +29,9 @@ MonoBehaviour:
   legacyAbilityValue: 0
   _legacyStoryId: story_zombie_normal
   storySegments:
-  - storyId: story_zombie_normal_seg1
+  - storyId: story_zombie_monk_seg1
     requiredItem: {fileID: 11400000, guid: 994ff2491387a4344ba6b17f3f826e0e, type: 2}
-  - storyId: story_zombie_normal_seg2
+  - storyId: story_zombie_monk_seg2
     requiredItem: {fileID: 11400000, guid: 5db1e7d6b2c9e3a40a249be3055aec67, type: 2}
-  shortDescription: A companion zombie.
+  dialogueConversationTitle: ZombieMonk
+  shortDescription: A Fat Monk Zombie

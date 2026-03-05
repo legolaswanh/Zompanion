@@ -23,6 +23,7 @@ namespace Code.Scripts
             public string sceneName;
             public long saveTimeTicks;
             public string sceneStatesJson;
+            public string zombieCodexJson;
         }
 
         /// <summary>是否存在存档</summary>
@@ -48,6 +49,9 @@ namespace Code.Scripts
                     saveTimeTicks = DateTime.UtcNow.Ticks,
                     sceneStatesJson = SceneStateManager.Instance != null
                         ? SceneStateManager.Instance.SerializeAllToJson()
+                        : null,
+                    zombieCodexJson = ZombieCodexSaveable.Instance != null
+                        ? ZombieCodexSaveable.Instance.CaptureState()
                         : null
                 };
 
@@ -83,6 +87,9 @@ namespace Code.Scripts
                 }
                 if (SceneStateManager.Instance != null && !string.IsNullOrEmpty(data.sceneStatesJson))
                     SceneStateManager.Instance.DeserializeAllFromJson(data.sceneStatesJson);
+
+                if (ZombieCodexSaveable.Instance != null && !string.IsNullOrEmpty(data.zombieCodexJson))
+                    ZombieCodexSaveable.Instance.RestoreState(data.zombieCodexJson);
 
                 Debug.Log($"[SaveSystem] 读取存档: {data.sceneName}");
                 return data;

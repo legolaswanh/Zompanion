@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -64,6 +66,14 @@ public class ZombieDetailPanel : MonoBehaviour
 
     public void BindDefinition(ZombieDefinitionSO definition, bool unlocked, bool following, bool storyUnlocked)
     {
+        BindDefinition(definition, unlocked, following, storyUnlocked, null);
+    }
+
+    /// <summary>
+    /// 绑定僵尸图鉴详情。若传入 zombieManager，则按多段剧情展示每段解锁状态（如 Seg1 ✓、Seg2 🔒）。
+    /// </summary>
+    public void BindDefinition(ZombieDefinitionSO definition, bool unlocked, bool following, bool storyUnlocked, ZombieManager zombieManager)
+    {
         if (definition == null)
         {
             Clear();
@@ -95,7 +105,7 @@ public class ZombieDetailPanel : MonoBehaviour
                 : "Modifier: -";
 
         if (storyText != null)
-            storyText.text = !unlocked ? "Story: Locked" : (storyUnlocked ? "Story: Unlocked" : "Story: Locked");
+            storyText.text = BuildStoryStatusText(definition, unlocked, storyUnlocked, zombieManager);
 
         if (detailPortraitImage != null)
         {
@@ -106,6 +116,31 @@ public class ZombieDetailPanel : MonoBehaviour
             detailPortraitImage.sprite = target;
             detailPortraitImage.color = unlocked ? Color.white : Color.black;
         }
+    }
+
+    private static string BuildStoryStatusText(ZombieDefinitionSO definition, bool unlocked, bool storyUnlocked, ZombieManager zombieManager)
+    {
+        if (!unlocked)
+            return "Story: Locked";
+
+        IReadOnlyList<ZombieStorySegmentConfig> segments = definition?.StorySegments;
+        if (segments != null && segments.Count > 0 && zombieManager != null)
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < segments.Count; i++)
+            {
+                ZombieStorySegmentConfig seg = segments[i];
+                if (seg == null || string.IsNullOrWhiteSpace(seg.storyId))
+                    continue;
+                if (sb.Length > 0)
+                    sb.Append("  ");
+                bool unlockedSeg = zombieManager.IsStoryUnlocked(seg.storyId);
+                sb.Append(unlockedSeg ? $"Seg{i + 1} ✓" : $"Seg{i + 1} 🔒");
+            }
+            return sb.Length > 0 ? "Story: " + sb : (storyUnlocked ? "Story: Unlocked" : "Story: Locked");
+        }
+
+        return storyUnlocked ? "Story: Unlocked" : "Story: Locked";
     }
 
     private static Sprite GetBlackFallbackSprite()
