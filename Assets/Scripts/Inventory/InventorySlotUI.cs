@@ -125,12 +125,6 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
         if (eventData == null)
             return;
 
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            ClearSlotItem();
-            return;
-        }
-
         if (eventData.button != PointerEventData.InputButton.Left || currentItem == null)
             return;
 
@@ -173,17 +167,6 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
         inventoryData.RemoveItem(item);
         currentItem = null;
         TooltipManager.Instance?.Hide();
-    }
-
-    private void ClearSlotItem()
-    {
-        if (inventoryData == null || !IsValidSlot(inventoryData, slotIndex))
-            return;
-
-        if (inventoryData.slots[slotIndex].IsEmpty)
-            return;
-
-        inventoryData.SetItemAt(slotIndex, null);
     }
 
     private void TryMoveToFirstEmptySlot()
