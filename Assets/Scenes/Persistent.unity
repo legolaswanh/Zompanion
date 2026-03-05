@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &32417872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32417871}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -330,7 +330,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -123343.67}
+  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -127533.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -629,6 +629,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 125852, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1397184447}
+    - targetCorrespondingSourceObject: {fileID: 125852, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1397184452}
   m_SourcePrefab: {fileID: 100100000, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
 --- !u!1 &1397184446 stripped
 GameObject:
@@ -650,6 +653,22 @@ MonoBehaviour:
   playerInventory: {fileID: 11400000, guid: 9c4949eb36c979b4a910972d931db093, type: 2}
   storyItemsDB:
   - {fileID: 11400000, guid: 994ff2491387a4344ba6b17f3f826e0e, type: 2}
+--- !u!114 &1397184452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397184446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5a2474ef22f42dcb94628908c6bd7c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeActivePanelsOnConversationStart: 1
+  blockPanelOpeningDuringConversation: 1
+  uiRootsToHideDuringConversation: []
+  restoreHiddenRootsOnConversationEnd: 1
 --- !u!1 &2098059714
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,7 +780,7 @@ Transform:
   m_GameObject: {fileID: 2098059714}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -123343.67}
+  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -127533.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
