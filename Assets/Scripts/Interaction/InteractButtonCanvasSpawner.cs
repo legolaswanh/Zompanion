@@ -26,7 +26,11 @@ public class InteractButtonCanvasSpawner : MonoBehaviour
         _instance = Instantiate(buttonCanvasPrefab, transform);
         _instance.transform.localPosition = new Vector3(0f, offsetY, 0f);
         _instance.transform.localRotation = Quaternion.identity;
-        _instance.transform.localScale = Vector3.one;
+        Vector3 parentScale = transform.lossyScale;
+        _instance.transform.localScale = new Vector3(
+            1f / Mathf.Max(0.001f, parentScale.x),
+            1f / Mathf.Max(0.001f, parentScale.y),
+            1f / Mathf.Max(0.001f, parentScale.z));
         _instance.SetActive(true);
     }
 

@@ -185,10 +185,12 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
         }
 
         TryUnlockCodexByRecipe(recipe);
+        Vector3? spawnPos = spawnPoint != null ? spawnPoint.position : null;
         ZombieInstanceData data = ZombieManager.Instance.SpawnZombie(
             recipe.resultDefinition,
             autoFollow: false,
-            ignoreCodexUnlock: true);
+            ignoreCodexUnlock: true,
+            overrideSpawnPosition: spawnPos);
 
         if (data == null)
         {

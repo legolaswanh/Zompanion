@@ -159,3 +159,22 @@ Assemble() 遍历 allRecipes 匹配
 - 可考虑为「未匹配配方」增加默认失败品僵尸或材料退回逻辑
 - 配方较多时，可改用 Dictionary 或按组合哈希加速查找
 - 可增加配方解锁条件、稀有度等扩展字段
+
+---
+
+## 8. 待实现功能（已记录）
+
+### 8.1 僵尸生成后自动走向 spawnPoint 的演出效果
+
+**设想流程：**
+
+1. 僵尸在 **AssemblyPlatform 物体中心** 生成
+2. 僵尸自动**走到**配置好的 spawnPoint 位置
+3. 到达后**面向下方**，并设为待机状态
+
+**实现要点：**
+
+- 生成位置改为传入 `AssemblyPlatform.transform.position`（平台中心）
+- 需新增「走向目标点」逻辑（如 `ZombieWalkToTarget` 组件或状态），当前僵尸仅有跟随玩家行为
+- 到达后设置 `transform.rotation` 朝下（如 2D 下 `Quaternion.Euler(0, 0, 180)`）
+- 将 home anchor 设在 spawnPoint，便于场景切换后正确归位

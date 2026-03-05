@@ -443,4 +443,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonCanvasPrefab: {fileID: 8547302982356931694, guid: 0569d5e469bc7034699796acfd424ff6, type: 3}
-  offsetY: 0.5
+  offsetY: 0.7

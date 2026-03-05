@@ -312,7 +312,7 @@ public class ZombieManager : MonoBehaviour
             agent.transform.eulerAngles);
     }
 
-    public ZombieInstanceData SpawnZombie(ZombieDefinitionSO definition, bool autoFollow = false, bool ignoreCodexUnlock = false)
+    public ZombieInstanceData SpawnZombie(ZombieDefinitionSO definition, bool autoFollow = false, bool ignoreCodexUnlock = false, Vector3? overrideSpawnPosition = null)
     {
         if (definition == null || string.IsNullOrWhiteSpace(definition.DefinitionId))
             return null;
@@ -353,7 +353,7 @@ public class ZombieManager : MonoBehaviour
         data.unlockStoryId = definition.StoryId;
         _zombies.Add(data);
 
-        EnsureZombieAgent(data, definition);
+        EnsureZombieAgent(data, definition, overrideSpawnPosition);
         EnsureHomeAnchorIfMissing(data);
         ApplySpawnModifier(data, definition);
 
@@ -365,9 +365,9 @@ public class ZombieManager : MonoBehaviour
         return data;
     }
 
-    public ZombieInstanceData SpawnZombieByDefinitionId(string definitionId, bool autoFollow = false, bool ignoreCodexUnlock = false)
+    public ZombieInstanceData SpawnZombieByDefinitionId(string definitionId, bool autoFollow = false, bool ignoreCodexUnlock = false, Vector3? overrideSpawnPosition = null)
     {
-        return SpawnZombie(GetDefinition(definitionId), autoFollow, ignoreCodexUnlock);
+        return SpawnZombie(GetDefinition(definitionId), autoFollow, ignoreCodexUnlock, overrideSpawnPosition);
     }
 
     [ContextMenu("Debug Spawn First Catalog Zombie")]
@@ -596,12 +596,15 @@ public class ZombieManager : MonoBehaviour
         return _zombies.Count(z => z.state == ZombieState.Following);
     }
 
-    private void SpawnZombieAgent(ZombieInstanceData data, ZombieDefinitionSO definition)
+    private void SpawnZombieAgent(ZombieInstanceData data, ZombieDefinitionSO definition, Vector3? overrideSpawnPosition = null)
     {
         if (definition.Prefab == null) return;
 
         Transform parent = GetZombieContainer();
-        Vector3 spawnPosition = ResolveSpawnPosition(parent);
+        Vector3 spawnPosition = ResolveSpawnPosition(parent, overrideSpawnPosition);
+        Transform player = GetPlayerTransform();
+        Debug.Log($"[ZombieManager] SpawnZombieAgent instanceId={data.instanceId} def={definition.DefinitionId} " +
+                  $"position={spawnPosition} playerValid={player != null} playerPos={(player != null ? player.position.ToString() : "N/A")}");
         GameObject zombieObj = Instantiate(definition.Prefab, spawnPosition, Quaternion.identity, parent);
         zombieObj.name = $"Zombie_{data.instanceId}_{definition.DisplayName}";
 
@@ -614,14 +617,14 @@ public class ZombieManager : MonoBehaviour
         SyncPlayerZombieCollisionIgnores();
     }
 
-    private void EnsureZombieAgent(ZombieInstanceData data, ZombieDefinitionSO definition)
+    private void EnsureZombieAgent(ZombieInstanceData data, ZombieDefinitionSO definition, Vector3? overrideSpawnPosition = null)
     {
         if (data == null || definition == null)
             return;
 
         if (!_agentByInstanceId.TryGetValue(data.instanceId, out ZombieAgent agent) || agent == null)
         {
-            SpawnZombieAgent(data, definition);
+            SpawnZombieAgent(data, definition, overrideSpawnPosition);
             return;
         }
 
@@ -644,9 +647,9 @@ public class ZombieManager : MonoBehaviour
         return zombieContainer;
     }
 
-    private Vector3 ResolveSpawnPosition(Transform parent)
+    private Vector3 ResolveSpawnPosition(Transform parent, Vector3? overrideCenter = null)
     {
-        Vector3 center = GetSpawnCenter(parent);
+        Vector3 center = overrideCenter ?? GetSpawnCenter(parent);
         center.z = parent != null ? parent.position.z : center.z;
 
         int spawnIndex = Mathf.Max(0, _agentByInstanceId.Count);
@@ -907,6 +910,7 @@ public class ZombieManager : MonoBehaviour
                 {
                     Collider2D zombieCol = zombieColliders[j];
                     if (zombieCol == null) continue;
+                    if (zombieCol.isTrigger) continue;
                     Physics2D.IgnoreCollision(playerCol, zombieCol, true);
                 }
             }
