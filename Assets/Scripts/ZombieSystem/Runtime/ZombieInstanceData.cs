@@ -9,9 +9,10 @@ public class ZombieInstanceData
     public string displayName;
     public ZombieState state = ZombieState.Idle;
     public int followOrder = -1;
-    public bool buffApplied;
-    public ZombieBuffType appliedBuffType = ZombieBuffType.None;
-    public float appliedBuffValue;
+    public bool modifierApplied;
+    public ZombieModifierType appliedModifierType = ZombieModifierType.None;
+    public ZombieModifierApplyMode appliedModifierApplyMode = ZombieModifierApplyMode.OnSpawn;
+    public float appliedModifierValue;
     public string unlockStoryId;
 
     public ZombieInstanceData(int id, string defId, string name)
@@ -21,4 +22,3 @@ public class ZombieInstanceData
         displayName = name;
     }
 }
-

@@ -14,14 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   definitionId: zombie_special
   displayName: Special Zombie
-  zombieType: 1
   category: 0
   prefab: {fileID: 1583546875880986148, guid: 691008d0154062d41b42e6a7a430a62e, type: 3}
   codexIcon: {fileID: 21300000, guid: 82ee89416c4f0174da6bed7a05e5198a, type: 3}
   codexDetailImage: {fileID: 21300000, guid: 0661d02c60f642a4981054584d2745a9, type: 3}
-  followMoveSpeed: 2.8
+  followMoveSpeed: 4
   followDistance: 0.75
-  buffType: 0
-  buffValue: 0
+  modifierType: 1
+  modifierApplyMode: 1
+  modifierValue: 0
+  legacyBuffType: 0
+  legacyBuffValue: 0
+  legacyAbilityType: 1
+  legacyAbilityValue: 0
   storyId: story_zombie_special
   shortDescription: A companion zombie.

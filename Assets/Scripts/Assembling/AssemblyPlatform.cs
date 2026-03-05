@@ -122,7 +122,7 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
             }
         }
 
-        if (matchedRecipe != null && matchedRecipe.zombiePrefab != null)
+        if (matchedRecipe != null && matchedRecipe.resultDefinition != null)
         {
             _pendingRecipe = matchedRecipe;
 
@@ -142,7 +142,7 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
         }
         else
         {
-            Debug.Log("[AssemblyPlatform] Assemble failed: no matching recipe.");
+            Debug.Log("[AssemblyPlatform] Assemble failed: no matching recipe or missing resultDefinition.");
         }
     }
 
@@ -170,9 +170,34 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
 
     private void SpawnZombie(ZombieRecipeSO recipe)
     {
+        if (recipe == null || recipe.resultDefinition == null)
+        {
+            Debug.LogWarning("[AssemblyPlatform] Spawn failed: recipe or resultDefinition is null.");
+            _pendingRecipe = null;
+            return;
+        }
+
+        if (ZombieManager.Instance == null)
+        {
+            Debug.LogError("[AssemblyPlatform] ZombieManager not found. Cannot spawn assembled zombie.");
+            _pendingRecipe = null;
+            return;
+        }
+
         TryUnlockCodexByRecipe(recipe);
-        Instantiate(recipe.zombiePrefab, spawnPoint.position, Quaternion.identity);
-        Debug.Log("组装成功！生成了: " + recipe.zombiePrefab.name);
+        ZombieInstanceData data = ZombieManager.Instance.SpawnZombie(
+            recipe.resultDefinition,
+            autoFollow: false,
+            ignoreCodexUnlock: true);
+
+        if (data == null)
+        {
+            Debug.LogWarning($"[AssemblyPlatform] Spawn failed for '{recipe.resultDefinition.DefinitionId}'.");
+            _pendingRecipe = null;
+            return;
+        }
+
+        Debug.Log($"[AssemblyPlatform] Assemble success, zombie ready: {recipe.resultDefinition.DefinitionId} (instanceId: {data.instanceId}).");
         _pendingRecipe = null;
         ClearPlatform();
     }

@@ -11,8 +11,6 @@ public class ZombieManager : MonoBehaviour
     public static ZombieManager Instance { get; private set; }
 
     [Header("Refs")]
-    [SerializeField] private ZombieCatalogSO zombieCatalog;
-    [SerializeField] private InventorySO playerInventory;
     [SerializeField] private ZombieFollowController followController;
     [SerializeField] private Transform zombieContainer;
 
@@ -38,6 +36,8 @@ public class ZombieManager : MonoBehaviour
     private readonly Dictionary<string, ZombieDefinitionSO> _definitionById = new Dictionary<string, ZombieDefinitionSO>();
     private readonly List<ZombieDefinitionSO> _catalogDefinitions = new List<ZombieDefinitionSO>();
     private readonly Collider2D[] _spawnOverlapBuffer = new Collider2D[32];
+    private ZombieCatalogSO zombieCatalog;
+    private InventorySO playerInventory;
 
     private int _nextInstanceId = 1;
     private ZombieCodexService _codexService;
@@ -48,6 +48,17 @@ public class ZombieManager : MonoBehaviour
     public IReadOnlyList<ZombieInstanceData> Zombies => _zombies;
     public IReadOnlyList<ZombieDefinitionSO> CatalogDefinitions => _catalogDefinitions;
     public int MaxFollowCount => maxFollowCount;
+
+    public void SetPlayerInventory(InventorySO inventory)
+    {
+        playerInventory = inventory;
+    }
+
+    public void SetZombieCatalog(ZombieCatalogSO catalog)
+    {
+        zombieCatalog = catalog;
+        RebuildCatalogDefinitions();
+    }
 
     private void Awake()
     {
@@ -67,11 +78,15 @@ public class ZombieManager : MonoBehaviour
         if (followController == null)
             followController = GetComponentInChildren<ZombieFollowController>(true);
 
-        RebuildCatalogDefinitions();
+        ResolveRuntimeReferences();
+
+        if (zombieCatalog != null)
+            RebuildCatalogDefinitions();
     }
 
     private void Start()
     {
+        ResolveRuntimeReferences();
         TryBindPlayerLeader();
     }
 
@@ -96,9 +111,33 @@ public class ZombieManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        ResolveRuntimeReferences();
         TryBindPlayerLeader();
+        ReparentAllAgentsToContainer();
         SyncPlayerZombieCollisionIgnores();
         RebuildFollowQueue();
+    }
+
+    private void ResolveRuntimeReferences()
+    {
+        if (GameManager.Instance != null)
+        {
+            if (playerInventory == null)
+                playerInventory = GameManager.Instance.PlayerInventory;
+
+            if (zombieCatalog == null)
+            {
+                ZombieCatalogSO configCatalog = GameManager.Instance.ZombieCatalog;
+                if (configCatalog != null)
+                {
+                    zombieCatalog = configCatalog;
+                    RebuildCatalogDefinitions();
+                }
+            }
+        }
+
+        if (followController == null)
+            followController = GetComponentInChildren<ZombieFollowController>(true);
     }
 
     public void RegisterDefinitions(IEnumerable<ZombieDefinitionSO> definitions)
@@ -140,10 +179,7 @@ public class ZombieManager : MonoBehaviour
         _catalogDefinitions.Clear();
 
         if (zombieCatalog == null || zombieCatalog.Definitions == null)
-        {
-            Debug.LogWarning("[ZombieManager] ZombieCatalog is missing or empty. Catalog definitions will not initialize.");
             return;
-        }
 
         RegisterDefinitions(zombieCatalog.Definitions);
         Debug.Log($"[ZombieManager] Catalog initialized. Source count: {zombieCatalog.Definitions.Count}, unique definitionId count: {_catalogDefinitions.Count}.");
@@ -161,6 +197,14 @@ public class ZombieManager : MonoBehaviour
         ZombieDefinitionSO definition = GetDefinition(definitionId);
         if (definition == null) return false;
         return !requireCodexUnlockForSpawn || IsZombieCodexUnlocked(definition.DefinitionId);
+    }
+
+    public bool HasZombieByDefinitionId(string definitionId)
+    {
+        if (string.IsNullOrWhiteSpace(definitionId))
+            return false;
+
+        return _zombies.Any(z => z.definitionId == definitionId);
     }
 
     public bool IsDefinitionFollowing(string definitionId)
@@ -241,12 +285,30 @@ public class ZombieManager : MonoBehaviour
 
         RegisterDefinitions(new[] { definition });
 
+        ZombieInstanceData existing = _zombies.FirstOrDefault(z => z.definitionId == definition.DefinitionId);
+        if (existing != null)
+        {
+            existing.displayName = definition.DisplayName;
+            existing.unlockStoryId = definition.StoryId;
+            EnsureZombieAgent(existing, definition);
+
+            bool handledByFollowState = false;
+            if (autoFollow)
+                handledByFollowState = SetFollowState(existing.instanceId, true);
+            else if (existing.state == ZombieState.Following)
+                RebuildFollowQueue();
+
+            if (!handledByFollowState)
+                OnZombieListChanged?.Invoke();
+            return existing;
+        }
+
         ZombieInstanceData data = new ZombieInstanceData(_nextInstanceId++, definition.DefinitionId, definition.DisplayName);
         data.unlockStoryId = definition.StoryId;
         _zombies.Add(data);
 
-        SpawnZombieAgent(data, definition);
-        ApplySpawnBuff(data, definition);
+        EnsureZombieAgent(data, definition);
+        ApplySpawnModifier(data, definition);
 
         if (autoFollow)
             SetFollowState(data.instanceId, true);
@@ -322,6 +384,8 @@ public class ZombieManager : MonoBehaviour
         if (!TryGetZombie(instanceId, out ZombieInstanceData zombie))
             return false;
 
+        ZombieDefinitionSO definition = GetDefinition(zombie.definitionId);
+
         if (following)
         {
             if (zombie.state == ZombieState.Following)
@@ -330,13 +394,17 @@ public class ZombieManager : MonoBehaviour
             if (GetFollowingCount() >= maxFollowCount)
                 return false;
 
+            EnsureZombieAgent(zombie, definition);
+
             zombie.state = ZombieState.Following;
+            ApplyFollowModifier(zombie, definition);
         }
         else
         {
             if (zombie.state != ZombieState.Following)
                 return true;
 
+            RemoveFollowModifier(zombie);
             zombie.state = ZombieState.Idle;
             zombie.followOrder = -1;
         }
@@ -350,6 +418,9 @@ public class ZombieManager : MonoBehaviour
     {
         if (!TryGetZombie(instanceId, out ZombieInstanceData zombie))
             return false;
+
+        if (zombie.state == ZombieState.Following)
+            RemoveFollowModifier(zombie);
 
         zombie.state = working ? ZombieState.Working : ZombieState.Idle;
         zombie.followOrder = -1;
@@ -394,7 +465,7 @@ public class ZombieManager : MonoBehaviour
     {
         if (definition.Prefab == null) return;
 
-        Transform parent = zombieContainer != null ? zombieContainer : transform;
+        Transform parent = GetZombieContainer();
         Vector3 spawnPosition = ResolveSpawnPosition(parent);
         GameObject zombieObj = Instantiate(definition.Prefab, spawnPosition, Quaternion.identity, parent);
         zombieObj.name = $"Zombie_{data.instanceId}_{definition.DisplayName}";
@@ -406,6 +477,36 @@ public class ZombieManager : MonoBehaviour
         agent.Initialize(data.instanceId, definition);
         _agentByInstanceId[data.instanceId] = agent;
         SyncPlayerZombieCollisionIgnores();
+    }
+
+    private void EnsureZombieAgent(ZombieInstanceData data, ZombieDefinitionSO definition)
+    {
+        if (data == null || definition == null)
+            return;
+
+        if (!_agentByInstanceId.TryGetValue(data.instanceId, out ZombieAgent agent) || agent == null)
+        {
+            SpawnZombieAgent(data, definition);
+            return;
+        }
+
+        Transform parent = GetZombieContainer();
+        if (agent.transform.parent != parent)
+            agent.transform.SetParent(parent, true);
+
+        agent.name = $"Zombie_{data.instanceId}_{definition.DisplayName}";
+        agent.Initialize(data.instanceId, definition);
+    }
+
+    private Transform GetZombieContainer()
+    {
+        if (zombieContainer != null)
+            return zombieContainer;
+
+        GameObject container = new GameObject("ZombieContainer");
+        zombieContainer = container.transform;
+        zombieContainer.SetParent(transform, false);
+        return zombieContainer;
     }
 
     private Vector3 ResolveSpawnPosition(Transform parent)
@@ -505,32 +606,108 @@ public class ZombieManager : MonoBehaviour
         return true;
     }
 
-    private void ApplySpawnBuff(ZombieInstanceData data, ZombieDefinitionSO definition)
+    private void ApplySpawnModifier(ZombieInstanceData data, ZombieDefinitionSO definition)
     {
-        if (data.buffApplied) return;
+        if (data == null || definition == null)
+            return;
 
-        data.appliedBuffType = definition.BuffType;
-        data.appliedBuffValue = definition.BuffValue;
+        if (definition.ModifierApplyMode != ZombieModifierApplyMode.OnSpawn)
+            return;
 
-        switch (definition.BuffType)
+        if (data.modifierApplied && data.appliedModifierApplyMode == ZombieModifierApplyMode.OnSpawn)
+            return;
+
+        ApplyModifierInternal(data, definition.ModifierType, definition.ModifierApplyMode, definition.ModifierValue);
+    }
+
+    private void ApplyFollowModifier(ZombieInstanceData data, ZombieDefinitionSO definition)
+    {
+        if (data == null || definition == null)
+            return;
+
+        if (definition.ModifierApplyMode != ZombieModifierApplyMode.WhileFollowing)
+            return;
+
+        if (data.modifierApplied && data.appliedModifierApplyMode == ZombieModifierApplyMode.WhileFollowing)
+            return;
+
+        ApplyModifierInternal(data, definition.ModifierType, definition.ModifierApplyMode, definition.ModifierValue);
+    }
+
+    private void RemoveFollowModifier(ZombieInstanceData data)
+    {
+        if (data == null || !data.modifierApplied)
+            return;
+
+        if (data.appliedModifierApplyMode != ZombieModifierApplyMode.WhileFollowing)
+            return;
+
+        RemoveModifierEffect(data.appliedModifierType, data.appliedModifierValue);
+        ClearAppliedModifier(data);
+    }
+
+    private void ApplyModifierInternal(
+        ZombieInstanceData data,
+        ZombieModifierType modifierType,
+        ZombieModifierApplyMode applyMode,
+        float modifierValue)
+    {
+        if (modifierType == ZombieModifierType.None || modifierValue <= 0f)
+            return;
+
+        ApplyModifierEffect(modifierType, modifierValue);
+        data.modifierApplied = true;
+        data.appliedModifierType = modifierType;
+        data.appliedModifierApplyMode = applyMode;
+        data.appliedModifierValue = modifierValue;
+    }
+
+    private void ApplyModifierEffect(ZombieModifierType modifierType, float modifierValue)
+    {
+        switch (modifierType)
         {
-            case ZombieBuffType.BackpackCapacity:
+            case ZombieModifierType.BackpackCapacity:
             {
-                if (playerInventory != null && definition.BuffValue > 0f)
-                {
-                    int expand = Mathf.RoundToInt(definition.BuffValue);
-                    if (expand > 0)
-                        playerInventory.ExpandCapacity(expand);
-                }
+                if (playerInventory == null)
+                    return;
+
+                int expand = Mathf.RoundToInt(modifierValue);
+                if (expand > 0)
+                    playerInventory.ExpandCapacity(expand);
                 break;
             }
-            case ZombieBuffType.DiggingLootBonus:
-                if (definition.BuffValue > 0f)
-                    ZombieRuntimeModifiers.AddDiggingLootBonus(definition.BuffValue);
+            case ZombieModifierType.DiggingLootBonus:
+                ZombieRuntimeModifiers.AddDiggingLootBonus(modifierValue);
                 break;
         }
+    }
 
-        data.buffApplied = true;
+    private void RemoveModifierEffect(ZombieModifierType modifierType, float modifierValue)
+    {
+        switch (modifierType)
+        {
+            case ZombieModifierType.BackpackCapacity:
+            {
+                if (playerInventory == null)
+                    return;
+
+                int shrink = Mathf.RoundToInt(modifierValue);
+                if (shrink > 0)
+                    playerInventory.ExpandCapacity(-shrink);
+                break;
+            }
+            case ZombieModifierType.DiggingLootBonus:
+                ZombieRuntimeModifiers.AddDiggingLootBonus(-modifierValue);
+                break;
+        }
+    }
+
+    private static void ClearAppliedModifier(ZombieInstanceData data)
+    {
+        data.modifierApplied = false;
+        data.appliedModifierType = ZombieModifierType.None;
+        data.appliedModifierApplyMode = ZombieModifierApplyMode.OnSpawn;
+        data.appliedModifierValue = 0f;
     }
 
     private void HandleCodexChanged()
@@ -615,5 +792,41 @@ public class ZombieManager : MonoBehaviour
 
         GameObject playerObj = GameObject.FindWithTag("Player");
         return playerObj != null ? playerObj.transform : null;
+    }
+
+    private void ReparentAllAgentsToContainer()
+    {
+        CleanupMissingAgents();
+
+        Transform parent = GetZombieContainer();
+        foreach (var pair in _agentByInstanceId)
+        {
+            ZombieAgent agent = pair.Value;
+            if (agent == null)
+                continue;
+
+            if (agent.transform.parent != parent)
+                agent.transform.SetParent(parent, true);
+        }
+    }
+
+    private void CleanupMissingAgents()
+    {
+        List<int> deadIds = null;
+        foreach (var pair in _agentByInstanceId)
+        {
+            if (pair.Value != null)
+                continue;
+
+            if (deadIds == null)
+                deadIds = new List<int>();
+            deadIds.Add(pair.Key);
+        }
+
+        if (deadIds == null)
+            return;
+
+        for (int i = 0; i < deadIds.Count; i++)
+            _agentByInstanceId.Remove(deadIds[i]);
     }
 }

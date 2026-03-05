@@ -1,31 +1,27 @@
-using Unity.VisualScripting;
+using Code.Scripts;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using PixelCrushers.DialogueSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    public static PlayerInteraction Instance { get; private set;}
+    public static PlayerInteraction Instance { get; private set; }
 
     [Header("Animator Params")]
     [SerializeField] private string digTrigger = "Dig";
-    // [SerializeField] private string collectTrigger = "Collect";
     [SerializeField] private string faceDirection = "FaceDirection";
 
-    [Header("玩家的背包数据")]
+    [Header("Inventory")]
     [SerializeField] private InventorySO playerInventory;
+
+    [Header("Player Bark")]
+    [SerializeField] public BarkOnIdle barkTrigger;
+
     private Vector2 lastDir;
     private PlayerMovement playerMovement;
-
     private Animator animator;
     private InputSystem_Actions playerInput;
-
-    // 核心：记录当前玩家踩在哪个挖掘点上
     private GameObject currentActiveTrigger;
-
-    [Header("玩家的Bark Trigger")]
-    [SerializeField] public BarkOnIdle barkTrigger;
 
     private void Awake()
     {
@@ -34,140 +30,124 @@ public class PlayerInteraction : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        Instance = this;
 
+        Instance = this;
         animator = GetComponent<Animator>();
         playerInput = new InputSystem_Actions();
         playerMovement = GetComponent<PlayerMovement>();
+
+        ResolveInventoryReference();
     }
 
     private void OnEnable()
     {
         playerInput.Enable();
-
         playerInput.Player.Interact.performed += OnInteraction;
-        // 暂时应该不需要捡东西的操作
-        // playerInput.Player.Attack.performed += OnCollect;
     }
 
     private void OnDisable()
     {
         playerInput.Player.Interact.performed -= OnInteraction;
-        // 暂时应该不需要捡东西的操作
-        // playerInput.Player.Attack.performed -= OnCollect;
-
         playerInput.Disable();
     }
-    
-    void Start()
+
+    private void Start()
     {
-        
+        ResolveInventoryReference();
     }
 
-    void Update()
+    private void Update()
     {
-        lastDir = playerMovement.LastDir();
+        if (playerMovement != null)
+            lastDir = playerMovement.LastDir();
     }
 
-    private void OnInteraction(InputAction.CallbackContext ctx) 
+    private void OnInteraction(InputAction.CallbackContext ctx)
     {
-        if (!ctx.performed) return;
+        if (!ctx.performed)
+            return;
 
-        Debug.Log("Pressed E / Dig");
-        
-        if(currentActiveTrigger != null) 
+        if (UIPauseState.IsPaused)
+            return;
+
+        if (currentActiveTrigger == null)
+            return;
+
+        switch (currentActiveTrigger.tag)
         {
-            switch (currentActiveTrigger.tag) 
-            {
-                case "DiggingPoint":
-                    Dig(currentActiveTrigger.GetComponent<DiggingTrigger>());
-                    break;
-                case "AssemblyPlatform":
-                    OpenAssemblyPlatform(currentActiveTrigger.GetComponent<AssemblyPlatform>());
-                    break;
-                case "InteractiveZombie":
-                    TriggerDialogue(currentActiveTrigger.GetComponent<DialogueInteractTrigger>());
-                    break;
-            }
-
+            case "DiggingPoint":
+                Dig(currentActiveTrigger.GetComponent<DiggingTrigger>());
+                break;
+            case "AssemblyPlatform":
+                OpenAssemblyPlatform(currentActiveTrigger.GetComponent<AssemblyPlatform>());
+                break;
+            case "InteractiveZombie":
+                TriggerDialogue(currentActiveTrigger.GetComponent<DialogueInteractTrigger>());
+                break;
         }
     }
 
-    // 暂时应该不需要捡东西的操作
-    // private void OnCollect(InputAction.CallbackContext ctx) 
-    // {
-    //     if (!ctx.performed) return;
-
-    //     Debug.Log("Pressed Enter / Collect");
-    //     Collect();
-    // }
-
-    void Dig(DiggingTrigger trigger)
+    private void Dig(DiggingTrigger trigger)
     {
-        if(animator != null) 
+        if (trigger == null)
+            return;
+
+        if (playerInventory == null)
+        {
+            ResolveInventoryReference();
+            if (playerInventory == null)
+            {
+                Debug.LogWarning("[PlayerInteraction] Player inventory is not available.");
+                return;
+            }
+        }
+
+        if (animator != null)
         {
             animator.SetTrigger(digTrigger);
             animator.SetFloat(faceDirection, DirToFloat(lastDir));
         }
 
-        // 检查是否有可挖掘的目标
-        if (currentActiveTrigger != null)
-        {
-            Debug.Log($"对 {currentActiveTrigger.name} 执行挖掘！");
-            // 调用挖掘点的 Interact 方法，把玩家背包数据传过去
-            trigger.Interact(playerInventory);
-        }
-        else
-        {
-            Debug.Log("附近没有可挖掘的东西。");
-        }
+        trigger.Interact(playerInventory);
     }
 
-    void OpenAssemblyPlatform(AssemblyPlatform platform) 
+    private void OpenAssemblyPlatform(AssemblyPlatform platform)
     {
-        if (currentActiveTrigger != null)
-        {
-            platform.OpenPlatFormUI();
-        }
+        if (platform == null)
+            return;
+
+        platform.OpenPlatFormUI();
     }
 
-    void TriggerDialogue(DialogueInteractTrigger dialogue) 
+    private void TriggerDialogue(DialogueInteractTrigger dialogue)
     {
-        if (currentActiveTrigger != null)
-        {
-            dialogue.Interact();
-        }
+        if (dialogue == null)
+            return;
+
+        dialogue.Interact();
     }
 
-    // 暂时应该不需要捡东西的操作
-    // void Collect()
-    // {
-    //     animator.SetTrigger(collectTrigger);
-    //     animator.SetFloat(faceDirection, DirToFloat(lastDir));
-    // }
-
-    float DirToFloat(Vector2 dir)
+    private float DirToFloat(Vector2 dir)
     {
-        return dir.y != 0 ? (dir.y > 0 ? 1f : 0f) : (dir.x < 0 ? 2f : 3f);
+        return dir.y != 0f ? (dir.y > 0f ? 1f : 0f) : (dir.x < 0f ? 2f : 3f);
     }
 
-    // 当玩家进入 Trigger 时，DiggingTrigger 会调用这个
     public void SetCurrentTrigger(GameObject trigger)
     {
         currentActiveTrigger = trigger;
-        Debug.Log($"[交互系统] 进入交互点: {trigger.gameObject.name}");
-        // 以后可以在这里显示 "按 E 挖掘" 的 UI
     }
 
-    // 当玩家离开 Trigger 时，DiggingTrigger 会调用这个
     public void ClearCurrentTrigger(GameObject trigger)
     {
-        // 只清空当前记录的那个，防止重叠时误删
         if (currentActiveTrigger == trigger)
-        {
             currentActiveTrigger = null;
-            Debug.Log("[交互系统] 离开交互点");
-            // 以后可以在这里隐藏 UI
-        }
+    }
+
+    private void ResolveInventoryReference()
+    {
+        if (GameManager.Instance == null || GameManager.Instance.PlayerInventory == null)
+            return;
+
+        playerInventory = GameManager.Instance.PlayerInventory;
     }
 }

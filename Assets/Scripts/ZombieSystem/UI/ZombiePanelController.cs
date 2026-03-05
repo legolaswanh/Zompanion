@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ZombiePanelController : MonoBehaviour
 {
     private const int MinJobSlotCount = 1;
     private const int MaxJobSlotCount = 4;
+    private const float DoubleClickThreshold = 0.33f;
 
     private enum JobRuntimeMode
     {
@@ -50,11 +52,17 @@ public class ZombiePanelController : MonoBehaviour
 
     private readonly Dictionary<string, string[]> _committedAssignmentsByJob = new Dictionary<string, string[]>();
     private readonly List<ZombieDefinitionSO> _candidateDefinitions = new List<ZombieDefinitionSO>();
+    private readonly HashSet<string> _reservedDefinitionIds = new HashSet<string>();
+    private readonly List<RaycastResult> _uiRaycastResults = new List<RaycastResult>(16);
 
     private string _selectedJobId;
     private string[] _editingAssignments;
     private int _selectedSlotIndex = -1;
     private string _selectedDefinitionId;
+    private string _lastCandidateClickDefinitionId;
+    private float _lastCandidateClickTime = -10f;
+    private int _lastSlotClickIndex = -1;
+    private float _lastSlotClickTime = -10f;
     private bool _suppressRefresh;
     private bool _initialized;
 
@@ -74,6 +82,10 @@ public class ZombiePanelController : MonoBehaviour
 
         DiscardEditingChanges();
         _selectedJobId = null;
+        _lastCandidateClickDefinitionId = null;
+        _lastCandidateClickTime = -10f;
+        _lastSlotClickIndex = -1;
+        _lastSlotClickTime = -10f;
         _initialized = false;
         BindButtons(false);
     }
@@ -319,6 +331,10 @@ public class ZombiePanelController : MonoBehaviour
 
         _selectedSlotIndex = -1;
         _selectedDefinitionId = null;
+        _lastCandidateClickDefinitionId = null;
+        _lastCandidateClickTime = -10f;
+        _lastSlotClickIndex = -1;
+        _lastSlotClickTime = -10f;
     }
 
     private void DiscardEditingChanges()
@@ -326,6 +342,8 @@ public class ZombiePanelController : MonoBehaviour
         _editingAssignments = null;
         _selectedSlotIndex = -1;
         _selectedDefinitionId = null;
+        _lastSlotClickIndex = -1;
+        _lastSlotClickTime = -10f;
     }
 
     private void SelectJob(string jobId)
@@ -408,7 +426,7 @@ public class ZombiePanelController : MonoBehaviour
             bool selected = slotIndex == _selectedSlotIndex;
 
             ZombieJobSlotView slotView = Instantiate(slotItemPrefab, slotRoot);
-            slotView.Setup(slotIndex, definition, selected, SelectSlot, ClearSlotAssignment);
+            slotView.Setup(slotIndex, definition, selected, SelectSlot, ClearSlotAssignment, HandleDropDefinitionToSlot, HandleSwapSlots);
         }
     }
 
@@ -430,6 +448,17 @@ public class ZombiePanelController : MonoBehaviour
         int slotCount = GetEffectiveSlotCount(selectedJob);
         if (slotIndex < 0 || slotIndex >= slotCount)
             return;
+
+        float now = Time.unscaledTime;
+        bool isDoubleClick = slotIndex == _lastSlotClickIndex &&
+                             now - _lastSlotClickTime <= DoubleClickThreshold;
+        _lastSlotClickIndex = slotIndex;
+        _lastSlotClickTime = now;
+        if (isDoubleClick)
+        {
+            ClearSlotAssignment(slotIndex);
+            return;
+        }
 
         _selectedSlotIndex = slotIndex;
         string currentDefinition = _editingAssignments[slotIndex];
@@ -462,19 +491,25 @@ public class ZombiePanelController : MonoBehaviour
     private void ClearSlotEditingSelection()
     {
         _selectedSlotIndex = -1;
+        _lastSlotClickIndex = -1;
+        _lastSlotClickTime = -10f;
         RefreshView();
     }
 
     private void BuildCandidateDefinitions()
     {
         _candidateDefinitions.Clear();
+        _reservedDefinitionIds.Clear();
 
-        JobDefinition selectedJob = GetSelectedJobDefinition();
-        if (selectedJob == null || _editingAssignments == null || zombieManager == null)
+        if (zombieManager == null)
             return;
 
-        string selectedSlotDefinition = HasValidSelectedSlot() ? _editingAssignments[_selectedSlotIndex] : null;
+        string selectedSlotDefinition = HasValidSelectedSlot() && _editingAssignments != null
+            ? _editingAssignments[_selectedSlotIndex]
+            : null;
         var reservedDefinitions = BuildReservedDefinitionSet(selectedSlotDefinition);
+        foreach (string id in reservedDefinitions)
+            _reservedDefinitionIds.Add(id);
 
         IReadOnlyList<ZombieDefinitionSO> catalog = zombieManager.CatalogDefinitions;
         for (int i = 0; i < catalog.Count; i++)
@@ -487,10 +522,6 @@ public class ZombiePanelController : MonoBehaviour
             if (string.IsNullOrWhiteSpace(definitionId))
                 continue;
             if (!zombieManager.IsZombieCodexUnlocked(definitionId))
-                continue;
-            if (zombieManager.IsDefinitionWorking(definitionId))
-                continue;
-            if (reservedDefinitions.Contains(definitionId))
                 continue;
 
             _candidateDefinitions.Add(definition);
@@ -537,17 +568,36 @@ public class ZombiePanelController : MonoBehaviour
             return;
         }
 
+        bool selectedExists = false;
+        bool selectedInteractable = false;
         for (int i = 0; i < _candidateDefinitions.Count; i++)
         {
             ZombieDefinitionSO definition = _candidateDefinitions[i];
             if (definition == null)
                 continue;
 
-            if (definition.DefinitionId == _selectedDefinitionId)
-                return;
+            if (definition.DefinitionId != _selectedDefinitionId)
+                continue;
+
+            selectedExists = true;
+            selectedInteractable = IsDefinitionSelectableForCurrentContext(definition.DefinitionId, out _);
+            break;
         }
 
-        _selectedDefinitionId = _candidateDefinitions[0].DefinitionId;
+        if (selectedExists && selectedInteractable)
+            return;
+
+        _selectedDefinitionId = null;
+        for (int i = 0; i < _candidateDefinitions.Count; i++)
+        {
+            ZombieDefinitionSO definition = _candidateDefinitions[i];
+            if (definition == null)
+                continue;
+            if (!IsDefinitionSelectableForCurrentContext(definition.DefinitionId, out _))
+                continue;
+            _selectedDefinitionId = definition.DefinitionId;
+            return;
+        }
     }
 
     private void RefreshCandidateList()
@@ -558,16 +608,13 @@ public class ZombiePanelController : MonoBehaviour
         for (int i = entryRoot.childCount - 1; i >= 0; i--)
             Destroy(entryRoot.GetChild(i).gameObject);
 
-        JobDefinition selectedJob = GetSelectedJobDefinition();
-        if (selectedJob == null)
-            return;
-
         for (int i = 0; i < _candidateDefinitions.Count; i++)
         {
             ZombieDefinitionSO definition = _candidateDefinitions[i];
             if (definition == null)
                 continue;
 
+            bool interactable = IsDefinitionSelectableForCurrentContext(definition.DefinitionId, out string stateOverride);
             bool selected = definition.DefinitionId == _selectedDefinitionId;
             ZombieEntryView entry = Instantiate(entryPrefab, entryRoot);
             entry.SetupDefinition(
@@ -575,18 +622,158 @@ public class ZombiePanelController : MonoBehaviour
                 unlocked: true,
                 isFollowing: false,
                 selected: selected,
-                onSelect: HandleSelectCandidate);
+                onSelect: HandleSelectCandidate,
+                interactable: interactable,
+                stateOverride: stateOverride,
+                onDoubleClick: null);
         }
     }
 
     private void HandleSelectCandidate(string definitionId)
     {
+        float now = Time.unscaledTime;
+        bool isDoubleClick = definitionId == _lastCandidateClickDefinitionId &&
+                             now - _lastCandidateClickTime <= DoubleClickThreshold;
+        _lastCandidateClickDefinitionId = definitionId;
+        _lastCandidateClickTime = now;
+
+        if (isDoubleClick &&
+            IsDefinitionSelectableForCurrentContext(definitionId, out _) &&
+            TryResolveAutoAssignSlot(out int autoSlotIndex))
+        {
+            AssignDefinitionToSlot(autoSlotIndex, definitionId);
+            return;
+        }
+
         _selectedDefinitionId = definitionId;
 
         if (HasValidSelectedSlot() && _editingAssignments != null)
             _editingAssignments[_selectedSlotIndex] = definitionId;
 
         RefreshView();
+    }
+
+    private void HandleDropDefinitionToSlot(int slotIndex, string definitionId)
+    {
+        if (string.IsNullOrWhiteSpace(definitionId))
+            return;
+
+        if (!IsDefinitionSelectableForSpecificSlot(definitionId, slotIndex))
+            return;
+
+        AssignDefinitionToSlot(slotIndex, definitionId);
+    }
+
+    private void HandleSwapSlots(int fromSlotIndex, int toSlotIndex)
+    {
+        if (_editingAssignments == null)
+            return;
+
+        if (fromSlotIndex < 0 || fromSlotIndex >= _editingAssignments.Length)
+            return;
+        if (toSlotIndex < 0 || toSlotIndex >= _editingAssignments.Length)
+            return;
+        if (fromSlotIndex == toSlotIndex)
+            return;
+
+        string fromDefinition = _editingAssignments[fromSlotIndex];
+        _editingAssignments[fromSlotIndex] = _editingAssignments[toSlotIndex];
+        _editingAssignments[toSlotIndex] = fromDefinition;
+
+        _selectedSlotIndex = toSlotIndex;
+        _selectedDefinitionId = _editingAssignments[toSlotIndex];
+        RefreshView();
+    }
+
+    private void AssignDefinitionToSlot(int slotIndex, string definitionId)
+    {
+        if (_editingAssignments == null)
+            return;
+
+        if (slotIndex < 0 || slotIndex >= _editingAssignments.Length)
+            return;
+
+        _selectedSlotIndex = slotIndex;
+        _selectedDefinitionId = definitionId;
+        _editingAssignments[slotIndex] = definitionId;
+        RefreshView();
+    }
+
+    private bool TryResolveAutoAssignSlot(out int slotIndex)
+    {
+        slotIndex = -1;
+        JobDefinition selectedJob = GetSelectedJobDefinition();
+        if (selectedJob == null || _editingAssignments == null)
+            return false;
+
+        if (HasValidSelectedSlot())
+        {
+            slotIndex = _selectedSlotIndex;
+            return true;
+        }
+
+        for (int i = 0; i < _editingAssignments.Length; i++)
+        {
+            if (string.IsNullOrWhiteSpace(_editingAssignments[i]))
+            {
+                slotIndex = i;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool IsDefinitionSelectableForCurrentContext(string definitionId, out string stateOverride)
+    {
+        stateOverride = null;
+
+        if (zombieManager == null || string.IsNullOrWhiteSpace(definitionId))
+            return false;
+
+        if (zombieManager.IsDefinitionWorking(definitionId))
+        {
+            stateOverride = "Working";
+            return false;
+        }
+
+        JobDefinition selectedJob = GetSelectedJobDefinition();
+        if (selectedJob == null || _editingAssignments == null)
+        {
+            stateOverride = "Select Job";
+            return false;
+        }
+
+        if (_reservedDefinitionIds.Contains(definitionId))
+        {
+            stateOverride = "Occupied";
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool IsDefinitionSelectableForSpecificSlot(string definitionId, int slotIndex)
+    {
+        if (zombieManager == null || string.IsNullOrWhiteSpace(definitionId))
+            return false;
+
+        JobDefinition selectedJob = GetSelectedJobDefinition();
+        if (selectedJob == null || _editingAssignments == null)
+            return false;
+
+        if (slotIndex < 0 || slotIndex >= _editingAssignments.Length)
+            return false;
+
+        if (zombieManager.IsDefinitionWorking(definitionId))
+            return false;
+
+        string currentInSlot = _editingAssignments[slotIndex];
+        if (currentInSlot == definitionId)
+            return true;
+
+        HashSet<string> reserved = BuildReservedDefinitionSet(currentInSlot);
+        return !reserved.Contains(definitionId);
     }
 
     private void ConfirmSelectedJob()
@@ -748,13 +935,13 @@ public class ZombiePanelController : MonoBehaviour
         if (IsPointerOverButton(confirmButton))
             return true;
 
-        if (IsPointerOverRect(slotRoot as RectTransform))
+        if (IsPointerOverHierarchy(slotRoot))
             return true;
 
-        if (IsPointerOverRect(entryRoot as RectTransform))
+        if (IsPointerOverHierarchy(entryRoot))
             return true;
 
-        return IsPointerOverRect(jobListRoot as RectTransform);
+        return IsPointerOverHierarchy(jobListRoot);
     }
 
     private bool IsPointerOverButton(Button button)
@@ -774,17 +961,30 @@ public class ZombiePanelController : MonoBehaviour
         return RectTransformUtility.RectangleContainsScreenPoint(rect, Input.mousePosition, eventCamera);
     }
 
-    private bool IsPointerOverRect(RectTransform rect)
+    private bool IsPointerOverHierarchy(Transform root)
     {
-        if (rect == null || !rect.gameObject.activeInHierarchy)
+        if (root == null || !root.gameObject.activeInHierarchy)
             return false;
 
-        Canvas canvas = rect.GetComponentInParent<Canvas>();
-        Camera eventCamera = null;
-        if (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay)
-            eventCamera = canvas.worldCamera;
+        EventSystem eventSystem = EventSystem.current;
+        if (eventSystem == null)
+            return false;
 
-        return RectTransformUtility.RectangleContainsScreenPoint(rect, Input.mousePosition, eventCamera);
+        _uiRaycastResults.Clear();
+        var eventData = new PointerEventData(eventSystem) { position = Input.mousePosition };
+        eventSystem.RaycastAll(eventData, _uiRaycastResults);
+        for (int i = 0; i < _uiRaycastResults.Count; i++)
+        {
+            GameObject hitObject = _uiRaycastResults[i].gameObject;
+            if (hitObject == null)
+                continue;
+
+            Transform hitTransform = hitObject.transform;
+            if (hitTransform == root || hitTransform.IsChildOf(root))
+                return true;
+        }
+
+        return false;
     }
 
     private void BindButtons(bool bind)

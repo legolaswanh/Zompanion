@@ -12,7 +12,8 @@ public class ZombieDetailPanel : MonoBehaviour
     [SerializeField] private TMP_Text idText;
     [SerializeField] private TMP_Text typeText;
     [SerializeField] private TMP_Text stateText;
-    [SerializeField] private TMP_Text buffText;
+    [FormerlySerializedAs("buffText")]
+    [SerializeField] private TMP_Text modifierText;
     [SerializeField] private TMP_Text storyText;
     [FormerlySerializedAs("portraitImage")]
     [SerializeField] private Image detailPortraitImage;
@@ -34,13 +35,13 @@ public class ZombieDetailPanel : MonoBehaviour
             idText.text = $"ID: {zombie.instanceId}";
 
         if (typeText != null)
-            typeText.text = definition != null ? $"Type: {definition.Type} / {definition.Category}" : "Type: Unknown";
+            typeText.text = definition != null ? $"Category: {definition.Category}" : "Category: Unknown";
 
         if (stateText != null)
             stateText.text = $"State: {zombie.state}";
 
-        if (buffText != null)
-            buffText.text = $"Buff: {zombie.appliedBuffType} ({zombie.appliedBuffValue:0.##})";
+        if (modifierText != null)
+            modifierText.text = $"Modifier: {zombie.appliedModifierType} ({zombie.appliedModifierValue:0.##})";
 
         if (storyText != null)
             storyText.text = storyUnlocked ? "Story: Unlocked" : "Story: Locked";
@@ -78,7 +79,7 @@ public class ZombieDetailPanel : MonoBehaviour
             idText.text = $"ID: {definition.DefinitionId}";
 
         if (typeText != null)
-            typeText.text = unlocked ? $"Type: {definition.Type} / {definition.Category}" : "Type: Locked";
+            typeText.text = unlocked ? $"Category: {definition.Category}" : "Category: Locked";
 
         if (stateText != null)
         {
@@ -88,8 +89,10 @@ public class ZombieDetailPanel : MonoBehaviour
                 stateText.text = following ? "State: Following" : "State: Unlocked";
         }
 
-        if (buffText != null)
-            buffText.text = unlocked ? $"Buff: {definition.BuffType} ({definition.BuffValue:0.##})" : "Buff: -";
+        if (modifierText != null)
+            modifierText.text = unlocked
+                ? $"Modifier: {definition.ModifierType} {definition.ModifierApplyMode} ({definition.ModifierValue:0.##})"
+                : "Modifier: -";
 
         if (storyText != null)
             storyText.text = !unlocked ? "Story: Locked" : (storyUnlocked ? "Story: Unlocked" : "Story: Locked");

@@ -7,6 +7,10 @@ public static class UIPanelCoordinator
     private const string BlockerObjectName = "__UIPanelBlocker";
     private static readonly HashSet<GameObject> Panels = new HashSet<GameObject>();
     private static readonly Dictionary<Transform, Image> BlockersByParent = new Dictionary<Transform, Image>();
+    private static readonly List<GameObject> ActivePanelOrder = new List<GameObject>();
+    private static bool IsDisplayLocked;
+
+    public static bool isDisplayLocked => IsDisplayLocked;
 
     public static void Register(GameObject panel)
     {
@@ -16,6 +20,8 @@ public static class UIPanelCoordinator
         CleanupDeadReferences();
         Panels.Add(panel);
         EnsureStateNotifier(panel);
+        if (panel.activeInHierarchy)
+            BringPanelToTopOfOrder(panel);
         RefreshBlockers();
     }
 
@@ -25,6 +31,7 @@ public static class UIPanelCoordinator
             return;
 
         Panels.Remove(panel);
+        ActivePanelOrder.Remove(panel);
         RefreshBlockers();
     }
 
@@ -34,14 +41,23 @@ public static class UIPanelCoordinator
             return;
 
         if (panel.activeSelf)
+        {
             Hide(panel);
-        else
-            ShowExclusive(panel);
+            return;
+        }
+
+        if (IsDisplayLocked)
+            return;
+
+        ShowExclusive(panel);
     }
 
     public static void ShowExclusive(GameObject panel)
     {
         if (panel == null)
+            return;
+
+        if (IsDisplayLocked)
             return;
 
         Register(panel);
@@ -61,7 +77,16 @@ public static class UIPanelCoordinator
             panel.SetActive(true);
 
         panel.transform.SetAsLastSibling();
+        BringPanelToTopOfOrder(panel);
         RefreshBlockers(panel);
+    }
+
+    public static void SetDisplayLocked(bool locked, bool hideActivePanels = false)
+    {
+        IsDisplayLocked = locked;
+
+        if (hideActivePanels)
+            HideAllActivePanels();
     }
 
     public static void Hide(GameObject panel)
@@ -72,7 +97,47 @@ public static class UIPanelCoordinator
         if (panel.activeSelf)
             panel.SetActive(false);
 
+        ActivePanelOrder.Remove(panel);
         RefreshBlockers();
+    }
+
+    public static bool HideTopmostActivePanel()
+    {
+        CleanupDeadReferences();
+
+        for (int i = ActivePanelOrder.Count - 1; i >= 0; i--)
+        {
+            GameObject panel = ActivePanelOrder[i];
+            if (panel == null)
+                continue;
+            if (!panel.activeInHierarchy)
+                continue;
+
+            Hide(panel);
+            return true;
+        }
+
+        return false;
+    }
+
+    public static int HideAllActivePanels()
+    {
+        CleanupDeadReferences();
+
+        int hiddenCount = 0;
+        for (int i = ActivePanelOrder.Count - 1; i >= 0; i--)
+        {
+            GameObject panel = ActivePanelOrder[i];
+            if (panel == null || !panel.activeSelf)
+                continue;
+
+            panel.SetActive(false);
+            hiddenCount++;
+        }
+
+        ActivePanelOrder.Clear();
+        RefreshBlockers();
+        return hiddenCount;
     }
 
     public static void NotifyPanelStateChanged(GameObject panel)
@@ -81,7 +146,14 @@ public static class UIPanelCoordinator
             return;
 
         if (Panels.Contains(panel))
+        {
+            if (panel.activeInHierarchy)
+                BringPanelToTopOfOrder(panel);
+            else
+                ActivePanelOrder.Remove(panel);
+
             RefreshBlockers(panel.activeInHierarchy ? panel : null);
+        }
     }
 
     private static void CleanupDeadReferences()
@@ -94,7 +166,10 @@ public static class UIPanelCoordinator
         }
 
         for (int i = 0; i < deadPanels.Count; i++)
+        {
+            ActivePanelOrder.Remove(deadPanels[i]);
             Panels.Remove(deadPanels[i]);
+        }
 
         var deadParents = new List<Transform>();
         foreach (var pair in BlockersByParent)
@@ -203,5 +278,14 @@ public static class UIPanelCoordinator
 
         if (panel.GetComponent<UIPanelStateNotifier>() == null)
             panel.AddComponent<UIPanelStateNotifier>();
+    }
+
+    private static void BringPanelToTopOfOrder(GameObject panel)
+    {
+        if (panel == null)
+            return;
+
+        ActivePanelOrder.Remove(panel);
+        ActivePanelOrder.Add(panel);
     }
 }

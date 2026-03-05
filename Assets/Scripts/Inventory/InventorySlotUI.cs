@@ -1,141 +1,276 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    private const float DoubleClickThreshold = 0.33f;
+
     [Header("Config")]
-    public int slotIndex; // 这一格在背包里的索引
-    public InventorySO inventoryData; // 引用 SO 方便直接修改数据
-    
+    public int slotIndex;
+    public InventorySO inventoryData;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject itemIconPrefab;
 
+    [Header("Preview")]
+    [SerializeField] private Image previewIconImage;
+    [SerializeField] private float previewAlpha = 0.5f;
+
     public ItemDataSO currentItem;
 
+    private float _lastLeftClickTime = -10f;
+    private bool _isPointerInside;
+
+    private void Update()
+    {
+        if (_isPointerInside)
+            RefreshPreviewIcon();
+    }
 
     public void OnDrop(PointerEventData eventData)
     {
+        HidePreviewIcon();
+
         GameObject draggedObj = eventData.pointerDrag;
-        if (draggedObj == null) return;
+        if (draggedObj == null || inventoryData == null || !IsValidSlot(inventoryData, slotIndex))
+            return;
 
-        // 如果这个格子里已经有东西了，就不允许放下
         ItemUI draggedItem = draggedObj.GetComponent<ItemUI>();
-        if (draggedItem == null || draggedItem.itemData == null) return;
-        
-        // 只有当这个格子是空的时候，才允许放进来
-        // 检查当前格子数据是否为空
-        if (inventoryData.slots[slotIndex].IsEmpty)
+        if (draggedItem == null || draggedItem.itemData == null)
+            return;
+
+        InventorySlotUI sourceSlot = ResolveSourceInventorySlot(draggedObj);
+        if (sourceSlot != null && sourceSlot.inventoryData != null && IsValidSlot(sourceSlot.inventoryData, sourceSlot.slotIndex))
         {
-            // 1. 修改背包数据（这会自动触发 UpdateSlotDisplay，生成新的图标）
-            inventoryData.SetItemAt(slotIndex, draggedItem.itemData);
+            bool sameSlot = sourceSlot.inventoryData == inventoryData && sourceSlot.slotIndex == slotIndex;
+            if (sameSlot)
+                return;
 
-            // 2. 销毁拖拽中的这个临时物体（因为 UpdateDisplay 会生成一个新的）
+            ItemDataSO sourceItem = sourceSlot.inventoryData.slots[sourceSlot.slotIndex].itemData;
+            ItemDataSO targetItem = inventoryData.slots[slotIndex].itemData;
+            if (sourceItem == null)
+                return;
+
+            sourceSlot.inventoryData.SetItemAt(sourceSlot.slotIndex, targetItem);
+            inventoryData.SetItemAt(slotIndex, sourceItem);
             Destroy(draggedObj);
-
-            // 3. 【重要】如果这个物品是从 AssemblySlot 拖出来的，需要清理 AssemblySlot 的逻辑
-            // 这部分通常由 DragHandler 的 OnBeginDrag 处理了，或者我们可以检查来源
-            UIAssemblySlot sourceAssembly = draggedObj.GetComponent<UIDragHandler>()?.originalParent.GetComponent<UIAssemblySlot>();
-            if (sourceAssembly != null)
-            {
-                sourceAssembly.platform.RemovePart(sourceAssembly.acceptableType);
-            }
+            return;
         }
+
+        // Drag from non-inventory source (e.g. assembly): only place into empty inventory slot.
+        if (!inventoryData.slots[slotIndex].IsEmpty)
+            return;
+
+        inventoryData.SetItemAt(slotIndex, draggedItem.itemData);
+        Destroy(draggedObj);
     }
 
-    // 刷新格子的显示
     public void UpdateSlotDisplay(InventorySlot slot, int index)
     {
         slotIndex = index;
 
-        // 1. 检查当前格子里有没有 ItemIcon
         ItemUI currentItemUI = GetComponentInChildren<ItemUI>();
 
-        // 2. 如果数据为空，但有图标 -> 销毁图标
         if (slot.IsEmpty)
         {
-            if (currentItemUI != null) Destroy(currentItemUI.gameObject);
+            if (currentItemUI != null)
+                Destroy(currentItemUI.gameObject);
+
             currentItem = null;
             return;
         }
 
-        // 3. 如果数据不为空
-        if (!slot.IsEmpty)
+        if (currentItemUI == null)
         {
-            // 如果还没有图标，生成一个
-            if (currentItemUI == null)
-            {
-                GameObject obj = Instantiate(itemIconPrefab, transform);
-                currentItemUI = obj.GetComponent<ItemUI>();
-                // 归零坐标
-                obj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-            }
-
-            // 更新图标显示
-            currentItemUI.SetItem(slot.itemData);
-            currentItem = slot.itemData;
+            GameObject obj = Instantiate(itemIconPrefab, transform);
+            currentItemUI = obj.GetComponent<ItemUI>();
+            obj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         }
+
+        currentItemUI.SetItem(slot.itemData);
+        currentItem = slot.itemData;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        _isPointerInside = true;
+
         if (currentItem != null)
-        {
             TooltipManager.Instance.ShowTooltip(currentItem.icon, currentItem.itemName, currentItem.useInfo);
-        }
+
+        RefreshPreviewIcon();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        _isPointerInside = false;
         TooltipManager.Instance.Hide();
+        HidePreviewIcon();
     }
 
-    // 注意：如果物品被拖走或使用掉了，也要记得调用 Hide()
-    public void OnDisable() 
+    public void OnDisable()
     {
-        if(TooltipManager.Instance != null) TooltipManager.Instance.Hide();
+        _isPointerInside = false;
+        HidePreviewIcon();
+
+        if (TooltipManager.Instance != null)
+            TooltipManager.Instance.Hide();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // 检查是否是鼠标左键点击，且格子内有物品
-        if (eventData.button == PointerEventData.InputButton.Left && currentItem != null)
+        if (eventData == null)
+            return;
+
+        if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (currentItem.itemType == ItemType.InteractiveProp
-                && SceneManager.GetActiveScene().name == "HomeScene")
-            {
-                UseSpecialItem();
-                // ActivatePlatform platform = FindObjectsByType<ActivatePlatform>
-            }
+            ClearSlotItem();
+            return;
         }
+
+        if (eventData.button != PointerEventData.InputButton.Left || currentItem == null)
+            return;
+
+        float now = Time.unscaledTime;
+        bool isDoubleClick = now - _lastLeftClickTime <= DoubleClickThreshold;
+        _lastLeftClickTime = now;
+
+        if (isDoubleClick)
+        {
+            TryMoveToFirstEmptySlot();
+            return;
+        }
+
+        if (currentItem.itemType == ItemType.InteractiveProp && SceneManager.GetActiveScene().name == "HomeScene")
+            UseSpecialItem();
     }
 
     private void UseSpecialItem()
     {
-        var item = currentItem;
-        Debug.Log($"使用了特殊物品: {item.itemName}");
+        ItemDataSO item = currentItem;
+        Debug.Log($"Used special item: {item.itemName}");
 
         if (!string.IsNullOrEmpty(item.timelineObjectName))
         {
-            var go = GameObject.Find(item.timelineObjectName);
+            GameObject go = GameObject.Find(item.timelineObjectName);
             if (go != null)
             {
-                var director = go.GetComponent<PlayableDirector>();
+                PlayableDirector director = go.GetComponent<PlayableDirector>();
                 if (director != null)
                     TimelineManager.Instance.Play(director);
                 else
-                    Debug.LogWarning($"[InventorySlotUI] GameObject '{item.timelineObjectName}' 上没有 PlayableDirector");
+                    Debug.LogWarning($"[InventorySlotUI] GameObject '{item.timelineObjectName}' has no PlayableDirector");
             }
             else
             {
-                Debug.LogWarning($"[InventorySlotUI] 未找到名为 '{item.timelineObjectName}' 的 GameObject");
+                Debug.LogWarning($"[InventorySlotUI] Cannot find GameObject '{item.timelineObjectName}'");
             }
         }
 
         inventoryData.RemoveItem(item);
         currentItem = null;
         TooltipManager.Instance?.Hide();
+    }
+
+    private void ClearSlotItem()
+    {
+        if (inventoryData == null || !IsValidSlot(inventoryData, slotIndex))
+            return;
+
+        if (inventoryData.slots[slotIndex].IsEmpty)
+            return;
+
+        inventoryData.SetItemAt(slotIndex, null);
+    }
+
+    private void TryMoveToFirstEmptySlot()
+    {
+        if (inventoryData == null || !IsValidSlot(inventoryData, slotIndex))
+            return;
+
+        ItemDataSO item = inventoryData.slots[slotIndex].itemData;
+        if (item == null)
+            return;
+
+        for (int i = 0; i < inventoryData.slots.Count; i++)
+        {
+            if (i == slotIndex)
+                continue;
+
+            if (!inventoryData.slots[i].IsEmpty)
+                continue;
+
+            inventoryData.SetItemAt(i, item);
+            inventoryData.SetItemAt(slotIndex, null);
+            return;
+        }
+    }
+
+    private void RefreshPreviewIcon()
+    {
+        if (!_isPointerInside || previewIconImage == null)
+        {
+            HidePreviewIcon();
+            return;
+        }
+
+        if (!InventoryDragContext.IsDragging || InventoryDragContext.Icon == null)
+        {
+            HidePreviewIcon();
+            return;
+        }
+
+        if (InventoryDragContext.SourceSlot == this)
+        {
+            HidePreviewIcon();
+            return;
+        }
+
+        previewIconImage.sprite = InventoryDragContext.Icon;
+        Color c = Color.white;
+        c.a = Mathf.Clamp01(previewAlpha);
+        previewIconImage.color = c;
+        previewIconImage.raycastTarget = false;
+        previewIconImage.gameObject.SetActive(true);
+
+        SetSlotIconVisible(false);
+    }
+
+    private void HidePreviewIcon()
+    {
+        if (previewIconImage != null)
+            previewIconImage.gameObject.SetActive(false);
+
+        SetSlotIconVisible(true);
+    }
+
+    private void SetSlotIconVisible(bool visible)
+    {
+        ItemUI itemUI = GetComponentInChildren<ItemUI>();
+        if (itemUI == null || itemUI.iconImage == null)
+            return;
+
+        itemUI.iconImage.enabled = visible;
+    }
+
+    private static bool IsValidSlot(InventorySO data, int index)
+    {
+        return data != null && index >= 0 && index < data.slots.Count;
+    }
+
+    private static InventorySlotUI ResolveSourceInventorySlot(GameObject draggedObj)
+    {
+        UIDragHandler dragHandler = draggedObj.GetComponent<UIDragHandler>();
+        if (dragHandler != null && dragHandler.originalParent != null)
+        {
+            InventorySlotUI byOriginalParent = dragHandler.originalParent.GetComponent<InventorySlotUI>();
+            if (byOriginalParent != null)
+                return byOriginalParent;
+        }
+
+        return draggedObj.GetComponentInParent<InventorySlotUI>();
     }
 }

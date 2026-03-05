@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 3048149909227815888}
   - component: {fileID: 5650568654448169438}
   m_Layer: 3
-  m_Name: StoryZombiePrefab_01
+  m_Name: StoryZombiePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

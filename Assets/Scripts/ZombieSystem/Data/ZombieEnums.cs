@@ -1,11 +1,5 @@
 namespace Zompanion.ZombieSystem
 {
-    public enum ZombieType
-    {
-        Normal = 0,
-        Special = 1
-    }
-
     public enum ZombieCategory
     {
         Unknown = 0,
@@ -14,11 +8,17 @@ namespace Zompanion.ZombieSystem
         Worker = 3
     }
 
-    public enum ZombieBuffType
+    public enum ZombieModifierType
     {
         None = 0,
         BackpackCapacity = 1,
         DiggingLootBonus = 2
+    }
+
+    public enum ZombieModifierApplyMode
+    {
+        OnSpawn = 0,
+        WhileFollowing = 1
     }
 
     public enum ZombieState
@@ -28,4 +28,3 @@ namespace Zompanion.ZombieSystem
         Working = 2
     }
 }
-

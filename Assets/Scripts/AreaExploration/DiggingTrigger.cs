@@ -1,11 +1,11 @@
-using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
 using PixelCrushers.DialogueSystem;
-using System.Collections;
+using UnityEngine;
 
 public class DiggingTrigger : MonoBehaviour, ISaveable
 {
-    [System.Serializable]
+    [Serializable]
     public class DiggingTriggerState
     {
         public bool isDug;
@@ -14,173 +14,197 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
         public bool colliderEnabled;
     }
 
-    [Header("运行时状态 (自动分配)")]
-    // 这个列表存储了该点位被分配到的所有物品
+    [Header("Runtime State")]
     [SerializeField] public bool isCustomizedPoint = false;
     [SerializeField] private List<ItemDataSO> assignedItems = new List<ItemDataSO>();
-    
-    [Header("配置")]
-    [SerializeField] private Sprite dugSprite; // 挖完后的样子
-    
-    private bool isDug = false;
-    private SpriteRenderer spriteRenderer;
-    private Collider2D col; // 引用碰撞体
 
+    [Header("Config")]
+    [SerializeField] private Sprite dugSprite;
 
+    [Header("UI")]
     public Canvas buttonCanvas;
     public GameObject itemDisplayUI;
 
-    private ItemDataSO itemToGive;
-    
+    private bool isDug;
+    private bool isInteractionLocked;
+    private bool waitingForPopupClose;
+
+    private SpriteRenderer spriteRenderer;
+    private Collider2D col;
+
+    private ItemDataSO pendingItem;
+    private InventorySO pendingInventory;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
     }
 
-
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("进入挖掘区域");
-        if (collision != null && collision.CompareTag("Player"))
-        {
+        if (collision == null || !collision.CompareTag("Player"))
+            return;
+
+        if (buttonCanvas != null)
             buttonCanvas.gameObject.SetActive(true);
-            PlayerInteraction.Instance.SetCurrentTrigger(this.gameObject);
-        }
+
+        if (PlayerInteraction.Instance != null)
+            PlayerInteraction.Instance.SetCurrentTrigger(gameObject);
     }
 
-    void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        buttonCanvas.gameObject.SetActive(false);
-        if (collision.CompareTag("Player"))
-        {
+        if (collision == null || !collision.CompareTag("Player"))
+            return;
+
+        if (buttonCanvas != null)
             buttonCanvas.gameObject.SetActive(false);
-            PlayerInteraction.Instance.ClearCurrentTrigger(this.gameObject);
-        }
+
+        if (PlayerInteraction.Instance != null)
+            PlayerInteraction.Instance.ClearCurrentTrigger(gameObject);
     }
 
-    // --- 供管理器调用的方法 ---
-
-    // 1. 初始化/清空内容
     public void SetContent(List<ItemDataSO> items)
     {
-        // if(isCustomizedPoint) 
-        // {
-        //     return;
-        // }
-        
-        assignedItems = new List<ItemDataSO>(items);
+        assignedItems = items != null ? new List<ItemDataSO>(items) : new List<ItemDataSO>();
         isDug = false;
+        isInteractionLocked = false;
+        waitingForPopupClose = false;
+        pendingItem = null;
+        pendingInventory = null;
     }
 
-    // 2. 添加单个物品
     public void AddContent(ItemDataSO item)
     {
         if (assignedItems == null)
-        {
             assignedItems = new List<ItemDataSO>();
-        }
+
         assignedItems.Add(item);
     }
 
-    // --- 玩家交互逻辑 ---
-
-    // 当玩家挖掘时调用此方法
     public void Interact(InventorySO playerInventory)
     {
-        if (isDug) return;
+        if (isDug || isInteractionLocked)
+            return;
 
-        // 如果列表为空，或者里面的物品都是空的
         if (assignedItems == null || assignedItems.Count == 0)
         {
-            Debug.Log("这里只有一些松软的泥土 (空)。");
-            FinishDigging(); // 直接结束
+            FinishDigging();
             return;
         }
 
-        // 如果坑里有东西，取第一个
-        itemToGive = assignedItems[0];
-
-
-        // 尝试加入背包
-        bool success = playerInventory.AddItem(itemToGive);
-        if (success)
+        ItemDataSO dugItem = assignedItems[0];
+        if (dugItem == null)
         {
-            Debug.Log($"挖到了: {itemToGive.itemName}！(剩余物品: {assignedItems.Count - 1})");
+            assignedItems.RemoveAt(0);
+            CompleteInteraction();
+            return;
+        }
 
-            StartCoroutine(DiggingSequence(playerInventory));
+        pendingItem = dugItem;
+        pendingInventory = playerInventory;
+        isInteractionLocked = true;
+        waitingForPopupClose = true;
+
+        ShowItemPopup(dugItem);
+    }
+
+    private void ShowItemPopup(ItemDataSO dugItem)
+    {
+        if (itemDisplayUI != null)
+        {
+            GameObject uiInstance = Instantiate(itemDisplayUI);
+            ItemDisplayUI displayUI = uiInstance != null
+                ? uiInstance.GetComponent<ItemDisplayUI>() ?? uiInstance.GetComponentInChildren<ItemDisplayUI>(true)
+                : null;
+            if (displayUI != null)
+            {
+                displayUI.ShowItem(
+                    dugItem.icon,
+                    dugItem.itemName,
+                    dugItem.description,
+                    HandlePopupClosed);
+                return;
+            }
+
+            Debug.LogWarning("[DiggingTrigger] itemDisplayUI prefab is missing ItemDisplayUI component.");
         }
         else
         {
-            Debug.Log("背包满了！");
+            Debug.LogWarning("[DiggingTrigger] itemDisplayUI is not assigned on this digging trigger.");
         }
+
+        // Fallback: if popup prefab/component missing, proceed immediately.
+        HandlePopupClosed();
     }
 
-    private IEnumerator DiggingSequence(InventorySO playerInventory)
+    private void HandlePopupClosed()
     {
-        yield return new WaitForSeconds(0.7f); 
+        if (!waitingForPopupClose)
+            return;
 
-        // while (PlayerInteraction.Instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime < 0.1f)
-        // {
-        //     yield return null;
-        // }
+        waitingForPopupClose = false;
 
-        // 3. 动画播完了，现在执行原本的 UI 逻辑
-        Debug.Log($"挖掘动画播放完毕，展示物品: {itemToGive.itemName}");
+        ItemDataSO dugItem = pendingItem;
+        InventorySO inventory = pendingInventory;
 
-        // 展示挖到的物品
-        GameObject itemUIPrefab = Instantiate(itemDisplayUI);
-        itemUIPrefab.GetComponent<ItemDisplayUI>().ShowItem(
-            itemToGive.icon, 
-            itemToGive.itemName,
-            itemToGive.description, 
-            () => { CustomizedPoint(); }
-        );
+        pendingItem = null;
+        pendingInventory = null;
 
-        // 只有进背包了，才从坑里移除
-        assignedItems.RemoveAt(0);
-
-        // 可以在这里播放“叮”的一声或者挖掘特效
-
-        // 再次检查：刚才挖完之后，坑空了吗？
-        if (assignedItems.Count == 0)
+        bool success = inventory != null && dugItem != null && inventory.AddItem(dugItem);
+        if (success)
         {
-            FinishDigging();
+            if (assignedItems != null && assignedItems.Count > 0)
+            {
+                if (assignedItems[0] == dugItem)
+                    assignedItems.RemoveAt(0);
+                else
+                    assignedItems.Remove(dugItem);
+            }
+
+            CustomizedPoint(dugItem);
         }
+        else
+        {
+            Debug.Log("[DiggingTrigger] Backpack full or inventory missing. Item stays in digging point.");
+        }
+
+        CompleteInteraction();
     }
 
-    // 辅助方法：结束挖掘（挖空了）
+    private void CompleteInteraction()
+    {
+        isInteractionLocked = false;
+
+        if (assignedItems == null || assignedItems.Count == 0)
+            FinishDigging();
+    }
+
     private void FinishDigging()
     {
         isDug = true;
-        Debug.Log("这个坑彻底挖空了！");
+        isInteractionLocked = false;
+        waitingForPopupClose = false;
 
-        // 切换成“坑”的图片
-        if (dugSprite != null && spriteRenderer != null) 
-        {
+        if (dugSprite != null && spriteRenderer != null)
             spriteRenderer.sprite = dugSprite;
-        }
-        
-        // 关键：禁用碰撞体
-        // 这会自动触发 OnTriggerExit2D，从而让 PlayerInteraction 知道“不能再挖了”
+
         if (col != null)
-        {
-            col.enabled = false; 
-        }
+            col.enabled = false;
 
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
-
-    // ── ISaveable ──
 
     public string CaptureState()
     {
         var names = new List<string>();
         if (assignedItems != null)
         {
-            foreach (var item in assignedItems)
+            foreach (ItemDataSO item in assignedItems)
                 names.Add(item != null ? item.itemName : null);
         }
+
         var state = new DiggingTriggerState
         {
             isDug = isDug,
@@ -193,24 +217,29 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
 
     public void RestoreState(string stateJson)
     {
-        var state = JsonUtility.FromJson<DiggingTriggerState>(stateJson);
+        DiggingTriggerState state = JsonUtility.FromJson<DiggingTriggerState>(stateJson);
+        if (state == null)
+            return;
+
         isDug = state.isDug;
+        isInteractionLocked = false;
+        waitingForPopupClose = false;
+        pendingItem = null;
+        pendingInventory = null;
 
         assignedItems = new List<ItemDataSO>();
         if (state.assignedItemNames != null)
         {
-            foreach (var name in state.assignedItemNames)
+            foreach (string name in state.assignedItemNames)
             {
-                var item = ItemLookup.Get(name);
-                if (item != null) assignedItems.Add(item);
+                ItemDataSO item = ItemLookup.Get(name);
+                if (item != null)
+                    assignedItems.Add(item);
             }
         }
 
-        if (isDug)
-        {
-            if (dugSprite != null && spriteRenderer != null)
-                spriteRenderer.sprite = dugSprite;
-        }
+        if (isDug && dugSprite != null && spriteRenderer != null)
+            spriteRenderer.sprite = dugSprite;
 
         if (col != null)
             col.enabled = state.colliderEnabled;
@@ -218,34 +247,26 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
         gameObject.SetActive(state.isActive);
     }
 
-    public void CustomizedPoint() 
+    public void CustomizedPoint(ItemDataSO dugItem)
     {
-        if(isCustomizedPoint) 
+        if (!isCustomizedPoint || dugItem == null)
+            return;
+
+        switch (dugItem.itemName)
         {
-            switch (itemToGive.itemName) 
-            {
-                case "A Mysterious Book":
-                    DialogueLua.SetVariable("hasBook", true);
-                    Debug.Log("挖到了书，这里应该变状态");
-                    break;
-                case "Dead Man's Arms":
-                    DialogueLua.SetVariable("hasFirstArm", true);
-                    Debug.Log("挖到了胳膊，这里应该变状态");
-                    break;
-            }
+            case "A Mysterious Book":
+                DialogueLua.SetVariable("hasBook", true);
+                break;
+            case "Dead Man's Arms":
+                DialogueLua.SetVariable("hasFirstArm", true);
+                break;
+        }
 
-            DialogueSystemTrigger[] allTriggers = GetComponents<DialogueSystemTrigger>();
-
-            foreach (DialogueSystemTrigger trigger in allTriggers)
-            {
-                if (trigger != null && trigger.enabled)
-                {
-                    // 向这个 Trigger 发送 "OnUse" 消息，激活 DS 的 On Use 触发器
-                    // currentDialogueTrigger.gameObject.SendMessage("OnUse", this.transform, SendMessageOptions.DontRequireReceiver);
-                    trigger.OnUse();
-                }
-            }
-            
+        DialogueSystemTrigger[] allTriggers = GetComponents<DialogueSystemTrigger>();
+        foreach (DialogueSystemTrigger trigger in allTriggers)
+        {
+            if (trigger != null && trigger.enabled)
+                trigger.OnUse();
         }
     }
 }

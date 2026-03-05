@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
     private void EnsureHudExists()
     {
         EnsureHudInstance(mainHudPrefab, ref _mainHudInstance);
+        TryRegisterDialogueHiddenRoot(_mainHudInstance);
 
         if (runtimeHudPrefabs == null)
             return;
@@ -72,11 +73,15 @@ public class UIManager : MonoBehaviour
                 continue;
 
             if (_runtimeHudInstances.TryGetValue(prefab, out GameObject existing) && existing != null)
+            {
+                TryRegisterDialogueHiddenRoot(existing);
                 continue;
+            }
 
             GameObject instance = Instantiate(prefab);
             DontDestroyOnLoad(instance);
             _runtimeHudInstances[prefab] = instance;
+            TryRegisterDialogueHiddenRoot(instance);
         }
     }
 
@@ -99,5 +104,26 @@ public class UIManager : MonoBehaviour
             if (pair.Value != null)
                 pair.Value.SetActive(active);
         }
+    }
+
+    private static void TryRegisterDialogueHiddenRoot(GameObject root)
+    {
+        if (root == null)
+            return;
+
+        DialogueSystemUIAdapter adapter = FindDialogueUIAdapter();
+        if (adapter == null)
+            return;
+
+        adapter.RegisterRuntimeRootToHide(root);
+    }
+
+    private static DialogueSystemUIAdapter FindDialogueUIAdapter()
+    {
+        DialogueSystemUIAdapter[] adapters = FindObjectsByType<DialogueSystemUIAdapter>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None);
+
+        return adapters != null && adapters.Length > 0 ? adapters[0] : null;
     }
 }

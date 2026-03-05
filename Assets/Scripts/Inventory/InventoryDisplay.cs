@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Code.Scripts;
 using UnityEngine;
 
 public class InventoryDisplay : MonoBehaviour
@@ -7,68 +8,144 @@ public class InventoryDisplay : MonoBehaviour
     [SerializeField] private InventorySO inventoryData;
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private Transform slotsContainer;
+    [SerializeField] private GameObject panelRoot;
+    [SerializeField] private bool usePanelCoordinator;
 
-    private List<InventorySlotUI> slotUIList = new List<InventorySlotUI>();
+    private readonly List<InventorySlotUI> slotUIList = new List<InventorySlotUI>();
+
+    public bool IsVisible
+    {
+        get
+        {
+            GameObject panel = GetPanelRoot();
+            return panel != null && panel.activeSelf;
+        }
+    }
+
+    private void Awake()
+    {
+        ResolveInventoryReference();
+
+        GameObject panel = GetPanelRoot();
+        if (usePanelCoordinator && panel != null)
+            UIPanelCoordinator.Register(panel);
+    }
 
     private void Start()
     {
-        if (inventoryData.clearOnStart)
+        ResolveInventoryReference();
+        if (inventoryData == null)
         {
-            inventoryData.ClearAll();
+            Debug.LogWarning("[InventoryDisplay] Inventory reference is missing.");
+            return;
         }
-        
-        // 1. 订阅事件：当数据变化时，自动刷新 UI
-        inventoryData.OnInventoryUpdated += UpdateDisplay;
 
-        // 2. 初始化显示
+        inventoryData.OnInventoryUpdated += UpdateDisplay;
         InitializeInventoryUI();
     }
 
     private void OnDestroy()
     {
-        // 养成好习惯：对象销毁时取消订阅，防止内存泄漏
-        inventoryData.OnInventoryUpdated -= UpdateDisplay;
+        if (inventoryData != null)
+            inventoryData.OnInventoryUpdated -= UpdateDisplay;
     }
 
-    // 初始化：根据背包容量生成对应数量的格子
     private void InitializeInventoryUI()
     {
-        // 清理现有的测试子物体（如果有）
-        foreach (Transform child in slotsContainer)
-        {
-            Destroy(child.gameObject);
-        }
-        slotUIList.Clear();
+        if (inventoryData == null || slotsContainer == null)
+            return;
 
-        // 确保数据已初始化
         inventoryData.Initialize();
-
-        // 根据 MaxCapacity (10个) 生成格子
-        for (int i = 0; i < inventoryData.MaxCapacity; i++)
-        {
-            GameObject obj = Instantiate(slotPrefab, slotsContainer);
-            InventorySlotUI slotUI = obj.GetComponent<InventorySlotUI>();
-            
-            if (slotUI != null)
-            {
-                slotUIList.Add(slotUI);
-            }
-        }
-
-        // 第一次强制刷新
+        RebuildSlots(inventoryData.slots.Count);
         UpdateDisplay();
     }
 
-    // 刷新：遍历所有 UI 格子，让它们去读最新的数据
+    private void RebuildSlots(int count)
+    {
+        if (slotsContainer == null || slotPrefab == null)
+        {
+            Debug.LogWarning("[InventoryDisplay] Slot prefab or slots container is missing.");
+            return;
+        }
+
+        for (int i = slotsContainer.childCount - 1; i >= 0; i--)
+            Destroy(slotsContainer.GetChild(i).gameObject);
+
+        slotUIList.Clear();
+
+        for (int i = 0; i < count; i++)
+        {
+            GameObject obj = Instantiate(slotPrefab, slotsContainer);
+            InventorySlotUI slotUI = obj.GetComponent<InventorySlotUI>();
+            if (slotUI == null)
+                continue;
+
+            slotUI.inventoryData = inventoryData;
+            slotUI.slotIndex = i;
+            slotUIList.Add(slotUI);
+        }
+    }
+
     public void UpdateDisplay()
     {
-        for (int i = 0; i < slotUIList.Count; i++)
+        if (inventoryData == null)
+            return;
+
+        if (slotUIList.Count != inventoryData.slots.Count)
+            RebuildSlots(inventoryData.slots.Count);
+
+        int count = Mathf.Min(slotUIList.Count, inventoryData.slots.Count);
+        for (int i = 0; i < count; i++)
+            slotUIList[i].UpdateSlotDisplay(inventoryData.slots[i], i);
+    }
+
+    public void ShowInventory()
+    {
+        SetInventoryVisible(true);
+    }
+
+    public void HideInventory()
+    {
+        SetInventoryVisible(false);
+    }
+
+    public void ToggleInventory()
+    {
+        SetInventoryVisible(!IsVisible);
+    }
+
+    public void SetInventoryVisible(bool visible)
+    {
+        GameObject panel = GetPanelRoot();
+        if (panel == null)
+            return;
+
+        if (usePanelCoordinator)
         {
-            // 保护机制：防止 UI 格子数量和数据不匹配
-            if (i < inventoryData.slots.Count)
-            {
-                slotUIList[i].UpdateSlotDisplay(inventoryData.slots[i], i);
-            }
+            if (visible)
+                UIPanelCoordinator.ShowExclusive(panel);
+            else
+                UIPanelCoordinator.Hide(panel);
+
+            return;
         }
+
+        panel.SetActive(visible);
+    }
+
+    private GameObject GetPanelRoot()
+    {
+        if (panelRoot == null)
+            panelRoot = gameObject;
+
+        return panelRoot;
+    }
+
+    private void ResolveInventoryReference()
+    {
+        if (GameManager.Instance == null || GameManager.Instance.PlayerInventory == null)
+            return;
+
+        inventoryData = GameManager.Instance.PlayerInventory;
     }
 }
