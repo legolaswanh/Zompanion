@@ -18,8 +18,10 @@ public class SceneTransitionManager : MonoBehaviour
     [Header("过渡时长")]
     [SerializeField] [Min(0f)] private float fadeInDuration = 0.3f;
     [SerializeField] [Min(0f)] private float fadeOutDuration = 0.4f;
-    [Tooltip("过渡界面最少显示时间，避免一闪而过")]
-    [SerializeField] [Min(0f)] private float minimumDisplayTime = 0.5f;
+    [Tooltip("进度条从 0 到 1 的动画时长，按时间均匀推进（不跟随实际加载进度）")]
+    [SerializeField] [Min(0.1f)] private float progressAnimationDuration = 1.5f;
+    [Tooltip("过渡界面最少显示时间，避免一闪而过；应 ≥ progressAnimationDuration 以保证进度条完整播完")]
+    [SerializeField] [Min(0f)] private float minimumDisplayTime = 1.5f;
     [Tooltip("场景激活后继续显示过渡 UI 的时长（应 ≥ 黑幕淡出时间），避免先关 UI 再出现空白")]
     [SerializeField] [Min(0f)] private float postLoadDisplayTime = 1f;
 
@@ -54,6 +56,10 @@ public class SceneTransitionManager : MonoBehaviour
         if (loadingPanelPrefab != null)
         {
             _loadingPanel = Instantiate(loadingPanelPrefab, transform);
+            // 确保加载面板在 TransitionFadeManager 黑幕(9999)之上，避免淡入时被遮挡
+            var canvas = _loadingPanel.GetComponentInChildren<Canvas>(true);
+            if (canvas != null)
+                canvas.sortingOrder = 10000;
             var images = _loadingPanel.GetComponentsInChildren<Image>(true);
             foreach (var img in images)
             {
@@ -142,6 +148,25 @@ public class SceneTransitionManager : MonoBehaviour
         return root;
     }
 
+    /// <summary>显示过渡界面时，强制播放面板内所有 Legacy Animation 并重置 Animator，确保行走等动画生效。</summary>
+    private void PlayLoadingPanelAnimations()
+    {
+        if (_loadingPanel == null) return;
+        foreach (var anim in _loadingPanel.GetComponentsInChildren<Animation>(true))
+        {
+            if (anim.clip != null)
+                anim.Play(anim.clip.name, PlayMode.StopAll);
+            else
+                anim.Play(PlayMode.StopAll);
+        }
+        foreach (var animator in _loadingPanel.GetComponentsInChildren<Animator>(true))
+        {
+            animator.updateMode = AnimatorUpdateMode.UnscaledTime; // 不受 Time.timeScale 影响，加载时持续播放
+            animator.Rebind();
+            animator.Update(0f);
+        }
+    }
+
     /// <summary>带过渡 UI 和进度条的加载；从 OpeningStory 进入游戏起，所有场景切换建议走此接口。</summary>
     public void LoadSceneWithTransition(string sceneName)
     {
@@ -163,7 +188,11 @@ public class SceneTransitionManager : MonoBehaviour
         _isTransitioning = true;
         EnsureLoadingPanel();
         if (_progressBarFill != null) _progressBarFill.fillAmount = 0f;
-        if (_loadingPanel != null) _loadingPanel.SetActive(true);
+        if (_loadingPanel != null)
+        {
+            _loadingPanel.SetActive(true);
+            PlayLoadingPanelAnimations();
+        }
         if (_panelCanvasGroup != null) _panelCanvasGroup.alpha = 1f;
 
         if (TransitionFadeManager.Instance != null && fadeInDuration > 0f)
@@ -186,17 +215,24 @@ public class SceneTransitionManager : MonoBehaviour
         }
         asyncOp.allowSceneActivation = false;
 
-        while (asyncOp.progress < 0.9f)
+        // 进度按 progressAnimationDuration 均匀推进，不跟随实际加载速度
+        // 必须等进度条完整播完（elapsed >= progressAnimationDuration），避免后半段瞬间跳变
+        while (true)
         {
+            var elapsed = Time.unscaledTime - startTime;
+            float displayProgress = Mathf.Clamp01(elapsed / progressAnimationDuration);
             if (_progressBarFill != null)
-                _progressBarFill.fillAmount = Mathf.Clamp01(asyncOp.progress / 0.9f);
+                _progressBarFill.fillAmount = displayProgress;
+
+            bool loadDone = asyncOp.progress >= 0.9f;
+            bool progressComplete = elapsed >= progressAnimationDuration;
+            bool minTimeReached = elapsed >= minimumDisplayTime;
+            if (loadDone && minTimeReached && progressComplete)
+                break;
+
             yield return null;
         }
         if (_progressBarFill != null) _progressBarFill.fillAmount = 1f;
-
-        var elapsed = Time.unscaledTime - startTime;
-        if (elapsed < minimumDisplayTime)
-            yield return new WaitForSecondsRealtime(minimumDisplayTime - elapsed);
 
         // 必须在 allowSceneActivation 之前注册「下次场景加载时淡出」，否则 sceneLoaded 会先于本帧执行，淡出永远不会触发导致黑屏
         if (TransitionFadeManager.Instance != null)
@@ -212,6 +248,8 @@ public class SceneTransitionManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(postLoadDisplayTime);
 
         if (_loadingPanel != null) _loadingPanel.SetActive(false);
+        if (TransitionFadeManager.Instance != null)
+            TransitionFadeManager.Instance.SetClear(); // 显式清除黑幕，避免某些场景残留黑屏遮挡
         _isTransitioning = false;
     }
 }
