@@ -31,7 +31,38 @@ MonoBehaviour:
   storySegments:
   - storyId: story_zombie_official_seg1
     requiredItem: {fileID: 11400000, guid: dc4dd4bb1dc85eb448c9376aca1f71e2, type: 2}
+    storySummary: "The moment the book was opened, memories unfolded like topographical
+      maps: he had once been a surveyor dispatched by the imperial court to chart
+      the land, traversing the four seas with his compass, measuring rods, and writing
+      implements in tow. He had journeyed through mountain passes, salt marshes,
+      desolate plains, and frontier outposts. Where others saw mere duty, he found
+      an opportunity to \u2018know the world\u2019\u2014charting watercourses, the
+      rise and fall of towns, strategic passes, while also recording local customs
+      and the gaunt faces of famine years. This Travel Chronicle was his tribute
+      to the court as the \u2018form of the realm,\u2019 yet equally his own testament
+      to having existed, witnessed, and recorded."
   - storyId: story_zombie_official_seg2
     requiredItem: {fileID: 11400000, guid: 89a56ffcc89f1174e91e65140ca29d00, type: 2}
+    storySummary: "That sugar-coated hawthorn had long since gone rancid and hardened,
+      its red hue dulled, like a string of frozen sweetness from days gone by. Its
+      appearance finally brought the other half of the story to light: he was perpetually
+      away, his return uncertain. Each time he passed through the market, he would
+      buy a string of sugar-coated hawthorn, thinking to bring it home to coax a
+      smile from the children, and to tell his wife, \u2018I'm back.\u2019 Yet the
+      surveyor's path was perpetually diverted, hurried, severed by the ravages of
+      war\u2014the candied hawthorn would either dissolve in the rain or shatter
+      beside his saddle. More often than not, he simply failed to return home. In
+      the final days of the world, he remained stranded in another province, clutching
+      only this string of \u2018undelivered sweetness.\u2019 As he drew his last
+      breath, he gripped it tightly, as though grasping at an apology that had arrived
+      far too late."
   dialogueConversationTitle: ZombieOfficial
-  shortDescription: An Official Zombie
+  shortDescription: "Near the ruins of the post road, people have seen a zombie clad
+    in official attire, its cuffs worn white, a broken surveyor's case hanging from
+    its waist. Unlike other walking corpses that merely lunge and bite, this one
+    mostly paces back and forth at the crossroads, as if confirming its direction
+    or counting an invisible \u201Cmileage\u201D. It stares blankly at the ground,
+    fingers repeatedly gesturing, as though measuring a road that no longer exists.
+    If you draw near, you might hear indistinct words form in its throat: mountains
+    and rivers, post stations, river crossings, boundary markers... all names from
+    a bygone world."

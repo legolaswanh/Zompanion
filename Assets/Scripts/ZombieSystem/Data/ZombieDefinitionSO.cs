@@ -12,6 +12,10 @@ public class ZombieStorySegmentConfig
 
     [Tooltip("提交此物品解锁该段剧情")]
     public ItemDataSO requiredItem;
+
+    [Tooltip("图鉴中展示的剧情摘要，解锁后显示在头像和名字下方")]
+    [TextArea(2, 6)]
+    public string storySummary;
 }
 
 [CreateAssetMenu(fileName = "ZombieDefinition", menuName = "Zombie/Zombie Definition")]

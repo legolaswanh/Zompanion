@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -68,12 +69,44 @@ public class ZombieEntryView : MonoBehaviour, IPointerClickHandler, IBeginDragHa
             iconImage.color = icon != null ? (unlocked ? Color.white : Color.black) : Color.clear;
         }
 
+        StopAllCoroutines();
+
         if (selectButton != null)
         {
             selectButton.onClick.RemoveAllListeners();
             selectButton.interactable = _isInteractable;
             selectButton.onClick.AddListener(() => _onSelectDefinition?.Invoke(_definitionId));
         }
+    }
+
+    /// <summary>
+    /// 播放头像从黑变彩的解锁动画（适用于刚组装解锁的僵尸）
+    /// </summary>
+    public void PlayUnlockAnimation(float duration = 0.5f)
+    {
+        if (iconImage == null || iconImage.sprite == null)
+            return;
+
+        StopAllCoroutines();
+        StartCoroutine(UnlockAnimationRoutine(duration));
+    }
+
+    private IEnumerator UnlockAnimationRoutine(float duration)
+    {
+        if (iconImage == null)
+            yield break;
+
+        iconImage.color = Color.black;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            t = t * t; // ease in
+            iconImage.color = Color.Lerp(Color.black, Color.white, t);
+            yield return null;
+        }
+        iconImage.color = Color.white;
     }
 
     public void OnPointerClick(PointerEventData eventData)

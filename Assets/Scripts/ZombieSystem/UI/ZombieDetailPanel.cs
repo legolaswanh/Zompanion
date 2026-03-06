@@ -17,6 +17,15 @@ public class ZombieDetailPanel : MonoBehaviour
     [FormerlySerializedAs("buffText")]
     [SerializeField] private TMP_Text modifierText;
     [SerializeField] private TMP_Text storyText;
+    [Header("Story 分栏（对应 UI 中的 Story_bg / Story_01 / Story_02）")]
+    [Tooltip("背景故事，绑定 shortDescription")]
+    [SerializeField] private TMP_Text storyBgText;
+    [Tooltip("第一段剧情，绑定 segment[0].storySummary")]
+    [SerializeField] private TMP_Text story01Text;
+    [Tooltip("第二段剧情，绑定 segment[1].storySummary")]
+    [SerializeField] private TMP_Text story02Text;
+    [Tooltip("Story_bg/Story_01/Story_02 的父节点，用于强制刷新布局。若为空则从 storyBgText 取 parent")]
+    [SerializeField] private RectTransform storyContentRoot;
     [FormerlySerializedAs("portraitImage")]
     [SerializeField] private Image detailPortraitImage;
 
@@ -104,8 +113,30 @@ public class ZombieDetailPanel : MonoBehaviour
                 ? $"Modifier: {definition.ModifierType} {definition.ModifierApplyMode} ({definition.ModifierValue:0.##})"
                 : "Modifier: -";
 
+        string statusText = BuildStoryStatusText(definition, unlocked, storyUnlocked, zombieManager);
+
+        if (storyBgText != null)
+        {
+            string bg = unlocked ? (definition.ShortDescription ?? "") : "";
+            storyBgText.text = bg;
+            storyBgText.gameObject.SetActive(!string.IsNullOrEmpty(bg));
+        }
+
+        if (story01Text != null || story02Text != null)
+        {
+            BindSegmentText(story01Text, definition, 0, unlocked, zombieManager);
+            BindSegmentText(story02Text, definition, 1, unlocked, zombieManager);
+        }
+
+        RefreshStoryLayout();
+
         if (storyText != null)
-            storyText.text = BuildStoryStatusText(definition, unlocked, storyUnlocked, zombieManager);
+        {
+            string contentText = BuildUnlockedStoryContent(definition, unlocked, zombieManager);
+            storyText.text = string.IsNullOrEmpty(contentText)
+                ? statusText
+                : statusText + "\n\n" + contentText;
+        }
 
         if (detailPortraitImage != null)
         {
@@ -141,6 +172,92 @@ public class ZombieDetailPanel : MonoBehaviour
         }
 
         return storyUnlocked ? "Story: Unlocked" : "Story: Locked";
+    }
+
+    private static void BindSegmentText(TMP_Text textField, ZombieDefinitionSO definition, int segmentIndex, bool unlocked, ZombieManager zombieManager)
+    {
+        if (textField == null)
+            return;
+
+        if (!unlocked || definition == null || zombieManager == null)
+        {
+            textField.text = "";
+            textField.gameObject.SetActive(false);
+            return;
+        }
+
+        IReadOnlyList<ZombieStorySegmentConfig> segments = definition.StorySegments;
+        if (segments == null || segmentIndex >= segments.Count)
+        {
+            textField.text = "";
+            textField.gameObject.SetActive(false);
+            return;
+        }
+
+        ZombieStorySegmentConfig seg = segments[segmentIndex];
+        if (seg == null || string.IsNullOrWhiteSpace(seg.storyId))
+        {
+            textField.text = "";
+            textField.gameObject.SetActive(false);
+            return;
+        }
+
+        if (!zombieManager.IsStoryUnlocked(seg.storyId))
+        {
+            textField.text = "";
+            textField.gameObject.SetActive(false);
+            return;
+        }
+
+        string summary = seg.storySummary ?? "";
+        textField.text = summary;
+        textField.gameObject.SetActive(!string.IsNullOrEmpty(summary));
+    }
+
+    private void RefreshStoryLayout()
+    {
+        RectTransform root = storyContentRoot;
+        if (root == null && storyBgText != null)
+            root = storyBgText.rectTransform.parent as RectTransform;
+        if (root == null && story01Text != null)
+            root = story01Text.rectTransform.parent as RectTransform;
+        if (root == null)
+            return;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(root);
+    }
+
+    private static string BuildUnlockedStoryContent(ZombieDefinitionSO definition, bool unlocked, ZombieManager zombieManager)
+    {
+        if (!unlocked || definition == null || zombieManager == null)
+            return "";
+
+        var sb = new StringBuilder();
+
+        // 背景故事（shortDescription）
+        if (!string.IsNullOrWhiteSpace(definition.ShortDescription))
+            sb.Append(definition.ShortDescription);
+
+        // 已解锁剧情段落摘要
+        IReadOnlyList<ZombieStorySegmentConfig> segments = definition.StorySegments;
+        if (segments != null && segments.Count > 0)
+        {
+            for (int i = 0; i < segments.Count; i++)
+            {
+                ZombieStorySegmentConfig seg = segments[i];
+                if (seg == null || string.IsNullOrWhiteSpace(seg.storyId))
+                    continue;
+                if (!zombieManager.IsStoryUnlocked(seg.storyId))
+                    continue;
+                if (!string.IsNullOrWhiteSpace(seg.storySummary))
+                {
+                    if (sb.Length > 0)
+                        sb.Append("\n\n");
+                    sb.Append(seg.storySummary);
+                }
+            }
+        }
+        return sb.ToString();
     }
 
     private static Sprite GetBlackFallbackSprite()

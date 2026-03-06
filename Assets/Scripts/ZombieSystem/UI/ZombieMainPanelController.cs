@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class ZombieMainPanelController : MonoBehaviour
 {
+    public static ZombieMainPanelController Instance { get; private set; }
+
     public enum ZombiePage
     {
         Codex = 0,
@@ -12,6 +14,7 @@ public class ZombieMainPanelController : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private GameObject codexPage;
+    [SerializeField] private ZombieCodexPanelController codexPanelController;
     [SerializeField] private GameObject controlPage;
     [SerializeField] private bool pauseGameWhenMainPanelOpen = true;
 
@@ -34,8 +37,17 @@ public class ZombieMainPanelController : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            return;
+        }
+        Instance = this;
+
         if (mainPanel == null)
             mainPanel = gameObject;
+
+        if (codexPanelController == null && codexPage != null)
+            codexPanelController = codexPage.GetComponent<ZombieCodexPanelController>();
 
         if (mainPanel != null)
         {
@@ -50,7 +62,23 @@ public class ZombieMainPanelController : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (Instance == this)
+            Instance = null;
         BindButtons(false);
+    }
+
+    /// <summary>
+    /// 打开 Zombie 面板并聚焦到刚组装的新僵尸，播放头像解锁动画。
+    /// 右侧显示头像、名字（已有）和背景故事。
+    /// </summary>
+    public void OpenForNewZombie(string definitionId)
+    {
+        if (string.IsNullOrWhiteSpace(definitionId))
+            return;
+
+        OpenToPage(ZombiePage.Codex);
+        if (codexPanelController != null)
+            codexPanelController.SelectAndShowNewZombie(definitionId);
     }
 
     public void OpenToCodex()

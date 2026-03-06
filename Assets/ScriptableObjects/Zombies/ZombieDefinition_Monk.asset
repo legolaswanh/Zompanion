@@ -31,7 +31,34 @@ MonoBehaviour:
   storySegments:
   - storyId: story_zombie_monk_seg1
     requiredItem: {fileID: 11400000, guid: 994ff2491387a4344ba6b17f3f826e0e, type: 2}
+    storySummary: "The staff was less a weapon than a battered door bolt, its copper
+      ring worn dull yet still warm to the touch. When it returned to his hand, the
+      rotund zombie monk seemed pulled upright by an old vow\u2014still shuffling,
+      but no longer aimless, his movements set with purpose. Memories flickered:
+      in the first days of the apocalypse, refugees crushed against the temple gates,
+      supplies ran thin, and the doors began to fail. He cursed, \u201CDon\u2019t
+      break my threshold,\u201D and braced the staff across the entrance, driving
+      back rioters and infected alike, even hauling water, grain, and wounded like
+      a carrying pole. Asked why he held the line, he only said, \u201CMy vows are
+      imperfect\u2014but this threshold, I keep pure.\u201D"
   - storyId: story_zombie_monk_seg2
     requiredItem: {fileID: 11400000, guid: 5db1e7d6b2c9e3a40a249be3055aec67, type: 2}
+    storySummary: "When the prayer beads returned to the corpulent monk-zombie\u2019s
+      palm, he stopped at once, a low murmur\u2014almost a sigh\u2014slipping from
+      his throat. His past came into focus: before the apocalypse he was a gluttonous,
+      hard-drinking monk who joked and haggled, yet each night he sat alone before
+      the Buddha, turning the beads to guide souls \u201Cleft without rest\u201D\u2014plague-dead,
+      famine-struck, disaster-taken, strangers with no one to mourn them. After the
+      world fell, he kept chanting for the infected, beads biting into his wrist
+      as he cursed his fate and tried to send them onward. When infection finally
+      claimed him, he attempted the same mercy for himself\u2014but the beads could
+      not let him go."
   dialogueConversationTitle: ZombieMonk
-  shortDescription: A Fat Monk Zombie
+  shortDescription: "After the apocalypse, a strange legend spread through the ruins:
+    a monk as round as a small hill, swaying as he walked, chanting sutras with the
+    stink of alcohol and dried meat at his waist. Some called him a fraud who once
+    lived off rituals and offerings; others swore he had saved people, though few
+    wanted to admit a vow-breaking monk could be compassionate. Now he was no longer
+    human\u2014still smiling faintly, eyes hollow as a dried well\u2014and instead
+    of hunting the living, he only wandered and reached for the empty space on his
+    chest, as if something precious was missing."

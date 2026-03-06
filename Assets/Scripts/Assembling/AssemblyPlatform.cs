@@ -202,6 +202,17 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
         Debug.Log($"[AssemblyPlatform] Assemble success, zombie ready: {recipe.resultDefinition.DefinitionId} (instanceId: {data.instanceId}).");
         _pendingRecipe = null;
         ClearPlatform();
+
+        OpenZombiePanelForNewZombie(recipe.resultDefinition.DefinitionId);
+    }
+
+    private void OpenZombiePanelForNewZombie(string definitionId)
+    {
+        if (string.IsNullOrWhiteSpace(definitionId))
+            return;
+
+        if (ZombieMainPanelController.Instance != null)
+            ZombieMainPanelController.Instance.OpenForNewZombie(definitionId);
     }
 
     public void ClearPlatform()
