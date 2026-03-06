@@ -1,9 +1,33 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ZombieMainPanelController : MonoBehaviour
 {
     public static ZombieMainPanelController Instance { get; private set; }
+
+    /// <summary>
+    /// 获取可用的控制器。若 Instance 为空则尝试在场景中查找；若仍找不到则请求 UIManager 创建 HUD 后再查一次。
+    /// </summary>
+    public static ZombieMainPanelController GetOrFind()
+    {
+        if (Instance != null)
+            return Instance;
+        var found = FindObjectOfType<ZombieMainPanelController>(true);
+        if (found != null)
+        {
+            Instance = found;
+            return found;
+        }
+        UIManager.EnsureMainHudExists();
+        found = FindObjectOfType<ZombieMainPanelController>(true);
+        if (found != null)
+        {
+            Instance = found;
+            return found;
+        }
+        return null;
+    }
 
     public enum ZombiePage
     {
@@ -76,9 +100,38 @@ public class ZombieMainPanelController : MonoBehaviour
         if (string.IsNullOrWhiteSpace(definitionId))
             return;
 
+        if (codexPanelController == null && codexPage != null)
+            codexPanelController = codexPage.GetComponent<ZombieCodexPanelController>();
+
         OpenToPage(ZombiePage.Codex);
         if (codexPanelController != null)
-            codexPanelController.SelectAndShowNewZombie(definitionId);
+        {
+            StartCoroutine(SelectNewZombieNextFrame(definitionId, goToStoryPage: false));
+        }
+    }
+
+    /// <summary>
+    /// 打开僵尸面板并显示指定僵尸的剧情页（用于提交道具解锁 story 后）。
+    /// </summary>
+    public void OpenForNewStory(string definitionId)
+    {
+        if (string.IsNullOrWhiteSpace(definitionId))
+            return;
+
+        OpenToPage(ZombiePage.Codex);
+        if (codexPanelController != null)
+        {
+            StartCoroutine(SelectNewZombieNextFrame(definitionId, goToStoryPage: true));
+        }
+    }
+
+    private IEnumerator SelectNewZombieNextFrame(string definitionId, bool goToStoryPage)
+    {
+        yield return null;
+        if (codexPanelController != null)
+        {
+            codexPanelController.SelectAndShowNewZombie(definitionId, goToStoryPage);
+        }
     }
 
     public void OpenToCodex()
@@ -96,7 +149,21 @@ public class ZombieMainPanelController : MonoBehaviour
         _currentPage = page;
         ApplyPage(_currentPage, instant: false);
         if (mainPanel != null)
+        {
+            EnsurePanelCanShow();
             UIPanelCoordinator.ShowExclusive(mainPanel);
+        }
+    }
+
+    /// <summary>
+    /// 确保面板能显示：解除显示锁定，激活父级 Canvas（对话期间可能被隐藏）。
+    /// </summary>
+    private void EnsurePanelCanShow()
+    {
+        UIPanelCoordinator.SetDisplayLocked(false);
+        Transform root = mainPanel.transform.root;
+        if (root != null && root.gameObject != mainPanel && !root.gameObject.activeSelf)
+            root.gameObject.SetActive(true);
     }
 
     public void SwitchToCodex()

@@ -94,6 +94,27 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(instance);
     }
 
+    /// <summary>
+    /// 强制确保主 HUD 已创建。当需要打开僵尸面板但控制器未找到时调用。
+    /// </summary>
+    public static void EnsureMainHudExists()
+    {
+        var uiManager = FindObjectOfType<UIManager>(true);
+        if (uiManager == null)
+            return;
+        uiManager.EnsureHudExistsInternal();
+    }
+
+    private void EnsureHudExistsInternal()
+    {
+        EnsureHudInstance(mainHudPrefab, ref _mainHudInstance);
+        if (_mainHudInstance != null)
+        {
+            TryRegisterDialogueHiddenRoot(_mainHudInstance);
+            _mainHudInstance.SetActive(true);
+        }
+    }
+
     private void SetHudActive(bool active)
     {
         if (_mainHudInstance != null)

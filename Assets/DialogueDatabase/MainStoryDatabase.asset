@@ -2045,7 +2045,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Sequence
-        value: ZombieGiveItem(zombie_monk, A Zen staff)
+        value: ZombieGiveItem(zombie_monk, Zen staff)
         type: 0
         typeString: 
       conversationID: 7
@@ -2056,8 +2056,8 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
-      conditionsString: HasItemForZombie(Variable["CurrentZombieDefinitionId"], "A
-        Zen staff")
+      conditionsString: HasItemForZombie(Variable["CurrentZombieDefinitionId"], "Zen
+        staff")
       userScript: 
       onExecute:
         m_PersistentCalls:
@@ -2095,7 +2095,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Sequence
-        value: ZombieGiveItem(zombie_monk, A string of prayer beads)
+        value: ZombieGiveItem(zombie_monk, Prayer beads)
         type: 0
         typeString: 
       conversationID: 7
@@ -2106,8 +2106,8 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
-      conditionsString: HasItemForZombie(Variable["CurrentZombieDefinitionId"], "A
-        string of prayer beads")
+      conditionsString: HasItemForZombie(Variable["CurrentZombieDefinitionId"], "Prayer
+        beads")
       userScript: 
       onExecute:
         m_PersistentCalls:
@@ -2292,7 +2292,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
-        value: Roar
+        value: What... do... you... want...
         type: 0
         typeString: 
       - title: Dialogue Text
@@ -2367,7 +2367,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Sequence
-        value: ZombieGiveItem(zombie_official, A booklet)
+        value: ZombieGiveItem(zombie_official, Booklet)
         type: 0
         typeString: 
       conversationID: 8
@@ -2378,8 +2378,7 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
-      conditionsString: HasItemForZombie(Variable["CurrentZombieDefinitionId"], "A
-        booklet")
+      conditionsString: HasItemForZombie(Variable["CurrentZombieDefinitionId"], "Booklet")
       userScript: 
       onExecute:
         m_PersistentCalls:
@@ -2466,7 +2465,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Sequence
-        value: ZombieGiveItem(zombie_official, A string of candied hawthorn berries)
+        value: ZombieGiveItem(zombie_official, Candied hawthorn berries)
         type: 0
         typeString: 
       conversationID: 8
@@ -2477,8 +2476,8 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
-      conditionsString: HasItemForZombie(Variable["CurrentZombieDefinitionId"], "A
-        string of candied hawthorn berries")
+      conditionsString: HasItemForZombie(Variable["CurrentZombieDefinitionId"], "Candied
+        hawthorn berries")
       userScript: 
       onExecute:
         m_PersistentCalls:

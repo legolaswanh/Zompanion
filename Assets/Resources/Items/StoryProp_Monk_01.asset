@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
   m_Name: StoryProp_Monk_01
   m_EditorClassIdentifier: 
-  itemName: A Zen staff
+  itemName: Zen staff
   description: A Zen staff stained with dried blood.
   useInfo: Maybe it belongs to the monk
   icon: {fileID: -7736771966516219082, guid: f857cad5de54516469c8897d1708b319, type: 3}

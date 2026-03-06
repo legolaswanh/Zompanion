@@ -59,7 +59,7 @@ public class ZombieDefinitionSO : ScriptableObject
     [Tooltip("Dialogue System 中的 Conversation 标题，用于「对话」入口。若为空则使用默认僵尸对话。")]
     [SerializeField] private string dialogueConversationTitle = "ZombieDefault";
 
-    [SerializeField] [TextArea] private string shortDescription = "A companion zombie.";
+    [SerializeField] [TextArea] private string shortDescription;
 
     public string DefinitionId => definitionId;
     public string DisplayName => displayName;

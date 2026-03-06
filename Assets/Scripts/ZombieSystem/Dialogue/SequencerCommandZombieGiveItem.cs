@@ -73,6 +73,11 @@ public class SequencerCommandZombieGiveItem : SequencerCommand
                     DialogueManager.instance.StartCoroutine(StartSegmentConversationAfterFrame(conversationTitle, actorTransform, conversantTransform));
                 }
             }
+
+            if (!string.IsNullOrWhiteSpace(definitionId))
+            {
+                DialogueManager.instance.StartCoroutine(OpenZombieCodexForStoryAfterDelay(definitionId));
+            }
         }
 
         Stop();
@@ -101,5 +106,17 @@ public class SequencerCommandZombieGiveItem : SequencerCommand
             yield return null;
             DialogueManager.StartConversation(conversationTitle, actor, conversant);
         }
+    }
+
+    private static IEnumerator OpenZombieCodexForStoryAfterDelay(string definitionId)
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+        while (DialogueManager.isConversationActive)
+            yield return null;
+        var controller = ZombieMainPanelController.GetOrFind();
+        if (controller != null)
+            controller.OpenForNewStory(definitionId);
+        else
+            Debug.LogWarning("[ZombieGiveItem] ZombieMainPanelController 未找到，无法打开僵尸剧情页。");
     }
 }

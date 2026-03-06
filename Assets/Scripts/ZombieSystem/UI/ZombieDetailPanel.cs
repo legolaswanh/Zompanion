@@ -17,15 +17,17 @@ public class ZombieDetailPanel : MonoBehaviour
     [FormerlySerializedAs("buffText")]
     [SerializeField] private TMP_Text modifierText;
     [SerializeField] private TMP_Text storyText;
-    [Header("Story 分栏（对应 UI 中的 Story_bg / Story_01 / Story_02）")]
-    [Tooltip("背景故事，绑定 shortDescription")]
+    [Header("Info Page - Description (shortDescription)")]
+    [Tooltip("背景故事，绑定 Detail_pannel 下的 Description")]
     [SerializeField] private TMP_Text storyBgText;
-    [Tooltip("第一段剧情，绑定 segment[0].storySummary")]
-    [SerializeField] private TMP_Text story01Text;
-    [Tooltip("第二段剧情，绑定 segment[1].storySummary")]
-    [SerializeField] private TMP_Text story02Text;
-    [Tooltip("Story_bg/Story_01/Story_02 的父节点，用于强制刷新布局。若为空则从 storyBgText 取 parent")]
+    [Tooltip("Description 的父节点，用于强制刷新布局。若为空则从 storyBgText 取 parent")]
     [SerializeField] private RectTransform storyContentRoot;
+
+    [Header("Story Page - Segment Views")]
+    [Tooltip("剧情页左半：Story_01")]
+    [SerializeField] private StorySegmentView story01View;
+    [Tooltip("剧情页右半：Story_02")]
+    [SerializeField] private StorySegmentView story02View;
     [FormerlySerializedAs("portraitImage")]
     [SerializeField] private Image detailPortraitImage;
 
@@ -122,12 +124,6 @@ public class ZombieDetailPanel : MonoBehaviour
             storyBgText.gameObject.SetActive(!string.IsNullOrEmpty(bg));
         }
 
-        if (story01Text != null || story02Text != null)
-        {
-            BindSegmentText(story01Text, definition, 0, unlocked, zombieManager);
-            BindSegmentText(story02Text, definition, 1, unlocked, zombieManager);
-        }
-
         RefreshStoryLayout();
 
         if (storyText != null)
@@ -174,44 +170,37 @@ public class ZombieDetailPanel : MonoBehaviour
         return storyUnlocked ? "Story: Unlocked" : "Story: Locked";
     }
 
-    private static void BindSegmentText(TMP_Text textField, ZombieDefinitionSO definition, int segmentIndex, bool unlocked, ZombieManager zombieManager)
+    /// <summary>
+    /// 绑定剧情页：Story_01、Story_02 的物品图标、名称、剧情内容。
+    /// </summary>
+    public void BindStoryPage(ZombieDefinitionSO definition, bool zombieUnlocked, ZombieManager zombieManager)
     {
-        if (textField == null)
-            return;
-
-        if (!unlocked || definition == null || zombieManager == null)
+        if (definition == null)
         {
-            textField.text = "";
-            textField.gameObject.SetActive(false);
+            if (story01View != null) story01View.Hide();
+            if (story02View != null) story02View.Hide();
             return;
         }
 
         IReadOnlyList<ZombieStorySegmentConfig> segments = definition.StorySegments;
-        if (segments == null || segmentIndex >= segments.Count)
+        if (segments == null || segments.Count == 0)
         {
-            textField.text = "";
-            textField.gameObject.SetActive(false);
+            if (story01View != null) story01View.Hide();
+            if (story02View != null) story02View.Hide();
             return;
         }
 
-        ZombieStorySegmentConfig seg = segments[segmentIndex];
-        if (seg == null || string.IsNullOrWhiteSpace(seg.storyId))
+        if (story01View != null)
         {
-            textField.text = "";
-            textField.gameObject.SetActive(false);
-            return;
+            var seg0 = segments.Count > 0 ? segments[0] : null;
+            story01View.Bind(seg0, zombieUnlocked, zombieManager);
         }
 
-        if (!zombieManager.IsStoryUnlocked(seg.storyId))
+        if (story02View != null)
         {
-            textField.text = "";
-            textField.gameObject.SetActive(false);
-            return;
+            var seg1 = segments.Count > 1 ? segments[1] : null;
+            story02View.Bind(seg1, zombieUnlocked, zombieManager);
         }
-
-        string summary = seg.storySummary ?? "";
-        textField.text = summary;
-        textField.gameObject.SetActive(!string.IsNullOrEmpty(summary));
     }
 
     private void RefreshStoryLayout()
@@ -219,8 +208,6 @@ public class ZombieDetailPanel : MonoBehaviour
         RectTransform root = storyContentRoot;
         if (root == null && storyBgText != null)
             root = storyBgText.rectTransform.parent as RectTransform;
-        if (root == null && story01Text != null)
-            root = story01Text.rectTransform.parent as RectTransform;
         if (root == null)
             return;
 

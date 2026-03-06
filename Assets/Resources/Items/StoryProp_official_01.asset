@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
   m_Name: StoryProp_official_01
   m_EditorClassIdentifier: 
-  itemName: A booklet
+  itemName: Booklet
   description: A booklet documenting the topography, roads, and local customs of
     various regions.
   useInfo: Maybe it belongs to the official

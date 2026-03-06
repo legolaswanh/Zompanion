@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -211,8 +212,20 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
         if (string.IsNullOrWhiteSpace(definitionId))
             return;
 
-        if (ZombieMainPanelController.Instance != null)
-            ZombieMainPanelController.Instance.OpenForNewZombie(definitionId);
+        StartCoroutine(OpenZombiePanelAfterFrame(definitionId));
+    }
+
+    /// <summary>
+    /// 延迟一帧再打开僵尸面板，确保小游戏完全销毁、UI 状态稳定后再显示。
+    /// </summary>
+    private IEnumerator OpenZombiePanelAfterFrame(string definitionId)
+    {
+        yield return null;
+        var controller = ZombieMainPanelController.GetOrFind();
+        if (controller != null)
+            controller.OpenForNewZombie(definitionId);
+        else
+            Debug.LogWarning("[AssemblyPlatform] ZombieMainPanelController 未找到，无法打开僵尸详情面板。");
     }
 
     public void ClearPlatform()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db5c3a1672455a4ab77f1b60085f2e3, type: 3}
   m_Name: StoryProp_Monk_02
   m_EditorClassIdentifier: 
-  itemName: A string of prayer beads
+  itemName: Prayer beads
   description: A string of wooden prayer beads worn down to varying sizes.
   useInfo: Maybe it belongs to the monk
   icon: {fileID: -950110555504886579, guid: 28d2f4b906421bc46a93484664f8354b, type: 3}
