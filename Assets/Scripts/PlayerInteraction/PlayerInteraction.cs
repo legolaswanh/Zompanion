@@ -137,6 +137,11 @@ public class PlayerInteraction : MonoBehaviour
         currentActiveTrigger = trigger;
     }
 
+    public bool IsCurrentTrigger(GameObject trigger)
+    {
+        return currentActiveTrigger == trigger;
+    }
+
     public void ClearCurrentTrigger(GameObject trigger)
     {
         if (currentActiveTrigger == trigger)

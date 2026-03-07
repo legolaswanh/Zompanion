@@ -117,11 +117,49 @@ public class ZombieManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         ResolveRuntimeReferences();
-        TryBindPlayerLeader();
         ReparentAllAgentsToContainer();
         UpdateAgentScenePresence(applyHomeSnap: true);
+        StartCoroutine(OnSceneLoadedDelayedRebind());
+    }
+
+    /// <summary>延迟一帧再绑定玩家与跟随队列，确保 GameManager 已生成玩家并放置到出生点。</summary>
+    private System.Collections.IEnumerator OnSceneLoadedDelayedRebind()
+    {
+        yield return null;
+        TryBindPlayerLeader();
+        TeleportFollowingZombiesToPlayer();
         SyncPlayerZombieCollisionIgnores();
         RebuildFollowQueue();
+        if (followController != null)
+            followController.ClearAllTrails();
+    }
+
+    /// <summary>将处于跟随状态的僵尸传送到当前场景玩家附近，用于跨场景时保持跟随。</summary>
+    private void TeleportFollowingZombiesToPlayer()
+    {
+        Transform playerTransform = GetPlayerTransform();
+        if (playerTransform == null) return;
+
+        Transform container = GetZombieContainer();
+        Vector3 center = playerTransform.position;
+        center.z = container != null ? container.position.z : center.z;
+
+        List<ZombieInstanceData> following = _zombies
+            .Where(z => z.state == ZombieState.Following)
+            .OrderBy(z => z.followOrder < 0 ? int.MaxValue : z.followOrder)
+            .ThenBy(z => z.instanceId)
+            .ToList();
+
+        for (int i = 0; i < following.Count; i++)
+        {
+            ZombieInstanceData zombie = following[i];
+            if (!_agentByInstanceId.TryGetValue(zombie.instanceId, out ZombieAgent agent) || agent == null)
+                continue;
+
+            Vector3 pos = GetAlternatingSpawnPoint(center, i);
+            pos.z = center.z;
+            agent.transform.SetPositionAndRotation(pos, Quaternion.identity);
+        }
     }
 
     private void ResolveRuntimeReferences()

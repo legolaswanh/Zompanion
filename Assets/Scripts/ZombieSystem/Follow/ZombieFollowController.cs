@@ -18,8 +18,18 @@ public class ZombieFollowController : MonoBehaviour
     private readonly List<ZombieAgent> _followers = new List<ZombieAgent>();
     private readonly Dictionary<Transform, List<Vector3>> _trailByTransform = new Dictionary<Transform, List<Vector3>>();
 
+    /// <summary>切换场景或玩家时调用，清空旧轨迹避免跟随异常。</summary>
+    public void ClearAllTrails()
+    {
+        _trailByTransform.Clear();
+        if (_leader != null)
+            EnsureTrail(_leader);
+    }
+
     public void SetLeader(Transform leader)
     {
+        if (_leader != leader)
+            _trailByTransform.Clear();
         _leader = leader;
         if (_leader != null)
             EnsureTrail(_leader);

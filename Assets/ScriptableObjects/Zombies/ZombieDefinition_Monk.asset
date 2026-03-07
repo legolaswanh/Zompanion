@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   definitionId: zombie_monk
   displayName: Fat Monk Zombie
-  category: 0
+  category: 1
   prefab: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
   codexIcon: {fileID: 21300000, guid: 12d086a9ec74fb64ca81699f97175eaf, type: 3}
   codexDetailImage: {fileID: 21300000, guid: 5efdba51a0c62754ea4863ca497a1668, type: 3}

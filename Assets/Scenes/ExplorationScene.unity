@@ -8152,7 +8152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c425a21715a62042abf248caf51ecc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneConfig: {fileID: 11400000, guid: fe505210d72527546ad2e31dfb2eeb51, type: 2}
+  sceneConfig: {fileID: 11400000, guid: f040bc7dfdf3ce744a1e10945df6ca41, type: 2}
 --- !u!1 &1169118320
 GameObject:
   m_ObjectHideFlags: 0
@@ -8545,75 +8545,6 @@ RectTransform:
   m_AnchoredPosition: {x: 508.01, y: 330.05002}
   m_SizeDelta: {x: 1023, y: 656}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &1397184445
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -6.1840434
-      objectReference: {fileID: 0}
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.9141507
-      objectReference: {fileID: 0}
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_Name
-      value: NormalZombiePrefab (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583546875880986148, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      propertyPath: m_TagString
-      value: InteractiveZombie
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2024277866}
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
---- !u!4 &1397184446 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 296348495667915517, guid: 1d33ea05da851c24b8307e5041d4b871, type: 3}
-  m_PrefabInstance: {fileID: 1397184445}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1454225956
 GameObject:
   m_ObjectHideFlags: 0
@@ -8861,9 +8792,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59aa4dab2633957409801d4d3d49698b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCustomizedPoint: 0
   assignedItems: []
   dugSprite: {fileID: 0}
-  buttonCanvas: {fileID: 797844887}
+  itemDisplayUI: {fileID: 0}
 --- !u!61 &1978480015
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9184,136 +9116,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &2024277865
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2024277866}
-  - component: {fileID: 2024277869}
-  - component: {fileID: 2024277868}
-  - component: {fileID: 2024277867}
-  m_Layer: 3
-  m_Name: ZombieInteractionPrefab
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2024277866
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2024277865}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1397184446}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2024277867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2024277865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64578247383140469c45370654a984a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actor: 
-  persistentDataName: 
-  portrait: {fileID: 0}
-  spritePortrait: {fileID: 0}
-  cameraAngles: {fileID: 0}
-  audioSource: {fileID: 0}
-  barkUISettings:
-    barkUI: {fileID: 0}
-    barkUIOffset: {x: 0, y: 2, z: 0}
-  standardDialogueUISettings:
-    subtitlePanelNumber: 0
-    customSubtitlePanel: {fileID: 0}
-    customSubtitlePanelOffset: {x: 0, y: 0, z: 0}
-    menuPanelNumber: 0
-    customMenuPanel: {fileID: 0}
-    customMenuPanelOffset: {x: 0, y: 0, z: 0}
-    useMenuPanelFor: 0
-    portraitAnimatorController: {fileID: 0}
-    setSubtitleColor: 0
-    applyColorToPrependedName: 0
-    prependActorNameSeparator: ': '
-    prependActorNameFormat: '{0}{1}'
-    subtitleColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &2024277868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2024277865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56bb0f7b0f757884fb27c71ff2dbfc1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  conversationTitle: 
-  conversant: {fileID: 0}
-  buttonCanvas: {fileID: 0}
---- !u!61 &2024277869
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2024277865}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -0.08992648, y: -0.19922662}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.4375}
-    newSize: {x: 0.13, y: 0.16}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 3.1312518, y: 3.2072682}
-  m_EdgeRadius: 0
 --- !u!1 &2055856815
 GameObject:
   m_ObjectHideFlags: 0
@@ -9367,7 +9169,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a87cadce0b36c28478c17269cd1d83a7, type: 2}
   spawnPoint: {fileID: 1853297048}
   platformCanvas: {fileID: 0}
-  buttonCanvas: {fileID: 0}
+  summonCanvasPrefab: {fileID: 0}
   currentTorso: {fileID: 0}
   currentArm: {fileID: 0}
   currentLeg: {fileID: 0}
@@ -9937,9 +9739,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59aa4dab2633957409801d4d3d49698b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCustomizedPoint: 0
   assignedItems: []
   dugSprite: {fileID: 0}
-  buttonCanvas: {fileID: 1283106382}
+  itemDisplayUI: {fileID: 0}
 --- !u!19719996 &2107348477
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -10202,4 +10005,3 @@ SceneRoots:
   - {fileID: 15966807}
   - {fileID: 1173578605}
   - {fileID: 2060864533}
-  - {fileID: 1397184445}

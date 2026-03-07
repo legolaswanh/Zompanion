@@ -47,10 +47,31 @@ public class DialogueInteractTrigger : MonoBehaviour, ISaveable
         }
     }
 
+    private void Update()
+    {
+        if (!isZombieDialogue) return;
+        if (PlayerInteraction.Instance == null || !PlayerInteraction.Instance.IsCurrentTrigger(gameObject))
+            return;
+        if (!IsFollowingZombie()) return;
+        _spawner?.Hide();
+        PlayerInteraction.Instance.ClearCurrentTrigger(gameObject);
+    }
+
+    /// <summary>是否为跟随玩家的僵尸（跟随中不触发交互）</summary>
+    private bool IsFollowingZombie()
+    {
+        if (!isZombieDialogue) return false;
+        string defId = GetZombieDefinitionId();
+        if (string.IsNullOrWhiteSpace(defId)) return false;
+        return ZombieManager.Instance != null && ZombieManager.Instance.IsDefinitionFollowing(defId);
+    }
+
     public void Interact()
     {
         if (isTalking) return;
         if (DialogueManager.isConversationActive) return;
+        if (IsFollowingZombie())
+            return;
 
         if (isZombieDialogue)
         {
@@ -68,11 +89,12 @@ public class DialogueInteractTrigger : MonoBehaviour, ISaveable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision != null && collision.CompareTag("Player"))
-        {
-            _spawner?.Show();
-            PlayerInteraction.Instance?.SetCurrentTrigger(gameObject);
-        }
+        if (collision == null || !collision.CompareTag("Player"))
+            return;
+        if (IsFollowingZombie())
+            return;
+        _spawner?.Show();
+        PlayerInteraction.Instance?.SetCurrentTrigger(gameObject);
     }
 
     private void OnTriggerExit2D(Collider2D collision)

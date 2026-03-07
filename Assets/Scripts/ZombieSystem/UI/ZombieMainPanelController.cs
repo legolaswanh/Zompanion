@@ -29,35 +29,14 @@ public class ZombieMainPanelController : MonoBehaviour
         return null;
     }
 
-    public enum ZombiePage
-    {
-        Codex = 0,
-        Control = 1
-    }
-
     [Header("Panels")]
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private GameObject codexPage;
     [SerializeField] private ZombieCodexPanelController codexPanelController;
-    [SerializeField] private GameObject controlPage;
     [SerializeField] private bool pauseGameWhenMainPanelOpen = true;
 
     [Header("Buttons")]
     [SerializeField] private Button exitButton;
-    [SerializeField] private Button bookmarkCodexButton;
-    [SerializeField] private Button bookmarkControlButton;
-
-    [Header("Bookmark Motion (Optional)")]
-    [SerializeField] private ZombieBookmarkTabAnimator bookmarkCodexMotion;
-    [SerializeField] private ZombieBookmarkTabAnimator bookmarkControlMotion;
-
-    [Header("Visual (Optional)")]
-    [SerializeField] private GameObject bookmarkCodexSelected;
-    [SerializeField] private GameObject bookmarkControlSelected;
-
-    [SerializeField] private ZombiePage defaultPage = ZombiePage.Codex;
-
-    private ZombiePage _currentPage;
 
     private void Awake()
     {
@@ -80,8 +59,8 @@ public class ZombieMainPanelController : MonoBehaviour
         }
 
         BindButtons(true);
-        _currentPage = defaultPage;
-        ApplyPage(_currentPage, instant: true);
+        if (codexPage != null)
+            codexPage.SetActive(true);
     }
 
     private void OnDestroy()
@@ -103,7 +82,7 @@ public class ZombieMainPanelController : MonoBehaviour
         if (codexPanelController == null && codexPage != null)
             codexPanelController = codexPage.GetComponent<ZombieCodexPanelController>();
 
-        OpenToPage(ZombiePage.Codex);
+        OpenToCodex();
         if (codexPanelController != null)
         {
             StartCoroutine(SelectNewZombieNextFrame(definitionId, goToStoryPage: false));
@@ -118,7 +97,7 @@ public class ZombieMainPanelController : MonoBehaviour
         if (string.IsNullOrWhiteSpace(definitionId))
             return;
 
-        OpenToPage(ZombiePage.Codex);
+        OpenToCodex();
         if (codexPanelController != null)
         {
             StartCoroutine(SelectNewZombieNextFrame(definitionId, goToStoryPage: true));
@@ -136,23 +115,13 @@ public class ZombieMainPanelController : MonoBehaviour
 
     public void OpenToCodex()
     {
-        OpenToPage(ZombiePage.Codex);
-    }
-
-    public void OpenToControl()
-    {
-        OpenToPage(ZombiePage.Control);
-    }
-
-    public void OpenToPage(ZombiePage page)
-    {
-        _currentPage = page;
-        ApplyPage(_currentPage, instant: false);
         if (mainPanel != null)
         {
             EnsurePanelCanShow();
             UIPanelCoordinator.ShowExclusive(mainPanel);
         }
+        if (codexPage != null)
+            codexPage.SetActive(true);
     }
 
     /// <summary>
@@ -166,22 +135,6 @@ public class ZombieMainPanelController : MonoBehaviour
             root.gameObject.SetActive(true);
     }
 
-    public void SwitchToCodex()
-    {
-        SwitchToPage(ZombiePage.Codex);
-    }
-
-    public void SwitchToControl()
-    {
-        SwitchToPage(ZombiePage.Control);
-    }
-
-    public void SwitchToPage(ZombiePage page)
-    {
-        _currentPage = page;
-        ApplyPage(_currentPage, instant: false);
-    }
-
     public void ClosePanel()
     {
         if (mainPanel != null)
@@ -191,8 +144,6 @@ public class ZombieMainPanelController : MonoBehaviour
     private void BindButtons(bool bind)
     {
         BindButton(exitButton, ClosePanel, bind);
-        BindButton(bookmarkCodexButton, SwitchToCodex, bind);
-        BindButton(bookmarkControlButton, SwitchToControl, bind);
     }
 
     private static void BindButton(Button button, UnityEngine.Events.UnityAction action, bool bind)
@@ -215,29 +166,5 @@ public class ZombieMainPanelController : MonoBehaviour
             pauseHandler = mainPanel.AddComponent<PauseOnActivePanel>();
 
         pauseHandler.SetPauseWhileOpen(true);
-    }
-
-    private void ApplyPage(ZombiePage page, bool instant)
-    {
-        bool codexActive = page == ZombiePage.Codex;
-        if (codexPage != null)
-            codexPage.SetActive(codexActive);
-        if (controlPage != null)
-            controlPage.SetActive(!codexActive);
-
-        if (bookmarkCodexMotion != null)
-            bookmarkCodexMotion.SetSelected(codexActive, instant);
-        if (bookmarkControlMotion != null)
-            bookmarkControlMotion.SetSelected(!codexActive, instant);
-
-        if (bookmarkCodexSelected != null)
-            bookmarkCodexSelected.SetActive(codexActive);
-        if (bookmarkControlSelected != null)
-            bookmarkControlSelected.SetActive(!codexActive);
-
-        if (bookmarkCodexButton != null)
-            bookmarkCodexButton.interactable = true;
-        if (bookmarkControlButton != null)
-            bookmarkControlButton.interactable = true;
     }
 }

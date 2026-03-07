@@ -21,6 +21,9 @@ public class ZombieCodexPanelController : MonoBehaviour
     [Tooltip("僵尸列表容器：ScrollView，Page 1 时隐藏，避免与剧情页重叠")]
     [SerializeField] private RectTransform zombieListRoot;
 
+    [Header("Assignment")]
+    [SerializeField] private ZombieAssignmentController assignmentController;
+
     private string _selectedDefinitionId;
     private string _pendingUnlockAnimationDefinitionId;
     private bool _initialized;
@@ -56,10 +59,20 @@ public class ZombieCodexPanelController : MonoBehaviour
             TryInitialize();
         }
 
-        if (_initialized && Input.GetMouseButtonDown(0) && !string.IsNullOrWhiteSpace(_selectedDefinitionId))
+        // 不再根据「点击空白区域」清除选中，只有点击头像才会切换僵尸
+
+        // 剧情页时手动检测 LeftArrow 区域点击（某些情况下 UI 射线可能被挡住）
+        if (_currentPage == 1 && leftArrowButton != null && leftArrowButton.gameObject.activeInHierarchy &&
+            Input.GetMouseButtonDown(0))
         {
-            if (!IsPointerOverAnyEntryItem() && !IsPointerOverDetailPanel())
-                ClearSelection();
+            var rect = leftArrowButton.transform as RectTransform;
+            if (rect != null)
+            {
+                var canvas = rect.GetComponentInParent<Canvas>();
+                var cam = canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay ? canvas.worldCamera : null;
+                if (RectTransformUtility.RectangleContainsScreenPoint(rect, Input.mousePosition, cam))
+                    GoToPage(0);
+            }
         }
     }
 
@@ -121,12 +134,18 @@ public class ZombieCodexPanelController : MonoBehaviour
 
         if (!selectedExists)
         {
-            _selectedDefinitionId = null;
-            _currentPage = 0;
-            if (!string.IsNullOrEmpty(firstUnlockedId))
+            bool keepSelection = !string.IsNullOrEmpty(_selectedDefinitionId) &&
+                zombieManager.GetDefinition(_selectedDefinitionId) != null &&
+                zombieManager.IsZombieCodexUnlocked(_selectedDefinitionId);
+            if (!keepSelection)
             {
-                _selectedDefinitionId = firstUnlockedId;
-                selectedExists = true;
+                _selectedDefinitionId = null;
+                _currentPage = 0;
+                if (!string.IsNullOrEmpty(firstUnlockedId))
+                {
+                    _selectedDefinitionId = firstUnlockedId;
+                    selectedExists = true;
+                }
             }
         }
 
@@ -188,6 +207,7 @@ public class ZombieCodexPanelController : MonoBehaviour
         if (string.IsNullOrWhiteSpace(_selectedDefinitionId))
         {
             detailPanel.Clear();
+            assignmentController?.Bind(null, null);
             return;
         }
 
@@ -195,6 +215,7 @@ public class ZombieCodexPanelController : MonoBehaviour
         if (definition == null)
         {
             detailPanel.Clear();
+            assignmentController?.Bind(null, null);
             return;
         }
 
@@ -202,6 +223,11 @@ public class ZombieCodexPanelController : MonoBehaviour
         bool following = unlocked && zombieManager.IsDefinitionFollowing(definition.DefinitionId);
         bool storyUnlocked = unlocked && zombieManager.AreAllStoriesUnlockedForZombie(definition.DefinitionId);
         detailPanel.BindDefinition(definition, unlocked, following, storyUnlocked, zombieManager);
+
+        if (_currentPage == 1)
+            assignmentController?.Hide();
+        else
+            assignmentController?.Bind(_selectedDefinitionId, zombieManager);
 
         if (_currentPage == 1)
             detailPanel.BindStoryPage(definition, unlocked, zombieManager);
@@ -229,6 +255,11 @@ public class ZombieCodexPanelController : MonoBehaviour
         _currentPage = Mathf.Clamp(page, 0, 1);
         ApplyPageVisibility();
 
+        if (_currentPage == 1)
+            assignmentController?.Hide();
+        else if (!string.IsNullOrWhiteSpace(_selectedDefinitionId))
+            assignmentController?.Bind(_selectedDefinitionId, zombieManager);
+
         if (detailPanel != null && zombieManager != null && !string.IsNullOrWhiteSpace(_selectedDefinitionId))
         {
             ZombieDefinitionSO definition = zombieManager.GetDefinition(_selectedDefinitionId);
@@ -246,10 +277,18 @@ public class ZombieCodexPanelController : MonoBehaviour
         bool hasSelection = !string.IsNullOrWhiteSpace(_selectedDefinitionId);
 
         if (leftArrowButton != null)
-            leftArrowButton.gameObject.SetActive(!onInfoPage);
+        {
+            bool showLeftArrow = !onInfoPage;
+            leftArrowButton.gameObject.SetActive(showLeftArrow);
+            if (showLeftArrow)
+                leftArrowButton.transform.SetAsLastSibling();
+        }
 
         if (rightArrowButton != null)
             rightArrowButton.gameObject.SetActive(onInfoPage && hasSelection);
+
+        if (detailPanel != null)
+            detailPanel.gameObject.SetActive(onInfoPage && hasSelection);
 
         if (infoPageElements != null)
         {
