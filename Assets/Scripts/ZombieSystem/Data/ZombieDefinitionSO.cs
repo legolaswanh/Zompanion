@@ -35,6 +35,10 @@ public class ZombieDefinitionSO : ScriptableObject
     [SerializeField] [Min(0.1f)] private float followMoveSpeed = 2.8f;
     [SerializeField] [Min(0.1f)] private float followDistance = 0.75f;
 
+    [Header("Explore (Officer only)")]
+    [SerializeField] [Min(1f)] private float exploreIntervalSeconds = 60f;
+    [SerializeField] private List<ItemDataSO> exploreItemPool = new List<ItemDataSO>();
+
     [Header("Modifier")]
     [SerializeField] private ZombieModifierType modifierType = ZombieModifierType.None;
     [SerializeField] private ZombieModifierApplyMode modifierApplyMode = ZombieModifierApplyMode.OnSpawn;
@@ -72,6 +76,8 @@ public class ZombieDefinitionSO : ScriptableObject
     public ZombieModifierType ModifierType => modifierType;
     public ZombieModifierApplyMode ModifierApplyMode => modifierApplyMode;
     public float ModifierValue => modifierValue;
+    public float ExploreIntervalSeconds => exploreIntervalSeconds;
+    public IReadOnlyList<ItemDataSO> ExploreItemPool => exploreItemPool;
 
     /// <summary>
     /// 主剧情 ID，用于兼容旧逻辑。若有 storySegments 则返回第一段，否则返回 legacy storyId。

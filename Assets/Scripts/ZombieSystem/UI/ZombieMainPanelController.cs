@@ -122,6 +122,13 @@ public class ZombieMainPanelController : MonoBehaviour
         }
         if (codexPage != null)
             codexPage.SetActive(true);
+
+        if (ZombieExploreService.Instance != null && ZombieExploreService.Instance.HasPendingGift)
+        {
+            string pendingDefId = ZombieExploreService.Instance.PendingDefinitionId;
+            if (!string.IsNullOrWhiteSpace(pendingDefId) && codexPanelController != null)
+                StartCoroutine(SelectNewZombieNextFrame(pendingDefId, goToStoryPage: false));
+        }
     }
 
     /// <summary>

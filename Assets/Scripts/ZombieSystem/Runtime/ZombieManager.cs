@@ -76,6 +76,9 @@ public class ZombieManager : MonoBehaviour
         if (GetComponent<ZombieCodexSaveable>() == null)
             gameObject.AddComponent<ZombieCodexSaveable>();
 
+        if (GetComponent<ZombieExploreService>() == null)
+            gameObject.AddComponent<ZombieExploreService>();
+
         _codexService = new ZombieCodexService();
         _codexService.OnCodexUpdated += HandleCodexChanged;
 
@@ -1025,6 +1028,9 @@ public class ZombieManager : MonoBehaviour
     private bool ShouldZombieBeVisibleInScene(ZombieInstanceData zombie, string sceneName)
     {
         if (zombie == null)
+            return false;
+
+        if (zombie.state == ZombieState.Working)
             return false;
 
         if (zombie.state == ZombieState.Following)

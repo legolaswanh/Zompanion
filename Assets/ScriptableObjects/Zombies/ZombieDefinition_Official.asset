@@ -20,6 +20,13 @@ MonoBehaviour:
   codexDetailImage: {fileID: 21300000, guid: 0661d02c60f642a4981054584d2745a9, type: 3}
   followMoveSpeed: 4
   followDistance: 0.75
+  exploreIntervalSeconds: 60
+  exploreItemPool:
+  - {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
+  - {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
+  - {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
+  - {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
+  - {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
   modifierType: 1
   modifierApplyMode: 1
   modifierValue: 0

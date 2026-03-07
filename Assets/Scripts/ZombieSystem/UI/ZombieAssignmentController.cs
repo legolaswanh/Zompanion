@@ -1,3 +1,5 @@
+using System.Linq;
+using Code.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,9 +23,15 @@ public class ZombieAssignmentController : MonoBehaviour
     [SerializeField] private GameObject officialEffectRoot;
     [SerializeField] private GameObject giftText;
     [SerializeField] private GameObject travelText;
+    [SerializeField] private Image itemImage;
+    [SerializeField] private TMP_Text giftMessageText;
+    [SerializeField] private Button itemImageButton;
+    [SerializeField] private GameObject itemDisplayCanvasPrefab;
 
     private ZombieManager _zombieManager;
     private string _boundDefinitionId;
+
+    private bool _subscribedToExplore;
 
     private void OnEnable()
     {
@@ -32,6 +40,20 @@ public class ZombieAssignmentController : MonoBehaviour
             _zombieManager.OnZombieListChanged += OnZombieListChanged;
             _zombieManager.OnCodexChanged += OnCodexChanged;
         }
+
+        TrySubscribeToExploreService();
+
+        if (itemImageButton != null)
+            itemImageButton.onClick.AddListener(OnGiftItemClicked);
+    }
+
+    private void TrySubscribeToExploreService()
+    {
+        if (_subscribedToExplore || ZombieExploreService.Instance == null)
+            return;
+        ZombieExploreService.Instance.OnGiftArrived += OnExploreGiftArrived;
+        ZombieExploreService.Instance.OnGiftClaimed += OnExploreGiftClaimed;
+        _subscribedToExplore = true;
     }
 
     private void OnDisable()
@@ -41,6 +63,16 @@ public class ZombieAssignmentController : MonoBehaviour
             _zombieManager.OnZombieListChanged -= OnZombieListChanged;
             _zombieManager.OnCodexChanged -= OnCodexChanged;
         }
+
+        if (_subscribedToExplore && ZombieExploreService.Instance != null)
+        {
+            ZombieExploreService.Instance.OnGiftArrived -= OnExploreGiftArrived;
+            ZombieExploreService.Instance.OnGiftClaimed -= OnExploreGiftClaimed;
+            _subscribedToExplore = false;
+        }
+
+        if (itemImageButton != null)
+            itemImageButton.onClick.RemoveListener(OnGiftItemClicked);
     }
 
     /// <summary>
@@ -58,6 +90,8 @@ public class ZombieAssignmentController : MonoBehaviour
             _zombieManager.OnZombieListChanged += OnZombieListChanged;
             _zombieManager.OnCodexChanged += OnCodexChanged;
         }
+
+        TrySubscribeToExploreService();
 
         if (assignmentRoot == null)
             return;
@@ -135,13 +169,38 @@ public class ZombieAssignmentController : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(_boundDefinitionId) || _zombieManager == null)
             return;
-        bool traveling = _zombieManager.IsDefinitionWorking(_boundDefinitionId);
-        if (traveling)
+
+        var exploreService = ZombieExploreService.Instance;
+        if (exploreService != null && exploreService.HasPendingGift && exploreService.PendingDefinitionId == _boundDefinitionId)
         {
-            // TODO: 实现取消探索功能
+            OnGiftItemClicked();
             return;
         }
-        // TODO: 实现外出探索功能
+
+        var zombie = _zombieManager.Zombies.FirstOrDefault(z => z.definitionId == _boundDefinitionId);
+        if (zombie == null)
+            return;
+
+        bool traveling = _zombieManager.IsDefinitionWorking(_boundDefinitionId);
+
+        if (traveling)
+        {
+            _zombieManager.SetWorkState(zombie.instanceId, false);
+            exploreService?.StopExplore(_boundDefinitionId);
+            RefreshOfficialTexts();
+            return;
+        }
+
+        if (!_zombieManager.AreAllStoriesUnlockedForZombie(_boundDefinitionId))
+            return;
+
+        if (exploreService == null)
+            return;
+
+        _zombieManager.CaptureZombieCurrentTransformAsHomeAnchor(zombie.instanceId);
+        _zombieManager.SetWorkState(zombie.instanceId, true);
+        if (exploreService.StartExplore(_boundDefinitionId))
+            RefreshOfficialTexts();
     }
 
     private void RefreshMonkTexts()
@@ -162,14 +221,42 @@ public class ZombieAssignmentController : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(_boundDefinitionId) || _zombieManager == null)
             return;
+
         bool storiesUnlocked = _zombieManager.AreAllStoriesUnlockedForZombie(_boundDefinitionId);
         bool traveling = _zombieManager.IsDefinitionWorking(_boundDefinitionId);
+        var exploreService = ZombieExploreService.Instance;
+        bool hasPendingForThis = exploreService != null && exploreService.HasPendingGift &&
+                                 exploreService.PendingDefinitionId == _boundDefinitionId;
+
         if (buttonText != null)
             buttonText.text = traveling ? "Stop Explore" : (storiesUnlocked ? "Explore" : "Unlock all stories to function");
         if (actionButton != null)
             actionButton.interactable = traveling || storiesUnlocked;
-        if (giftText != null) giftText.SetActive(!traveling);
-        if (travelText != null) travelText.SetActive(traveling);
+
+        if (hasPendingForThis)
+        {
+            if (travelText != null) travelText.SetActive(false);
+            if (giftText != null) giftText.SetActive(true);
+            if (giftMessageText != null)
+            {
+                string itemName = exploreService.PendingItem != null ? exploreService.PendingItem.itemName : "?";
+                giftMessageText.text = $"Hi, I found this {itemName}, hope it would be useful for you.";
+            }
+            if (itemImage != null)
+            {
+                itemImage.gameObject.SetActive(true);
+                itemImage.sprite = exploreService.PendingItem != null ? exploreService.PendingItem.icon : null;
+                itemImage.color = Color.white;
+            }
+            if (itemImageButton != null) itemImageButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            if (travelText != null) travelText.SetActive(traveling);
+            if (giftText != null) giftText.SetActive(false);
+            if (itemImage != null) itemImage.gameObject.SetActive(false);
+            if (itemImageButton != null) itemImageButton.gameObject.SetActive(false);
+        }
     }
 
     private void OnZombieListChanged()
@@ -193,5 +280,68 @@ public class ZombieAssignmentController : MonoBehaviour
             RefreshMonkTexts();
         else if (definition.Category == ZombieCategory.Officer)
             RefreshOfficialTexts();
+    }
+
+    private void OnExploreGiftArrived(ItemDataSO item, string definitionId)
+    {
+        if (definitionId == _boundDefinitionId)
+            RefreshOfficialTexts();
+    }
+
+    private void OnExploreGiftClaimed()
+    {
+        RefreshOfficialTexts();
+    }
+
+    private void OnGiftItemClicked()
+    {
+        var exploreService = ZombieExploreService.Instance;
+        if (exploreService == null || !exploreService.HasPendingGift || exploreService.PendingItem == null)
+            return;
+
+        ItemDataSO item = exploreService.PendingItem;
+
+        if (itemDisplayCanvasPrefab == null)
+        {
+            var prefab = Resources.Load<GameObject>("ItemDisplayCanvas");
+            if (prefab == null)
+                prefab = Resources.Load<GameObject>("UI/ItemDisplayCanvas");
+            if (prefab != null)
+                itemDisplayCanvasPrefab = prefab;
+        }
+
+        if (itemDisplayCanvasPrefab != null)
+        {
+            GameObject uiInstance = Instantiate(itemDisplayCanvasPrefab);
+            var displayUI = uiInstance != null
+                ? uiInstance.GetComponent<ItemDisplayUI>() ?? uiInstance.GetComponentInChildren<ItemDisplayUI>(true)
+                : null;
+            if (displayUI != null)
+            {
+                displayUI.ShowItem(item.icon, item.itemName, item.description, OnGiftItemPopupClosed);
+                return;
+            }
+        }
+
+        OnGiftItemPopupClosed();
+    }
+
+    private void OnGiftItemPopupClosed()
+    {
+        var exploreService = ZombieExploreService.Instance;
+        if (exploreService == null || exploreService.PendingItem == null)
+            return;
+
+        var inventory = GameManager.Instance != null ? GameManager.Instance.PlayerInventory : null;
+        if (inventory == null)
+            return;
+
+        bool added = inventory.AddItem(exploreService.PendingItem);
+        if (added)
+            exploreService.ClaimGift();
+        else
+            Debug.Log("[ZombieAssignmentController] Backpack full, item stays pending.");
+
+        RefreshOfficialTexts();
     }
 }
