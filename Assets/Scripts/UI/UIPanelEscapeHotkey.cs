@@ -34,6 +34,13 @@ public class UIPanelEscapeHotkey : MonoBehaviour
         if (!Input.GetKeyDown(closeKey))
             return;
 
+        // 游戏内由 PauseMenuController 处理 ESC，避免重复或冲突
+        if (PauseMenuController.EscapeConsumedByPauseMenu)
+        {
+            PauseMenuController.EscapeConsumedByPauseMenu = false;
+            return;
+        }
+
         UIPanelCoordinator.HideTopmostActivePanel();
     }
 }

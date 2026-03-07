@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad623894354278439c25d9ada5bc6b1, type: 3}
   m_Name: PlayerBackpack
   m_EditorClassIdentifier: 
-  baseCapacity: 11
+  baseCapacity: 2
   extraCapacity: 0
   clearOnStart: 1
   slots:

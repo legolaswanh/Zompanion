@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 2665979060590753751}
   - component: {fileID: 3176093609497659294}
   - component: {fileID: 4455578312305312997}
+  - component: {fileID: 2150590381142594419}
   m_Layer: 3
   m_Name: ZombieDialogueTrigger
   m_TagString: InteractiveZombie
@@ -444,3 +445,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonCanvasPrefab: {fileID: 8547302982356931694, guid: 0569d5e469bc7034699796acfd424ff6, type: 3}
   offsetY: 0.7
+--- !u!114 &2150590381142594419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2706239481403212180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a64578247383140469c45370654a984a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actor: Monk zombie
+  persistentDataName: 
+  portrait: {fileID: 0}
+  spritePortrait: {fileID: 0}
+  cameraAngles: {fileID: 0}
+  audioSource: {fileID: 0}
+  barkUISettings:
+    barkUI: {fileID: 0}
+    barkUIOffset: {x: 0, y: 2, z: 0}
+  standardDialogueUISettings:
+    subtitlePanelNumber: 0
+    customSubtitlePanel: {fileID: 0}
+    customSubtitlePanelOffset: {x: 0, y: 0, z: 0}
+    menuPanelNumber: 0
+    customMenuPanel: {fileID: 0}
+    customMenuPanelOffset: {x: 0, y: 0, z: 0}
+    useMenuPanelFor: 0
+    portraitAnimatorController: {fileID: 0}
+    setSubtitleColor: 0
+    applyColorToPrependedName: 0
+    prependActorNameSeparator: ': '
+    prependActorNameFormat: '{0}{1}'
+    subtitleColor: {r: 1, g: 1, b: 1, a: 1}

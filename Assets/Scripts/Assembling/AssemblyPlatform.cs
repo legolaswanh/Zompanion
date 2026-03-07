@@ -132,7 +132,9 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
                 platformCanvas.gameObject.SetActive(false);
 
                 var go = Instantiate(summonCanvasPrefab.gameObject);
+                go.SetActive(true);
                 _summonCanvasInstance = go.GetComponent<SummonCanvas>();
+                _summonCanvasInstance.enabled = true;
                 _summonCanvasInstance.OnMiniGameCompleted += HandleMiniGameResult;
                 _summonCanvasInstance.StartDraw();
             }

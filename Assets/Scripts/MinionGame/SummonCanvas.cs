@@ -372,7 +372,7 @@ public class SummonCanvas : MonoBehaviour
         if (fuzhiPaper == null) return;
 
         var canvas = fuzhiPaper.GetComponentInParent<Canvas>();
-        if (canvas == null) canvas = FindAnyObjectByType<Canvas>();
+        if (canvas == null) canvas = FindFirstObjectByType<Canvas>(FindObjectsInactive.Exclude);
         if (canvas == null) return;
 
         // 全屏遮罩
