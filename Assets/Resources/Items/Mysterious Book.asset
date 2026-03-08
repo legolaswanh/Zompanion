@@ -16,7 +16,7 @@ MonoBehaviour:
   description: A mysterious book, seemingly filled with various talismans and Taoist
     practices.
   useInfo: Click to use it in home
-  icon: {fileID: -2142726812009774420, guid: e3eeae974539b9a4cacfd7a3248033c5, type: 3}
+  icon: {fileID: 21300000, guid: b8a349de45aacf041a7038d7723b8e72, type: 3}
   itemType: 6
   timelineObjectName: ActivatePlatformTimeline
   worldPrefab: {fileID: 0}

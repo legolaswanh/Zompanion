@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Sturdy Legs
   description: Two rather sturdy legs.
   useInfo: Assemble with other parts
-  icon: {fileID: 5442174153399909074, guid: 2f8323eff95a72c458fac7a88d39eb4d, type: 3}
+  icon: {fileID: 21300000, guid: 838e59367d1f4434d8ed5fab4e756736, type: 3}
   itemType: 4
   timelineObjectName: 
   worldPrefab: {fileID: 0}

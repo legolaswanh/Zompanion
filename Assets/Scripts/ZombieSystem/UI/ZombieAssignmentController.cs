@@ -299,6 +299,15 @@ public class ZombieAssignmentController : MonoBehaviour
         if (exploreService == null || !exploreService.HasPendingGift || exploreService.PendingItem == null)
             return;
 
+        var inventory = GameManager.Instance != null ? GameManager.Instance.PlayerInventory : null;
+        if (inventory != null && inventory.IsFull)
+        {
+            var hint = HintPanelController.GetInstance();
+            if (hint != null)
+                hint.ShowHint("You can't carry any more items.");
+            return;
+        }
+
         ItemDataSO item = exploreService.PendingItem;
 
         if (itemDisplayCanvasPrefab == null)

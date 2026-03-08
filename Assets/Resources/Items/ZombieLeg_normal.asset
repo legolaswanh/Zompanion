@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Dead Man's Legs
   description: Two ordinary, unremarkable legs
   useInfo: Assemble with other parts
-  icon: {fileID: -9088068108723427035, guid: 213d2e3e85ab3b84a8e89f7be18a9ebb, type: 3}
+  icon: {fileID: 21300000, guid: 02aa8f153c2039b418588437f35e3239, type: 3}
   itemType: 4
   timelineObjectName: 
   worldPrefab: {fileID: 0}

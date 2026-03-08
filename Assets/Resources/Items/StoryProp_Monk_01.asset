@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Zen staff
   description: A Zen staff stained with dried blood.
   useInfo: Maybe it belongs to the monk
-  icon: {fileID: -7736771966516219082, guid: f857cad5de54516469c8897d1708b319, type: 3}
+  icon: {fileID: 21300000, guid: dc5d87d32cebf5343a233eeaad69c4cf, type: 3}
   itemType: 5
   timelineObjectName: 
   worldPrefab: {fileID: 0}

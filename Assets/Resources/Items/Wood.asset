@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   itemName: Wood
-  description: A wood, nothing but junk.
+  description: A wood, construction materials.
   useInfo: 
-  icon: {fileID: 6516497753200417860, guid: 7b7f9305b25770e4494fcd4f9b5b63f7, type: 3}
+  icon: {fileID: 21300000, guid: 60ec7e69f5148dc41b186a9393eca2e1, type: 3}
   itemType: 0
   timelineObjectName: 
   worldPrefab: {fileID: 0}

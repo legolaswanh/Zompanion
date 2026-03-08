@@ -16,7 +16,7 @@ MonoBehaviour:
   description: A string of dried candied hawthorn berries, buried underground for
     so long they've become hardened and brittle.
   useInfo: Maybe it belongs to the official
-  icon: {fileID: -950110555504886579, guid: 28d2f4b906421bc46a93484664f8354b, type: 3}
+  icon: {fileID: 21300000, guid: c294076d25c7a054e8a5820e0e2008ba, type: 3}
   itemType: 5
   timelineObjectName: 
   worldPrefab: {fileID: 0}

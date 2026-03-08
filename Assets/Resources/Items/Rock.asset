@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Rock
   m_EditorClassIdentifier: 
   itemName: Rock
-  description: A rock, nothing but junk.
+  description: A rock, construction materials.
   useInfo: 
-  icon: {fileID: 777925937548758176, guid: d7532c3a99088bd4ea993ae9285b1014, type: 3}
+  icon: {fileID: 21300000, guid: 92303b08d69854c4a92717d3bb98a383, type: 3}
   itemType: 0
   timelineObjectName: 
   worldPrefab: {fileID: 0}

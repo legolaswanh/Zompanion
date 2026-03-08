@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Sturdy Arms
   description: Two rather thick arms.
   useInfo: Assemble with other parts
-  icon: {fileID: -315293389943409586, guid: 958d8af21d8937c47a4974a622ded5f4, type: 3}
+  icon: {fileID: 21300000, guid: 3c13c012c822f834ea8f1fc17625245b, type: 3}
   itemType: 3
   timelineObjectName: 
   worldPrefab: {fileID: 0}

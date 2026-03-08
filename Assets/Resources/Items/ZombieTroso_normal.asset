@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Dead Man's Torso
   description: A torso with a head attached, looking a bit scary.
   useInfo: Assemble with other parts
-  icon: {fileID: 7262119653502517537, guid: 4b0a0cbdb37fdc544bc9c2290cd2fd03, type: 3}
+  icon: {fileID: 21300000, guid: da0da9993a8b1a74e8c0374c548aee78, type: 3}
   itemType: 2
   timelineObjectName: 
   worldPrefab: {fileID: 0}

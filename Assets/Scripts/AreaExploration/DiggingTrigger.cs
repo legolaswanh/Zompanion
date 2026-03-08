@@ -101,6 +101,16 @@ public class DiggingTrigger : MonoBehaviour, ISaveable
             return;
         }
 
+        // 背包满时，显示 HintPanel 提示，不弹出获得物品框
+        if (playerInventory != null && playerInventory.IsFull)
+        {
+            var hint = HintPanelController.GetInstance();
+            if (hint != null)
+                hint.ShowHint("You can't carry any more items.");
+            isInteractionLocked = false;
+            return;
+        }
+
         pendingItem = dugItem;
         pendingInventory = playerInventory;
         isInteractionLocked = true;

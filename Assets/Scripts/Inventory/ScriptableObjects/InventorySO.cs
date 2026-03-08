@@ -11,6 +11,11 @@ public class InventorySO : ScriptableObject
 
     public int MaxCapacity => baseCapacity + extraCapacity;
 
+    /// <summary>
+    /// 背包是否已满，无法再添加物品。
+    /// </summary>
+    public bool IsFull => slots != null && slots.FirstOrDefault(s => s.IsEmpty) == null;
+
     [Header("Debug")]
     [Tooltip("Clear all inventory slots at game start.")]
     public bool clearOnStart = true;

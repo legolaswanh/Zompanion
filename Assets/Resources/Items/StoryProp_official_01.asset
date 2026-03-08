@@ -16,7 +16,7 @@ MonoBehaviour:
   description: A booklet documenting the topography, roads, and local customs of
     various regions.
   useInfo: Maybe it belongs to the official
-  icon: {fileID: -7736771966516219082, guid: f857cad5de54516469c8897d1708b319, type: 3}
+  icon: {fileID: 21300000, guid: de84657f40753e54aae4848b1e653bf0, type: 3}
   itemType: 5
   timelineObjectName: 
   worldPrefab: {fileID: 0}
