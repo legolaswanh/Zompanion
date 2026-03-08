@@ -76,13 +76,12 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
     {
         if (!platformCanvas.gameObject.activeSelf)
         {
-            platformCanvas.gameObject.SetActive(true);
+            UIPanelCoordinator.ShowExclusive(platformCanvas.gameObject);
             PlayerMovement.Instance.DisableMove();
         }
         else
         {
-            platformCanvas.gameObject.SetActive(false);
-            PlayerMovement.Instance.EnableMove();
+            UIPanelCoordinator.Hide(platformCanvas.gameObject);
         }
     }
 
@@ -109,7 +108,9 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
     {
         if (currentTorso == null || currentArm == null || currentLeg == null)
         {
-            Debug.Log("部件不全，无法组装！");
+            var hint = HintPanelController.GetInstance();
+            if (hint != null)
+                hint.ShowHint("Some bodily parts are missing.");
             return;
         }
 
@@ -123,29 +124,30 @@ public class AssemblyPlatform : MonoBehaviour, ISaveable
             }
         }
 
-        if (matchedRecipe != null && matchedRecipe.resultDefinition != null)
+        if (matchedRecipe == null || matchedRecipe.resultDefinition == null)
         {
-            _pendingRecipe = matchedRecipe;
+            var hint = HintPanelController.GetInstance();
+            if (hint != null)
+                hint.ShowHint("These body parts cannot form a body.");
+            return;
+        }
 
-            if (summonCanvasPrefab != null)
-            {
-                platformCanvas.gameObject.SetActive(false);
+        _pendingRecipe = matchedRecipe;
 
-                var go = Instantiate(summonCanvasPrefab.gameObject);
-                go.SetActive(true);
-                _summonCanvasInstance = go.GetComponent<SummonCanvas>();
-                _summonCanvasInstance.enabled = true;
-                _summonCanvasInstance.OnMiniGameCompleted += HandleMiniGameResult;
-                _summonCanvasInstance.StartDraw();
-            }
-            else
-            {
-                SpawnZombie(_pendingRecipe);
-            }
+        if (summonCanvasPrefab != null)
+        {
+            platformCanvas.gameObject.SetActive(false);
+
+            var go = Instantiate(summonCanvasPrefab.gameObject);
+            go.SetActive(true);
+            _summonCanvasInstance = go.GetComponent<SummonCanvas>();
+            _summonCanvasInstance.enabled = true;
+            _summonCanvasInstance.OnMiniGameCompleted += HandleMiniGameResult;
+            _summonCanvasInstance.StartDraw();
         }
         else
         {
-            Debug.Log("[AssemblyPlatform] Assemble failed: no matching recipe or missing resultDefinition.");
+            SpawnZombie(_pendingRecipe);
         }
     }
 

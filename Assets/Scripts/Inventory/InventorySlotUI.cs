@@ -10,10 +10,12 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
 
     [Header("Config")]
     public int slotIndex;
-    public InventorySO inventoryData;
+    public IStorageData inventoryData;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject itemIconPrefab;
+    [Tooltip("物品图标占格子大小的比例，1=100%，0.85=85%。宝箱格子可设为 0.85")]
+    [SerializeField] [Range(0.3f, 1f)] private float iconSizeRatio = 1f;
 
     [Header("Preview")]
     [SerializeField] private Image previewIconImage;
@@ -49,8 +51,8 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
             if (sameSlot)
                 return;
 
-            ItemDataSO sourceItem = sourceSlot.inventoryData.slots[sourceSlot.slotIndex].itemData;
-            ItemDataSO targetItem = inventoryData.slots[slotIndex].itemData;
+            ItemDataSO sourceItem = sourceSlot.inventoryData.Slots[sourceSlot.slotIndex].itemData;
+            ItemDataSO targetItem = inventoryData.Slots[slotIndex].itemData;
             if (sourceItem == null)
                 return;
 
@@ -61,7 +63,7 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
         }
 
         // Drag from non-inventory source (e.g. assembly): only place into empty inventory slot.
-        if (!inventoryData.slots[slotIndex].IsEmpty)
+        if (!inventoryData.Slots[slotIndex].IsEmpty)
             return;
 
         inventoryData.SetItemAt(slotIndex, draggedItem.itemData);
@@ -87,7 +89,7 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
         {
             GameObject obj = Instantiate(itemIconPrefab, transform);
             currentItemUI = obj.GetComponent<ItemUI>();
-            obj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            ApplyIconSize(currentItemUI.GetComponent<RectTransform>());
         }
 
         currentItemUI.SetItem(slot.itemData);
@@ -174,16 +176,16 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
         if (inventoryData == null || !IsValidSlot(inventoryData, slotIndex))
             return;
 
-        ItemDataSO item = inventoryData.slots[slotIndex].itemData;
+        ItemDataSO item = inventoryData.Slots[slotIndex].itemData;
         if (item == null)
             return;
 
-        for (int i = 0; i < inventoryData.slots.Count; i++)
+        for (int i = 0; i < inventoryData.Slots.Count; i++)
         {
             if (i == slotIndex)
                 continue;
 
-            if (!inventoryData.slots[i].IsEmpty)
+            if (!inventoryData.Slots[i].IsEmpty)
                 continue;
 
             inventoryData.SetItemAt(i, item);
@@ -239,9 +241,28 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
         itemUI.iconImage.enabled = visible;
     }
 
-    private static bool IsValidSlot(InventorySO data, int index)
+    private void ApplyIconSize(RectTransform iconRect)
     {
-        return data != null && index >= 0 && index < data.slots.Count;
+        if (iconRect == null)
+            return;
+
+        RectTransform slotRect = transform as RectTransform;
+        if (slotRect == null)
+            return;
+
+        iconRect.anchorMin = new Vector2(0.5f, 0.5f);
+        iconRect.anchorMax = new Vector2(0.5f, 0.5f);
+        iconRect.anchoredPosition = Vector2.zero;
+
+        float slotSize = Mathf.Min(slotRect.rect.width, slotRect.rect.height);
+        float size = slotSize * iconSizeRatio;
+        iconRect.sizeDelta = new Vector2(size, size);
+        iconRect.localScale = Vector3.one;
+    }
+
+    private static bool IsValidSlot(IStorageData data, int index)
+    {
+        return data != null && index >= 0 && index < data.Slots.Count;
     }
 
     private static InventorySlotUI ResolveSourceInventorySlot(GameObject draggedObj)

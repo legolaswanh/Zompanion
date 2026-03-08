@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotIndex: 0
-  inventoryData: {fileID: 11400000, guid: 9c4949eb36c979b4a910972d931db093, type: 2}
   itemIconPrefab: {fileID: 2390937968642615122, guid: b9475713035d389469f2eaa81ce8cc28, type: 3}
+  iconSizeRatio: 0.85
   previewIconImage: {fileID: 7409458885775825935}
   previewAlpha: 0.5
   currentItem: {fileID: 0}

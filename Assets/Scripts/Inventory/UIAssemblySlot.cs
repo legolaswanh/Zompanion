@@ -13,6 +13,8 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
     [Header("图标")]
     [Tooltip("与背包格子共用同一个 ItemIcon 预制体")]
     [SerializeField] private GameObject itemIconPrefab;
+    [Tooltip("物品图标占格子大小的比例，1=100%，0.85=85%。与 InventorySlotUI 的 iconSizeRatio 一致")]
+    [SerializeField] [Range(0.3f, 1f)] private float iconSizeRatio = 1f;
 
 
     private void OnEnable()
@@ -84,7 +86,9 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
 
                 // 视觉处理：把图标留在合成格里
                 draggedObj.transform.SetParent(this.transform);
-                draggedObj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                var iconRect = draggedObj.GetComponent<RectTransform>();
+                iconRect.anchoredPosition = Vector2.zero;
+                ApplyIconSize(iconRect);
                 GetComponent<Image>().enabled = false;
                 Debug.Log($"已放入部位: {draggedItemUI.itemData.itemName}");
             }
@@ -123,12 +127,36 @@ public class UIAssemblySlot : MonoBehaviour, IDropHandler
 
         GameObject obj = Instantiate(itemIconPrefab, spawnParent);
         obj.transform.SetParent(transform);
-        obj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        var iconRect = obj.GetComponent<RectTransform>();
+        if (iconRect != null)
+        {
+            iconRect.anchoredPosition = Vector2.zero;
+            ApplyIconSize(iconRect);
+        }
 
         var itemUI = obj.GetComponent<ItemUI>();
         if (itemUI != null)
             itemUI.SetItem(item);
 
         GetComponent<Image>().enabled = false;
+    }
+
+    private void ApplyIconSize(RectTransform iconRect)
+    {
+        if (iconRect == null)
+            return;
+
+        RectTransform slotRect = transform as RectTransform;
+        if (slotRect == null)
+            return;
+
+        iconRect.anchorMin = new Vector2(0.5f, 0.5f);
+        iconRect.anchorMax = new Vector2(0.5f, 0.5f);
+        iconRect.anchoredPosition = Vector2.zero;
+
+        float slotSize = Mathf.Min(slotRect.rect.width, slotRect.rect.height);
+        float size = slotSize * iconSizeRatio;
+        iconRect.sizeDelta = new Vector2(size, size);
+        iconRect.localScale = Vector3.one;
     }
 }

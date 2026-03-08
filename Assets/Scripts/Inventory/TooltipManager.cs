@@ -18,6 +18,8 @@ public class TooltipManager : MonoBehaviour
     {
         Instance = this;
         canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = false; // 不阻挡鼠标射线，否则 tooltip 会挡住背包格子导致 OnPointerEnter 无法触发
     }
 
     private void Update()

@@ -9,6 +9,7 @@ TagManager:
   - AssemblyPlatform
   - InventoryContent
   - InteractiveZombie
+  - Chest
   layers:
   - Default
   - TransparentFX

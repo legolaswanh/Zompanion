@@ -67,6 +67,11 @@ public class PlayerInteraction : MonoBehaviour
         if (!ctx.performed)
             return;
 
+        // 调试：确认 E 键是否到达此处，以及被哪个条件拦截
+        string triggerName = currentActiveTrigger != null ? currentActiveTrigger.name : "null";
+        string triggerTag = currentActiveTrigger != null ? currentActiveTrigger.tag : "-";
+        Debug.Log("[PlayerInteraction] E pressed. pause=" + UIPauseState.IsPaused + " trigger=" + triggerName + " tag=" + triggerTag);
+
         if (UIPauseState.IsPaused)
             return;
 
@@ -81,8 +86,14 @@ public class PlayerInteraction : MonoBehaviour
             case "AssemblyPlatform":
                 OpenAssemblyPlatform(currentActiveTrigger.GetComponent<AssemblyPlatform>());
                 break;
+            case "Chest":
+                OpenChest(currentActiveTrigger.GetComponent<ChestInteractTrigger>());
+                break;
             case "InteractiveZombie":
                 TriggerDialogue(currentActiveTrigger.GetComponent<DialogueInteractTrigger>());
+                break;
+            default:
+                Debug.LogWarning("[PlayerInteraction] 按 E 时未识别的 Tag: " + currentActiveTrigger.tag + "。宝箱需设为 Tag: Chest");
                 break;
         }
     }
@@ -117,6 +128,14 @@ public class PlayerInteraction : MonoBehaviour
             return;
 
         platform.OpenPlatFormUI();
+    }
+
+    private void OpenChest(ChestInteractTrigger chest)
+    {
+        if (chest == null)
+            return;
+
+        chest.Interact();
     }
 
     private void TriggerDialogue(DialogueInteractTrigger dialogue)

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerInventory", menuName = "Inventory/Inventory System")]
-public class InventorySO : ScriptableObject
+public class InventorySO : ScriptableObject, IStorageData
 {
     [Header("Config")]
     public int baseCapacity = 10;
@@ -22,6 +22,8 @@ public class InventorySO : ScriptableObject
 
     [Header("Data")]
     public List<InventorySlot> slots = new List<InventorySlot>();
+
+    public List<InventorySlot> Slots => slots;
 
     public event System.Action OnInventoryUpdated;
 
