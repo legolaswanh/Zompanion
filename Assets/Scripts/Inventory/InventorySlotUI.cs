@@ -141,7 +141,13 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler, IPointerEnterHandler
         }
 
         if (currentItem.itemType == ItemType.InteractiveProp && SceneManager.GetActiveScene().name == "HomeScene")
+        {
+            var go = GameObject.Find(currentItem.timelineObjectName);
+            var director = go != null ? go.GetComponent<PlayableDirector>() : null;
+            if (director != null && HomeSceneEntryTimelineTrigger.TryPlayPlatformTimelineFromClick(currentItem, director))
+                return;
             UseSpecialItem();
+        }
     }
 
     private void UseSpecialItem()

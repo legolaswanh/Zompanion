@@ -114,6 +114,19 @@ public class InventoryDisplay : MonoBehaviour
         SetInventoryVisible(!IsVisible);
     }
 
+    /// <summary>根据物品查找对应的 slot UI，用于外部高亮/闪烁等。</summary>
+    public InventorySlotUI TryGetSlotUIForItem(ItemDataSO item)
+    {
+        if (inventoryData == null || item == null || slotUIList == null) return null;
+        for (int i = 0; i < inventoryData.Slots.Count && i < slotUIList.Count; i++)
+        {
+            var s = inventoryData.Slots[i];
+            if (s != null && !s.IsEmpty && s.itemData == item)
+                return slotUIList[i];
+        }
+        return null;
+    }
+
     public void SetInventoryVisible(bool visible)
     {
         GameObject panel = GetPanelRoot();

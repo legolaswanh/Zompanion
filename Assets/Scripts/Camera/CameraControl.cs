@@ -40,12 +40,24 @@ public class CameraControl : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 将 Confiner 绑定到当前场景中 Tag 为 Bounds 的物体上的 Collider2D。
+    /// 支持 PolygonCollider2D 与 CompositeCollider2D。场景无 Bounds 时静默跳过。
+    /// </summary>
     public void SwitchConfinerShape()
     {
-        PolygonCollider2D confinerShape = GameObject.FindGameObjectWithTag("Bounds").GetComponent<PolygonCollider2D>();
-        CinemachineConfiner2D confiner = GetComponent<CinemachineConfiner2D>();
-        confiner.BoundingShape2D = confinerShape;
+        var boundsObj = GameObject.FindGameObjectWithTag("Bounds");
+        if (boundsObj == null) return;
 
+        Collider2D confinerShape = boundsObj.GetComponent<PolygonCollider2D>();
+        if (confinerShape == null)
+            confinerShape = boundsObj.GetComponent<CompositeCollider2D>();
+        if (confinerShape == null) return;
+
+        var confiner = GetComponent<CinemachineConfiner2D>();
+        if (confiner == null) return;
+
+        confiner.BoundingShape2D = confinerShape;
         confiner.InvalidateLensCache();
     }
 

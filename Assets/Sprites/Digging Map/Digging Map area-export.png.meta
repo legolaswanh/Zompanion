@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: a2fbd7df4a6e1f145875567db6daf884
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6709473325457756222
+    second: Digging Map area-export_0
+  - first:
+      213: -7411828372871353847
+    second: Digging Map area-export_1
+  - first:
+      213: -3135123523933818484
+    second: Digging Map area-export_2
+  - first:
+      213: 4856340674138313451
+    second: Digging Map area-export_3
+  - first:
+      213: -1382434518110045496
+    second: Digging Map area-export_4
+  - first:
+      213: 7968099756965185158
+    second: Digging Map area-export_5
+  - first:
+      213: -1083109977720318023
+    second: Digging Map area-export_6
+  - first:
+      213: -6572237135646051653
+    second: Digging Map area-export_7
+  - first:
+      213: -5509070379528737601
+    second: Digging Map area-export_8
+  - first:
+      213: 2539148855684652727
+    second: Digging Map area-export_9
+  - first:
+      213: -8840075852412790827
+    second: Digging Map area-export_10
+  - first:
+      213: 3350675325317411510
+    second: Digging Map area-export_11
+  - first:
+      213: -8932845714501848768
+    second: Digging Map area-export_12
+  - first:
+      213: -2538150314153326965
+    second: Digging Map area-export_13
+  - first:
+      213: -562877146530651354
+    second: Digging Map area-export_14
+  - first:
+      213: 8788927008186679599
+    second: Digging Map area-export_15
+  - first:
+      213: 1157948202991346421
+    second: Digging Map area-export_16
+  - first:
+      213: 7832155160449433124
+    second: Digging Map area-export_17
+  - first:
+      213: 5782249431215563887
+    second: Digging Map area-export_18
+  - first:
+      213: 7921052495400828511
+    second: Digging Map area-export_19
+  - first:
+      213: 8820606726196522220
+    second: Digging Map area-export_20
+  - first:
+      213: 2921887397990441119
+    second: Digging Map area-export_21
+  - first:
+      213: 567945460684557117
+    second: Digging Map area-export_22
+  - first:
+      213: -8795101830529356528
+    second: Digging Map area-export_23
+  - first:
+      213: 3696622467671338671
+    second: Digging Map area-export_24
+  - first:
+      213: -6533758593287865297
+    second: Digging Map area-export_25
+  - first:
+      213: 4363248072357614982
+    second: Digging Map area-export_26
+  - first:
+      213: -9181376322123853681
+    second: Digging Map area-export_27
+  - first:
+      213: 985398603827707590
+    second: Digging Map area-export_28
+  - first:
+      213: 1769637724219317146
+    second: Digging Map area-export_29
+  - first:
+      213: -6828272847153243330
+    second: Digging Map area-export_30
+  - first:
+      213: 4428396702025743189
+    second: Digging Map area-export_31
+  - first:
+      213: -6283596202823014559
+    second: Digging Map area-export_32
+  - first:
+      213: -711765036056743019
+    second: Digging Map area-export_33
+  - first:
+      213: -1617075350105079045
+    second: Digging Map area-export_34
+  - first:
+      213: -7627921487541112737
+    second: Digging Map area-export_35
+  - first:
+      213: -4381771948452214094
+    second: Digging Map area-export_36
+  - first:
+      213: -815433600821593302
+    second: Digging Map area-export_37
+  - first:
+      213: 3437530090374221605
+    second: Digging Map area-export_38
+  - first:
+      213: 8123996658257768102
+    second: Digging Map area-export_39
+  - first:
+      213: 4228279091698004614
+    second: Digging Map area-export_40
+  - first:
+      213: -72434715220853393
+    second: Digging Map area-export_41
+  - first:
+      213: 4043790317796119061
+    second: Digging Map area-export_42
+  - first:
+      213: -5019053747185194919
+    second: Digging Map area-export_43
+  - first:
+      213: -7884950794020219997
+    second: Digging Map area-export_44
+  - first:
+      213: -7407203539156986095
+    second: Digging Map area-export_45
+  - first:
+      213: 5279489365366071901
+    second: Digging Map area-export_46
+  - first:
+      213: 5069371187524229148
+    second: Digging Map area-export_47
+  - first:
+      213: 3208724633696983143
+    second: Digging Map area-export_48
+  - first:
+      213: 4819122785469065843
+    second: Digging Map area-export_49
+  - first:
+      213: -3834923990476810491
+    second: Digging Map area-export_50
+  - first:
+      213: 184842410086807007
+    second: Digging Map area-export_51
+  - first:
+      213: 3616138555534097950
+    second: Digging Map area-export_52
+  - first:
+      213: -4345516663191074936
+    second: Digging Map area-export_53
+  - first:
+      213: -4160335392689740274
+    second: Digging Map area-export_54
+  - first:
+      213: -493171599621797955
+    second: Digging Map area-export_55
+  - first:
+      213: -2151276584526371765
+    second: Digging Map area-export_56
+  - first:
+      213: -8472202093230404266
+    second: Digging Map area-export_57
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Digging Map area-export_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 12799
+        width: 800
+        height: 801
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e305ed1f076dc1d50800000000000000
+      internalID: 6709473325457756222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 11999
+        width: 800
+        height: 752
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90a67da4d55e32990800000000000000
+      internalID: -7411828372871353847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_5
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 11592
+        width: 159
+        height: 84
+      alignment: 9
+      pivot: {x: 0.49395216, y: 0.21952893}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68649cc1380649e60800000000000000
+      internalID: 7968099756965185158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 11098
+        width: 110
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7be5ce66e6edc3320800000000000000
+      internalID: 2539148855684652727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 11070
+        width: 40
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d75d6559ddb15580800000000000000
+      internalID: -8840075852412790827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_11
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 11056
+        width: 140
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b2f53ba47dff7e20800000000000000
+      internalID: 3350675325317411510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_12
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 11010
+        width: 324
+        height: 194
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0413fb1a628280480800000000000000
+      internalID: -8932845714501848768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_13
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 11070
+        width: 94
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b86485aacbda6ccd0800000000000000
+      internalID: -2538150314153326965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_15
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 10989
+        width: 260
+        height: 215
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f21cdc75c8a88f970800000000000000
+      internalID: 8788927008186679599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_19
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 11038
+        width: 26
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5e769be64b3ded60800000000000000
+      internalID: 7921052495400828511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_22
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 9651
+        width: 59
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3b06eb236fb1e700800000000000000
+      internalID: 567945460684557117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9091
+        width: 223
+        height: 317
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01de8ebcb7581f580800000000000000
+      internalID: -8795101830529356528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_27
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 8480
+        width: 106
+        height: 70
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8010aa41e2359080800000000000000
+      internalID: -9181376322123853681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_28
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 7610
+        width: 85
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cef05f2fc6dcad00800000000000000
+      internalID: 985398603827707590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_29
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 7039
+        width: 40
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9b193d52240f8810800000000000000
+      internalID: 1769637724219317146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_30
+      rect:
+        serializedVersion: 2
+        x: 428
+        y: 6144
+        width: 83
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3b5cf3f50a1d31a0800000000000000
+      internalID: -6828272847153243330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_31
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 4862
+        width: 40
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55b71cc7653d47d30800000000000000
+      internalID: 4428396702025743189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_32
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 4132
+        width: 159
+        height: 157
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 167adb2ab8e2cc8a0800000000000000
+      internalID: -6283596202823014559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_33
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 4117
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5937b46887d4f16f0800000000000000
+      internalID: -711765036056743019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_34
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 3518
+        width: 131
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf242f5698efe89e0800000000000000
+      internalID: -1617075350105079045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_35
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 3592
+        width: 131
+        height: 274
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f50fa8052dd242690800000000000000
+      internalID: -7627921487541112737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_37
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 3490
+        width: 98
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2b7c1dd57ffea4f0800000000000000
+      internalID: -815433600821593302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_40
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 3400
+        width: 54
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 682fed77e6dddaa30800000000000000
+      internalID: 4228279091698004614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_45
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 2683
+        width: 134
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 117188d40a3543990800000000000000
+      internalID: -7407203539156986095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_47
+      rect:
+        serializedVersion: 2
+        x: 373
+        y: 2683
+        width: 70
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c185bf28c360a5640800000000000000
+      internalID: 5069371187524229148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_48
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 2656
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 768dd85cd0ea78c20800000000000000
+      internalID: 3208724633696983143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_49
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 2603
+        width: 174
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37aefdcf3a6f0e240800000000000000
+      internalID: 4819122785469065843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_50
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 2656
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 507910fe2fc97cac0800000000000000
+      internalID: -3834923990476810491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_51
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 2456
+        width: 19
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd5b6a05131b09200800000000000000
+      internalID: 184842410086807007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_52
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 1654
+        width: 141
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1e343d6bda1f2230800000000000000
+      internalID: 3616138555534097950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_54
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 956
+        width: 47
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e062e34b0058346c0800000000000000
+      internalID: -4160335392689740274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_55
+      rect:
+        serializedVersion: 2
+        x: 725
+        y: 210
+        width: 75
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db74b370b07e729f0800000000000000
+      internalID: -493171599621797955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 213
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b44a0b528512522e0800000000000000
+      internalID: -2151276584526371765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_57
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 0
+        width: 364
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65d4ea77511bc6a80800000000000000
+      internalID: -8472202093230404266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Digging Map area-export_2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 9218
+        width: 219
+        height: 198
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b990afbb317d824f9e959e64f7777f7
+      internalID: -3135123523933818484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 31af550c02956424ea9389cb78337149
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Digging Map area-export_0: 6709473325457756222
+      Digging Map area-export_1: -7411828372871353847
+      Digging Map area-export_10: -8840075852412790827
+      Digging Map area-export_11: 3350675325317411510
+      Digging Map area-export_12: -8932845714501848768
+      Digging Map area-export_13: -2538150314153326965
+      Digging Map area-export_14: -562877146530651354
+      Digging Map area-export_15: 8788927008186679599
+      Digging Map area-export_16: 1157948202991346421
+      Digging Map area-export_17: 7832155160449433124
+      Digging Map area-export_18: 5782249431215563887
+      Digging Map area-export_19: 7921052495400828511
+      Digging Map area-export_2: -3135123523933818484
+      Digging Map area-export_20: 8820606726196522220
+      Digging Map area-export_21: 2921887397990441119
+      Digging Map area-export_22: 567945460684557117
+      Digging Map area-export_23: -8795101830529356528
+      Digging Map area-export_24: 3696622467671338671
+      Digging Map area-export_25: -6533758593287865297
+      Digging Map area-export_26: 4363248072357614982
+      Digging Map area-export_27: -9181376322123853681
+      Digging Map area-export_28: 985398603827707590
+      Digging Map area-export_29: 1769637724219317146
+      Digging Map area-export_3: 4856340674138313451
+      Digging Map area-export_30: -6828272847153243330
+      Digging Map area-export_31: 4428396702025743189
+      Digging Map area-export_32: -6283596202823014559
+      Digging Map area-export_33: -711765036056743019
+      Digging Map area-export_34: -1617075350105079045
+      Digging Map area-export_35: -7627921487541112737
+      Digging Map area-export_36: -4381771948452214094
+      Digging Map area-export_37: -815433600821593302
+      Digging Map area-export_38: 3437530090374221605
+      Digging Map area-export_39: 8123996658257768102
+      Digging Map area-export_4: -1382434518110045496
+      Digging Map area-export_40: 4228279091698004614
+      Digging Map area-export_41: -72434715220853393
+      Digging Map area-export_42: 4043790317796119061
+      Digging Map area-export_43: -5019053747185194919
+      Digging Map area-export_44: -7884950794020219997
+      Digging Map area-export_45: -7407203539156986095
+      Digging Map area-export_46: 5279489365366071901
+      Digging Map area-export_47: 5069371187524229148
+      Digging Map area-export_48: 3208724633696983143
+      Digging Map area-export_49: 4819122785469065843
+      Digging Map area-export_5: 7968099756965185158
+      Digging Map area-export_50: -3834923990476810491
+      Digging Map area-export_51: 184842410086807007
+      Digging Map area-export_52: 3616138555534097950
+      Digging Map area-export_53: -4345516663191074936
+      Digging Map area-export_54: -4160335392689740274
+      Digging Map area-export_55: -493171599621797955
+      Digging Map area-export_56: -2151276584526371765
+      Digging Map area-export_57: -8472202093230404266
+      Digging Map area-export_6: -1083109977720318023
+      Digging Map area-export_7: -6572237135646051653
+      Digging Map area-export_8: -5509070379528737601
+      Digging Map area-export_9: 2539148855684652727
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

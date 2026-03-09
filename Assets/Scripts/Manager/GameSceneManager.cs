@@ -170,6 +170,8 @@ public class GameSceneManager : MonoBehaviour
             yield return null;
         BindFollowVCamsToPlayer();
         ActivateFollowVCam();
+        if (CameraControl.Instance != null)
+            CameraControl.Instance.SwitchConfinerShape();
         EnsurePlayerControlEnabled();
     }
 
