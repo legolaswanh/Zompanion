@@ -229,7 +229,7 @@ public class ZombieAssignmentController : MonoBehaviour
                                  exploreService.PendingDefinitionId == _boundDefinitionId;
 
         if (buttonText != null)
-            buttonText.text = traveling ? "Stop Explore" : (storiesUnlocked ? "Explore" : "Unlock all stories to function");
+            buttonText.text = traveling ? "Stop Explore" : (storiesUnlocked ? "Travel & Explore" : "Unlock all stories to function");
         if (actionButton != null)
             actionButton.interactable = traveling || storiesUnlocked;
 
