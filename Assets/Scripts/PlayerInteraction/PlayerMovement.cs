@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using PixelCrushers.DialogueSystem;
 
@@ -101,6 +101,13 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 LastDir()
     {
         return lastDir;
+    }
+
+    /// <summary>设置朝向（场景切换后恢复进入传送前的朝向）</summary>
+    public void SetFacingDirection(Vector2 dir)
+    {
+        if (dir.sqrMagnitude > 0.01f)
+            lastDir = ToCardinalDirection(dir);
     }
 
     private Vector2 ToCardinalDirection(Vector2 input)

@@ -280,13 +280,34 @@ namespace Code.Scripts
 
         public void PlaceOrSpawnPlayerAtSpawnPoint()
         {
-            GameObject spawnPoint = GameObject.FindWithTag("SpawnPoint");
-            if (spawnPoint == null)
-                return;
+            string currentScene = SceneManager.GetActiveScene().name;
+            Vector3 pos;
+            Quaternion rot;
+            Vector2? facingOverride = null;
 
-            Transform spawnTransform = spawnPoint.transform;
-            Vector3 pos = spawnTransform.position;
-            Quaternion rot = spawnTransform.rotation;
+            if (SpawnContext.HasTransitionContext && SpawnContext.TargetSceneName == currentScene)
+            {
+                var entryPoint = FindSceneEntryPoint(SpawnContext.EntryPointId);
+                if (entryPoint != null)
+                {
+                    pos = entryPoint.GetSpawnPosition(SpawnContext.FacingDirection);
+                    rot = Quaternion.identity;
+                    facingOverride = SpawnContext.FacingDirection;
+                    SpawnContext.Clear();
+                }
+                else
+                {
+                    Debug.LogWarning($"[GameManager] 未找到 EntryPointId={SpawnContext.EntryPointId}，退回默认 SpawnPoint");
+                    SpawnContext.Clear();
+                    if (!TryGetDefaultSpawn(out pos, out rot))
+                        return;
+                }
+            }
+            else
+            {
+                if (!TryGetDefaultSpawn(out pos, out rot))
+                    return;
+            }
 
             if (_currentPlayer == null)
             {
@@ -301,6 +322,44 @@ namespace Code.Scripts
             {
                 _currentPlayer.transform.SetPositionAndRotation(pos, rot);
             }
+
+            var rb = _currentPlayer.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+                rb.position = new Vector2(pos.x, pos.y);
+            }
+
+            var pm = _currentPlayer.GetComponent<PlayerMovement>();
+            if (pm != null && facingOverride.HasValue)
+                pm.SetFacingDirection(facingOverride.Value);
+        }
+
+        private static SceneEntryPoint FindSceneEntryPoint(string entryPointId)
+        {
+#if UNITY_2023_1_OR_NEWER
+            var all = UnityEngine.Object.FindObjectsByType<SceneEntryPoint>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+#else
+            var all = UnityEngine.Object.FindObjectsOfType<SceneEntryPoint>(true);
+#endif
+            foreach (var ep in all)
+            {
+                if (ep != null && ep.EntryPointId == entryPointId)
+                    return ep;
+            }
+            return null;
+        }
+
+        private static bool TryGetDefaultSpawn(out Vector3 pos, out Quaternion rot)
+        {
+            pos = Vector3.zero;
+            rot = Quaternion.identity;
+            GameObject spawnPoint = GameObject.FindWithTag("SpawnPoint");
+            if (spawnPoint == null) return false;
+            pos = spawnPoint.transform.position;
+            rot = spawnPoint.transform.rotation;
+            return true;
         }
 
         public void SetPlayerControlEnabled(bool enabled)

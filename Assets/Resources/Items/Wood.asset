@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Wood
   description: A wood, construction materials.
-  useInfo: 
+  useInfo: Just store it first
   icon: {fileID: 21300000, guid: 60ec7e69f5148dc41b186a9393eca2e1, type: 3}
   itemType: 0
   timelineObjectName: 

@@ -28,10 +28,24 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 89a56ffcc89f1174e91e65140ca29d00, type: 2}
     count: 1
     isKeyItem: 1
-  randomFillerPool:
-  - {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
-  - {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
-  - {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
-  - {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
+  - item: {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
+    count: 1
+    isKeyItem: 0
+  - item: {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
+    count: 1
+    isKeyItem: 0
+  - item: {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
+    count: 1
+    isKeyItem: 0
+  - item: {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
+    count: 1
+    isKeyItem: 0
+  - item: {fileID: 11400000, guid: 95ac60f684ff92348b39b173231de4cc, type: 2}
+    count: 1
+    isKeyItem: 0
+  - item: {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
+    count: 1
+    isKeyItem: 0
+  randomFillerPool: []
   fallbackItem: {fileID: 0}
   developerNotes: 

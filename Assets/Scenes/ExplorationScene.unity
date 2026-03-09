@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 21422291}
   - component: {fileID: 21422290}
   - component: {fileID: 21422289}
+  - component: {fileID: 21422292}
   m_Layer: 0
   m_Name: Digging Map area-export_23
   m_TagString: Untagged
@@ -287,7 +288,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -8795101830529356528, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -300,6 +301,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &21422292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21422287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &45848270
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 45848271}
   - component: {fileID: 45848272}
+  - component: {fileID: 45848273}
   m_Layer: 0
   m_Name: Digging Map area-export_2
   m_TagString: Untagged
@@ -374,7 +397,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -3135123523933818484, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -387,6 +410,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &45848273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45848270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &50095978
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,6 +441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 50095979}
   - component: {fileID: 50095980}
+  - component: {fileID: 50095981}
   m_Layer: 0
   m_Name: Digging Map area-export_47
   m_TagString: Untagged
@@ -461,7 +506,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 5069371187524229148, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -474,6 +519,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &50095981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50095978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &156720672
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +551,7 @@ GameObject:
   - component: {fileID: 156720673}
   - component: {fileID: 156720675}
   - component: {fileID: 156720674}
+  - component: {fileID: 156720676}
   m_Layer: 0
   m_Name: Digging Map area-export_29
   m_TagString: Untagged
@@ -595,7 +662,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 1769637724219317146, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -608,6 +675,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &156720676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156720672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &157990798
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,6 +708,7 @@ GameObject:
   - component: {fileID: 157990802}
   - component: {fileID: 157990801}
   - component: {fileID: 157990800}
+  - component: {fileID: 157990803}
   m_Layer: 0
   m_Name: Digging Map area-export_15
   m_TagString: Untagged
@@ -780,7 +869,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 8788927008186679599, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -793,6 +882,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &157990803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157990798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &195226751
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,6 +950,7 @@ GameObject:
   - component: {fileID: 284167142}
   - component: {fileID: 284167144}
   - component: {fileID: 284167143}
+  - component: {fileID: 284167145}
   m_Layer: 0
   m_Name: Digging Map area-export_52
   m_TagString: Untagged
@@ -962,7 +1073,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 3616138555534097950, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -975,6 +1086,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &284167145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284167141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &296846050
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +1117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 296846051}
   - component: {fileID: 296846052}
+  - component: {fileID: 296846053}
   m_Layer: 0
   m_Name: Digging Map area-export_55
   m_TagString: Untagged
@@ -1049,7 +1182,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -493171599621797955, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1062,6 +1195,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &296846053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296846050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &306444772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,6 +1226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 306444773}
   - component: {fileID: 306444774}
+  - component: {fileID: 306444775}
   m_Layer: 0
   m_Name: Digging Map area-export_48
   m_TagString: Untagged
@@ -1136,7 +1291,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 3208724633696983143, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1149,6 +1304,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &306444775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306444772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &310565721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,6 +1335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 310565722}
   - component: {fileID: 310565723}
+  - component: {fileID: 310565724}
   m_Layer: 0
   m_Name: Digging Map area-export_57
   m_TagString: Untagged
@@ -1223,7 +1400,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -8472202093230404266, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1236,6 +1413,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &310565724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310565721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &338444842
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,6 +1445,7 @@ GameObject:
   - component: {fileID: 338444843}
   - component: {fileID: 338444845}
   - component: {fileID: 338444844}
+  - component: {fileID: 338444846}
   m_Layer: 0
   m_Name: Digging Map area-export_54
   m_TagString: Untagged
@@ -1357,7 +1556,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -4160335392689740274, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1370,6 +1569,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &338444846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338444842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &352029997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,6 +1793,7 @@ GameObject:
   - component: {fileID: 353012203}
   - component: {fileID: 353012205}
   - component: {fileID: 353012204}
+  - component: {fileID: 353012206}
   m_Layer: 0
   m_Name: Digging Map area-export_29 (1)
   m_TagString: Untagged
@@ -1683,7 +1904,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 1769637724219317146, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1696,6 +1917,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &353012206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353012202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &442357712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,6 +1948,7 @@ GameObject:
   m_Component:
   - component: {fileID: 442357713}
   - component: {fileID: 442357714}
+  - component: {fileID: 442357715}
   m_Layer: 0
   m_Name: Digging Map area-export_10
   m_TagString: Untagged
@@ -1770,7 +2013,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -8840075852412790827, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1783,6 +2026,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &442357715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442357712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &447946172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1795,6 +2059,7 @@ GameObject:
   - component: {fileID: 447946176}
   - component: {fileID: 447946175}
   - component: {fileID: 447946174}
+  - component: {fileID: 447946177}
   m_Layer: 0
   m_Name: Digging Map area-export_5
   m_TagString: Untagged
@@ -1951,7 +2216,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7968099756965185158, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1964,6 +2229,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &447946177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447946172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &464838848
 GameObject:
   m_ObjectHideFlags: 0
@@ -1974,6 +2260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464838849}
   - component: {fileID: 464838850}
+  - component: {fileID: 464838851}
   m_Layer: 0
   m_Name: Digging Map area-export_56 (1)
   m_TagString: Untagged
@@ -2038,7 +2325,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2151276584526371765, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2051,6 +2338,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &464838851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464838848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &494496846
 GameObject:
   m_ObjectHideFlags: 0
@@ -2062,6 +2370,7 @@ GameObject:
   - component: {fileID: 494496847}
   - component: {fileID: 494496849}
   - component: {fileID: 494496848}
+  - component: {fileID: 494496850}
   m_Layer: 0
   m_Name: Digging Map area-export_31 (1)
   m_TagString: Untagged
@@ -2172,7 +2481,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 4428396702025743189, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2185,6 +2494,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &494496850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494496846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &530378877
 GameObject:
   m_ObjectHideFlags: 0
@@ -2200,9 +2530,10 @@ GameObject:
   - component: {fileID: 530378881}
   - component: {fileID: 530378880}
   - component: {fileID: 530378885}
+  - component: {fileID: 530378886}
   m_Layer: 0
   m_Name: Digging Map area-export_30 (2)
-  m_TagString: Untagged
+  m_TagString: DiggingPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2248,7 +2579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonCanvasPrefab: {fileID: 8547302982356931694, guid: 0569d5e469bc7034699796acfd424ff6, type: 3}
-  offsetY: 1.5
+  offsetY: 1.95
 --- !u!114 &530378882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2353,7 +2684,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6828272847153243330, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2412,6 +2743,27 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.716871, y: 4.042899}
   m_EdgeRadius: 0
+--- !u!114 &530378886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530378877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &608396191
 GameObject:
   m_ObjectHideFlags: 0
@@ -2423,6 +2775,7 @@ GameObject:
   - component: {fileID: 608396192}
   - component: {fileID: 608396194}
   - component: {fileID: 608396193}
+  - component: {fileID: 608396195}
   m_Layer: 0
   m_Name: Digging Map area-export_9
   m_TagString: Untagged
@@ -2533,7 +2886,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 2539148855684652727, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2546,6 +2899,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &608396195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608396191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &700972436
 GameObject:
   m_ObjectHideFlags: 0
@@ -2643,6 +3017,7 @@ GameObject:
   m_Component:
   - component: {fileID: 712910125}
   - component: {fileID: 712910126}
+  - component: {fileID: 712910127}
   m_Layer: 0
   m_Name: Digging Map area-export_35
   m_TagString: Untagged
@@ -2707,7 +3082,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -7627921487541112737, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2720,6 +3095,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &712910127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712910124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &723213238
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,6 +3210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 852695194}
   - component: {fileID: 852695195}
+  - component: {fileID: 852695196}
   m_Layer: 0
   m_Name: Digging Map area-export_19
   m_TagString: Untagged
@@ -2878,7 +3275,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7921052495400828511, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2891,6 +3288,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &852695196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852695193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &859521586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2901,6 +3319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 859521587}
   - component: {fileID: 859521588}
+  - component: {fileID: 859521589}
   m_Layer: 0
   m_Name: Digging Map area-export_56
   m_TagString: Untagged
@@ -2965,7 +3384,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2151276584526371765, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2978,6 +3397,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &859521589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859521586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &896800718
 GameObject:
   m_ObjectHideFlags: 0
@@ -2989,6 +3429,7 @@ GameObject:
   - component: {fileID: 896800719}
   - component: {fileID: 896800721}
   - component: {fileID: 896800720}
+  - component: {fileID: 896800722}
   m_Layer: 0
   m_Name: Digging Map area-export_29 (2)
   m_TagString: Untagged
@@ -3099,7 +3540,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 1769637724219317146, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3112,6 +3553,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &896800722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896800718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &996343524
 GameObject:
   m_ObjectHideFlags: 0
@@ -3127,9 +3589,10 @@ GameObject:
   - component: {fileID: 996343528}
   - component: {fileID: 996343527}
   - component: {fileID: 996343532}
+  - component: {fileID: 996343533}
   m_Layer: 0
   m_Name: Digging Map area-export_30 (4)
-  m_TagString: Untagged
+  m_TagString: DiggingPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3175,7 +3638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonCanvasPrefab: {fileID: 8547302982356931694, guid: 0569d5e469bc7034699796acfd424ff6, type: 3}
-  offsetY: 1.5
+  offsetY: 1.95
 --- !u!114 &996343529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3280,7 +3743,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6828272847153243330, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3339,6 +3802,27 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.5564241, y: 3.8984966}
   m_EdgeRadius: 0
+--- !u!114 &996343533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996343524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 1
+  debugLogInterval: 0.5
 --- !u!1 &1078097140
 GameObject:
   m_ObjectHideFlags: 0
@@ -3350,6 +3834,7 @@ GameObject:
   - component: {fileID: 1078097141}
   - component: {fileID: 1078097143}
   - component: {fileID: 1078097142}
+  - component: {fileID: 1078097144}
   m_Layer: 0
   m_Name: Digging Map area-export_27
   m_TagString: Untagged
@@ -3460,7 +3945,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -9181376322123853681, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3473,6 +3958,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1078097144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078097140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1092416569
 GameObject:
   m_ObjectHideFlags: 0
@@ -3484,6 +3990,7 @@ GameObject:
   - component: {fileID: 1092416570}
   - component: {fileID: 1092416572}
   - component: {fileID: 1092416571}
+  - component: {fileID: 1092416573}
   m_Layer: 0
   m_Name: Digging Map area-export_34
   m_TagString: Untagged
@@ -3594,7 +4101,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -1617075350105079045, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3607,6 +4114,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1092416573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092416569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1119250755
 GameObject:
   m_ObjectHideFlags: 0
@@ -3680,6 +4208,7 @@ GameObject:
   - component: {fileID: 1175946836}
   - component: {fileID: 1175946838}
   - component: {fileID: 1175946837}
+  - component: {fileID: 1175946839}
   m_Layer: 0
   m_Name: Digging Map area-export_11
   m_TagString: Untagged
@@ -3794,7 +4323,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 3350675325317411510, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3807,6 +4336,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1175946839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175946835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1182099177
 GameObject:
   m_ObjectHideFlags: 0
@@ -3818,6 +4368,7 @@ GameObject:
   - component: {fileID: 1182099178}
   - component: {fileID: 1182099180}
   - component: {fileID: 1182099179}
+  - component: {fileID: 1182099181}
   m_Layer: 0
   m_Name: Digging Map area-export_32
   m_TagString: Untagged
@@ -3933,7 +4484,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6283596202823014559, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3946,6 +4497,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1182099181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182099177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1188663788
 GameObject:
   m_ObjectHideFlags: 0
@@ -3957,6 +4529,7 @@ GameObject:
   - component: {fileID: 1188663789}
   - component: {fileID: 1188663791}
   - component: {fileID: 1188663790}
+  - component: {fileID: 1188663792}
   m_Layer: 0
   m_Name: Digging Map area-export_37
   m_TagString: Untagged
@@ -4067,7 +4640,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -815433600821593302, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4080,6 +4653,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1188663792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188663788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1238492380
 GameObject:
   m_ObjectHideFlags: 0
@@ -4095,9 +4689,10 @@ GameObject:
   - component: {fileID: 1238492384}
   - component: {fileID: 1238492383}
   - component: {fileID: 1238492388}
+  - component: {fileID: 1238492389}
   m_Layer: 0
   m_Name: Digging Map area-export_30 (1)
-  m_TagString: Untagged
+  m_TagString: DiggingPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4143,7 +4738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonCanvasPrefab: {fileID: 8547302982356931694, guid: 0569d5e469bc7034699796acfd424ff6, type: 3}
-  offsetY: 1.5
+  offsetY: 1.95
 --- !u!114 &1238492385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4248,7 +4843,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6828272847153243330, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4307,6 +4902,58 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.6847816, y: 4.0428987}
   m_EdgeRadius: 0
+--- !u!114 &1238492389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238492380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
+--- !u!1 &1260791678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1260791679}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1260791679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260791678}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.55, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1678297694}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1270897415
 GameObject:
   m_ObjectHideFlags: 0
@@ -4318,6 +4965,7 @@ GameObject:
   - component: {fileID: 1270897416}
   - component: {fileID: 1270897418}
   - component: {fileID: 1270897417}
+  - component: {fileID: 1270897419}
   m_Layer: 0
   m_Name: Digging Map area-export_33
   m_TagString: Untagged
@@ -4428,7 +5076,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -711765036056743019, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4441,6 +5089,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1270897419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1270897415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1272499210
 GameObject:
   m_ObjectHideFlags: 0
@@ -4451,6 +5120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1272499211}
   - component: {fileID: 1272499212}
+  - component: {fileID: 1272499213}
   m_Layer: 0
   m_Name: Digging Map area-export_35 (1)
   m_TagString: Untagged
@@ -4515,7 +5185,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -7627921487541112737, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4528,6 +5198,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1272499213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272499210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1313434164
 GameObject:
   m_ObjectHideFlags: 0
@@ -4574,6 +5265,7 @@ GameObject:
   - component: {fileID: 1436406767}
   - component: {fileID: 1436406769}
   - component: {fileID: 1436406768}
+  - component: {fileID: 1436406770}
   m_Layer: 0
   m_Name: Digging Map area-export_28
   m_TagString: Untagged
@@ -4684,7 +5376,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 985398603827707590, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4697,6 +5389,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1436406770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436406766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
+--- !u!1 &1465954940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1465954941}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1465954941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465954940}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.55, y: -1.09, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1823104144}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1524408195
 GameObject:
   m_ObjectHideFlags: 0
@@ -4707,6 +5451,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1524408196}
   - component: {fileID: 1524408197}
+  - component: {fileID: 1524408198}
   m_Layer: 0
   m_Name: Digging Map area-export_13
   m_TagString: Untagged
@@ -4771,7 +5516,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2538150314153326965, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4784,6 +5529,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1524408198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524408195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1557376511
 GameObject:
   m_ObjectHideFlags: 0
@@ -4799,7 +5565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1557376512
 Transform:
   m_ObjectHideFlags: 0
@@ -4892,6 +5658,7 @@ GameObject:
   - component: {fileID: 1678297694}
   - component: {fileID: 1678297696}
   - component: {fileID: 1678297695}
+  - component: {fileID: 1678297697}
   m_Layer: 0
   m_Name: Digging Map area-export_49
   m_TagString: Untagged
@@ -4911,7 +5678,8 @@ Transform:
   m_LocalPosition: {x: -0.78, y: -3.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1260791679}
   m_Father: {fileID: 1617700264}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!68 &1678297695
@@ -5022,7 +5790,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 4819122785469065843, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5035,6 +5803,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1678297697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678297693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 1260791679}
+  pivotMode: 0
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1679947031
 GameObject:
   m_ObjectHideFlags: 0
@@ -5046,6 +5835,7 @@ GameObject:
   - component: {fileID: 1679947032}
   - component: {fileID: 1679947034}
   - component: {fileID: 1679947033}
+  - component: {fileID: 1679947035}
   m_Layer: 0
   m_Name: Digging Map area-export_45
   m_TagString: Untagged
@@ -5159,7 +5949,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -7407203539156986095, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5172,6 +5962,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1679947035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679947031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1701361372
 GameObject:
   m_ObjectHideFlags: 0
@@ -5187,9 +5998,10 @@ GameObject:
   - component: {fileID: 1701361376}
   - component: {fileID: 1701361375}
   - component: {fileID: 1701361374}
+  - component: {fileID: 1701361380}
   m_Layer: 0
   m_Name: Digging Map area-export_30
-  m_TagString: Untagged
+  m_TagString: DiggingPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5281,7 +6093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonCanvasPrefab: {fileID: 8547302982356931694, guid: 0569d5e469bc7034699796acfd424ff6, type: 3}
-  offsetY: 1.5
+  offsetY: 1.95
 --- !u!114 &1701361377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5294,8 +6106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59aa4dab2633957409801d4d3d49698b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCustomizedPoint: 0
-  assignedItems: []
+  isCustomizedPoint: 1
+  assignedItems:
+  - {fileID: 11400000, guid: 5db1e7d6b2c9e3a40a249be3055aec67, type: 2}
+  - {fileID: 11400000, guid: d60a9a200c6a45846a6eb3fee087df34, type: 2}
   dugSprite: {fileID: 0}
   itemDisplayUI: {fileID: 870419563696545008, guid: 07398f1739bff4c408c494c0c4727392, type: 3}
 --- !u!61 &1701361378
@@ -5386,7 +6200,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6828272847153243330, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5399,6 +6213,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1701361380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701361372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 1
+  debugLogInterval: 0.5
 --- !u!1 &1823104143
 GameObject:
   m_ObjectHideFlags: 0
@@ -5410,6 +6245,7 @@ GameObject:
   - component: {fileID: 1823104144}
   - component: {fileID: 1823104146}
   - component: {fileID: 1823104145}
+  - component: {fileID: 1823104147}
   m_Layer: 0
   m_Name: Digging Map area-export_12
   m_TagString: Untagged
@@ -5429,7 +6265,8 @@ Transform:
   m_LocalPosition: {x: -2.17, y: 10.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1465954941}
   m_Father: {fileID: 1617700264}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &1823104145
@@ -5726,7 +6563,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -8932845714501848768, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5739,6 +6576,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1823104147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823104143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 1465954941}
+  pivotMode: 0
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1924367084
 GameObject:
   m_ObjectHideFlags: 0
@@ -5754,9 +6612,10 @@ GameObject:
   - component: {fileID: 1924367088}
   - component: {fileID: 1924367087}
   - component: {fileID: 1924367092}
+  - component: {fileID: 1924367093}
   m_Layer: 0
   m_Name: Digging Map area-export_30 (3)
-  m_TagString: Untagged
+  m_TagString: DiggingPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5802,7 +6661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonCanvasPrefab: {fileID: 8547302982356931694, guid: 0569d5e469bc7034699796acfd424ff6, type: 3}
-  offsetY: 1.5
+  offsetY: 1.95
 --- !u!114 &1924367089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5907,7 +6766,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6828272847153243330, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5966,6 +6825,27 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.7650046, y: 4.091031}
   m_EdgeRadius: 0
+--- !u!114 &1924367093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924367084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &1942354542
 GameObject:
   m_ObjectHideFlags: 0
@@ -5977,6 +6857,7 @@ GameObject:
   - component: {fileID: 1942354543}
   - component: {fileID: 1942354545}
   - component: {fileID: 1942354544}
+  - component: {fileID: 1942354546}
   m_Layer: 0
   m_Name: Digging Map area-export_31
   m_TagString: Untagged
@@ -6087,7 +6968,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 4428396702025743189, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6100,6 +6981,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1942354546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942354542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &2041831707
 GameObject:
   m_ObjectHideFlags: 0
@@ -6111,6 +7013,7 @@ GameObject:
   - component: {fileID: 2041831708}
   - component: {fileID: 2041831710}
   - component: {fileID: 2041831709}
+  - component: {fileID: 2041831711}
   m_Layer: 0
   m_Name: Digging Map area-export_50
   m_TagString: Untagged
@@ -6221,7 +7124,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2029304613
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -3834923990476810491, guid: a2fbd7df4a6e1f145875567db6daf884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6234,6 +7137,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2041831711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041831707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad199166d2ada7409917871ce1e30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 0}
+  pivotMode: 1
+  useExplicitOrder: 1
+  lowerYInFront: 1
+  baseOrder: 0
+  orderOffset: 0
+  precision: 1000
+  debugLogs: 0
+  debugLogInterval: 0.5
 --- !u!1 &2060864530
 GameObject:
   m_ObjectHideFlags: 0
@@ -6245,6 +7169,7 @@ GameObject:
   - component: {fileID: 2060864533}
   - component: {fileID: 2060864532}
   - component: {fileID: 2060864531}
+  - component: {fileID: 2060864534}
   m_Layer: 0
   m_Name: SceneExitTrigger (1)
   m_TagString: Untagged
@@ -6265,6 +7190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: OutDoorScene
+  entryPointId: FromExplorationScene
+  spawnDirectionOverride: {x: -1, y: 0}
   playerTag: Player
 --- !u!61 &2060864532
 BoxCollider2D:
@@ -6300,7 +7227,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.24408245, y: 0.3851378}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -6321,12 +7248,27 @@ Transform:
   m_GameObject: {fileID: 2060864530}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.57, y: 6.5, z: 0}
+  m_LocalPosition: {x: -11.57, y: 7.272, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2060864534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060864530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f2426bdb2f860342bc255bd105d24c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entryPointId: FromOutDoorScene
+  offsetX: 2.5
+  offsetY: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -112,7 +112,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1629230609
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2166122764670372427, guid: f6d882951cbd8aa46ab0d1866272c423, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -249,10 +249,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortPivot: {fileID: 7372169235607700722}
+  pivotMode: 0
+  useExplicitOrder: 1
   lowerYInFront: 1
   baseOrder: 0
   orderOffset: 0
-  precision: 100
+  precision: 1000
   debugLogs: 0
   debugLogInterval: 0.5
 --- !u!1 &2706239481403212180

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Rock
   description: A rock, construction materials.
-  useInfo: 
+  useInfo: Just store it first
   icon: {fileID: 21300000, guid: 92303b08d69854c4a92717d3bb98a383, type: 3}
   itemType: 0
   timelineObjectName: 
