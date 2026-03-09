@@ -17427,6 +17427,7 @@ GameObject:
   - component: {fileID: 526600855}
   - component: {fileID: 526600854}
   - component: {fileID: 526600856}
+  - component: {fileID: 526600857}
   m_Layer: 0
   m_Name: GameSceneManager
   m_TagString: Untagged
@@ -17485,6 +17486,24 @@ MonoBehaviour:
   flashScaleMax: 1.25
   flashSpeed: 2.5
   enableLog: 1
+--- !u!114 &526600857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526600853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53c6b067768eba43bb6238aa3835a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicClip: {fileID: 8300000, guid: 4d4b6f467e0dbe048b3b9d09ed1b18b7, type: 3}
+  loop: 1
+  volume: 1
+  fadeInTime: 1
+  stopMusicOnLoad: 1
+  stopSpecificMusicName: Intro
 --- !u!1001 &573175998
 PrefabInstance:
   m_ObjectHideFlags: 0

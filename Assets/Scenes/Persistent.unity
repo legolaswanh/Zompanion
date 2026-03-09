@@ -374,7 +374,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -385103.7}
+  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -386373.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -525,11 +525,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b53c6b067768eba43bb6238aa3835a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicClip: {fileID: 0}
+  musicClip: {fileID: 8300000, guid: 71879ec5c4c021b49a01fa22add65dba, type: 3}
   loop: 1
   volume: 1
   fadeInTime: 1
-  stopMusicOnLoad: 0
+  stopMusicOnLoad: 1
+  stopSpecificMusicName: 
 --- !u!4 &719629059
 Transform:
   m_ObjectHideFlags: 0
@@ -848,7 +849,7 @@ Transform:
   m_GameObject: {fileID: 2098059714}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -385103.7}
+  m_LocalPosition: {x: 11.48784, y: -2.074492, z: -386373.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

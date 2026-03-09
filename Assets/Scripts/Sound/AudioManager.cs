@@ -72,6 +72,16 @@ namespace Code.Scripts
 
             if (config.MusicClip != null)
             {
+                // 检查是否需要停止特定音乐
+                if (!string.IsNullOrEmpty(config.StopSpecificMusicName) && _musicSource.clip != null)
+                {
+                    if (_musicSource.clip.name == config.StopSpecificMusicName)
+                    {
+                        Debug.Log($"[AudioManager] 检测到停止特定音乐: {config.StopSpecificMusicName}，停止当前播放");
+                        StopMusic(0f);
+                    }
+                }
+
                 PlayMusic(config.MusicClip, config.FadeInTime, config.Loop, config.Volume);
                 if (_musicSource.clip == config.MusicClip && _musicSource.isPlaying)
                     Debug.Log($"[AudioManager] 场景 {scene.name}，相同 BGM 持续播放: {config.MusicClip.name}");

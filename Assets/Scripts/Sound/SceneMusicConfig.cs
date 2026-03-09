@@ -26,10 +26,14 @@ namespace Code.Scripts
         [Tooltip("本场景无 BGM 时是否停止当前音乐")]
         [SerializeField] private bool stopMusicOnLoad = false;
 
+        [Tooltip("需要停止的特定 BGM 名称（填入要中断的 AudioClip.name）；用于从菜单进入游戏时停止菜单音乐")]
+        [SerializeField] private string stopSpecificMusicName = "";
+
         public AudioClip MusicClip => musicClip;
         public bool Loop => loop;
         public float Volume => volume;
         public float FadeInTime => fadeInTime;
         public bool StopMusicOnLoad => stopMusicOnLoad;
+        public string StopSpecificMusicName => stopSpecificMusicName;
     }
 }
