@@ -1,0 +1,307 @@
+项目周期：3月9日第一次测试，3月20日最终提交
+Character system
+
+人物面板（暂时不需要）
+主角交互：
+移动
+挖掘
+收集（点击直接到背包）
+如果有时间扩充功能：可以增加 吃饭、睡觉、时间等元素，吃饭睡觉增加后可丰富僵尸种类，比如钓鱼僵尸，种地僵尸，也可以丰富挖掘地图，比如可以捡水果探索垃圾等。时间功能增加后，可以丰富游戏挖掘限制。
+主角功能：
+背包（mvp）（6格子）（功能：拖拽、丢弃、收集）
+随从僵尸功能（限制2只）（跟随主角，无收纳）：跟随模式 位置方向？（贪吃蛇）
+僵尸挂机（放置生效/直接生效）：（放置：预留位置/岗位，通过对话生效）、（直接生效：生成后直接工作，比如打扫家务等）
+主角美术：
+贴图：正、侧、后三视图
+动画：走路、站立、挖掘、
+主角挖掘：类似动森
+可以增加家园收纳箱（后期）。
+
+
+Area exploration
+收集物品：
+尸块（三种身体躯干）
+垃圾（什么垃圾）（可能要跟僵尸种类挂钩，比如佛珠（和尚僵尸），木板（高跷僵尸），官帽（官员僵尸）
+    
+
+Assembling little game
+小游戏1：阴阳平衡
+将不同部位放到阴或阳的位置
+阴阳会产生一定的倾斜
+通过拖拽或鼠标点击制造平衡
+小游戏2：气脉连接
+
+
+不同部位有气脉
+需要旋转和对齐气脉进行拼接
+ 
+Zombie system
+基本信息：
+编号
+姓名（以后如果有时间可以让玩家自己取名字）
+类型
+普通僵尸（普通形象）
+特殊僵尸（特定形象——见图鉴分类）
+管理功能：
+僵尸管理面板
+查看信息
+分配工作岗位
+跟随
+僵尸功能：
+背包僵尸（增加背包）
+挖掘僵尸（增加某类掉落概率）
+僵尸图鉴：
+分类：
+和尚
+官员
+背景故事
+
+
+是否具有收纳功能？（同种多数量僵尸收纳）
+僵尸部位：三个部位（头+身子、手、脚）（部位数量的变化会引起背包格子的变化）
+
+僵尸分类：
+aaa
+僵尸美术：
+贴图：正、侧、后三视图（每种都要有）
+动画：走路、站立、挖掘？、
+Home & work
+	仓库
+		存储物品
+	
+	
+家园
+通过僵尸收集的材料可以扩建？
+	工作
+打扫卫生
+伐木场
+采石场
+挖掘工作
+产出型工作
+探索挖掘（这里我觉得玩家始终要自己去挖掘，分配僵尸只是帮玩家多拿东西或者挖掘范围更大，速度更快等）
+
+
+增益型工作
+增加挖掘效率（放到已发现的区域驻守，可以减少挖掘到垃圾的几率。放到还未探索的地图，可以提前发现新的区域，具体看看地图怎么设计）
+氛围型工作
+陪伴玩家
+增加人气
+装饰
+
+Story
+
+
+Final design conception (smallest) and development plan
+Character
+MVP
+Player model and motions
+Player movement (use WASD to move)
+Player interaction (dig and collect)
+Player backpack (with 10 positions)
+Player backpack expansion (with zombie following)
+Potential
+Scenes
+MVP
+Home scene model (with Yin-yang platform)
+Yard scene model (connect with exploration scene)
+Exploration scene model (num: 1)
+Scene switch function
+Potential
+1-2 more exploration scenes
+Area exploration
+MVP
+Interation points
+Output distribution
+Output probability
+Item categories (trunk, arms, legs, story prop)
+Item collection (with player backpack)
+Potential
+Generative exploration scenarios
+More props (collection, story or trash)
+Zombie system
+MVP
+2 zombie models and motions
+Management interface & function
+Follow function
+Place function
+Zombie encyclopedia
+Interaction and dialogue
+Submit item (unlock story or encyclopedia)
+Potential
+2-4 more zombies with stories
+Event system (environment change and task trigger)
+Work places and function (put zombie in and have resources output)
+Zombie behavior (act automatically)
+Assembling system
+MVP
+Assembling platform (the Yin-yang platform)
+Bodyparts placement
+Assembling function
+Potential
+Assembling little game (the Eight Trigrams of Taoism)
+Assembling little game (connection of Qi)
+Interaction & story
+MVP
+Zombie story (num: 1)
+The overall story and narrations
+Potential
+More zombie story
+
+
+# Zompanion Design
+
+## 1. 项目时间与目标
+- 第一次测试：2026-03-09
+- 最终提交：2026-03-20
+
+目标：完成可游玩的 2D 俯视角 Tile 小游戏，核心循环为「探索挖掘 -> 收集尸块/道具 -> 组装僵尸 -> 僵尸跟随与增益」。
+
+---
+
+## 2. 核心玩法循环（MVP）
+1. 玩家进入探索场景，进行移动与挖掘。
+2. 挖掘点产出尸块/垃圾/剧情道具，进入背包。
+3. 回到家园，在阴阳平台进行组装。
+4. 产出僵尸，进入僵尸系统（跟随/放置/管理）。
+5. 僵尸为后续探索提供增益（背包扩容、掉落倾向等）。
+
+---
+
+## 3. 系统设计
+
+### 3.1 Character System（角色系统）
+#### MVP
+- 玩家移动（WASD）
+- 玩家交互：挖掘、收集（点击后直接入背包）
+- 玩家背包（已有版本为 10 格；早期草案为 6 格，暂以 10 格为当前实现基线）
+- 主角动画：站立、走路、挖掘
+- 主角贴图方向：正、侧、后
+
+#### Potential（有时间再做）
+- 吃饭、睡觉、时间系统
+- 时间限制探索机制
+- 更多生活交互（捡水果、探索垃圾扩展等）
+- 家园收纳箱
+
+### 3.2 Area Exploration（区域探索）
+#### MVP
+- 交互挖掘点
+- 掉落分配与概率系统
+- 道具类型：
+  - 尸块（三种部位：身子/手/脚）
+  - 垃圾
+  - 剧情道具（Story Prop）
+- 收集并进入玩家背包
+
+#### Potential
+- 生成式探索场景
+- 更多垃圾/收藏/剧情道具
+- 扩展探索地图与限制规则
+
+### 3.3 Assembling System（组装系统）
+#### MVP
+- 阴阳平台（组装台）
+- 部位放置
+- 组装产出僵尸
+
+#### Potential（小游戏扩展）
+- 小游戏1：阴阳平衡（拖拽/点击调平衡）
+- 小游戏2：气脉连接（旋转对齐后拼接）
+- 扩展为八卦相关机制
+
+### 3.4 Zombie System（僵尸系统）
+#### MVP
+- 僵尸基础信息：编号、姓名（先固定）、类型
+- 类型：
+  - 普通僵尸
+  - 特殊僵尸（图鉴分类）
+- 僵尸数量与状态：
+  - 跟随上限：2只
+- 跟随模式：贪吃蛇式队列跟随（已确认）
+- 僵尸管理界面：查看信息、分配岗位、跟随切换
+- 僵尸图鉴：分类、背景故事
+- 僵尸功能示例：
+  - 背包僵尸（增加背包容量）
+  - 挖掘僵尸（提高某类掉落概率）
+- 僵尸美术：正、侧、后；站立、走路、挖掘（可选）
+
+#### Potential
+- 2~4 个新增僵尸与故事
+- 自动行为与事件系统
+- 工作岗位产出
+- 同类僵尸收纳/批量管理
+
+### 3.5 Home & Work（家园与工作）
+#### MVP
+- 家园场景（含阴阳平台）
+- 仓库（存储物品）
+- 基础岗位概念（先支持分配流程）
+
+#### Potential
+- 扩建系统
+- 工作类型：
+  - 产出型：伐木场、采石场、挖掘岗
+  - 增益型：提升探索效率、降低垃圾率、提前发现区域
+  - 氛围型：陪伴、增加人气、装饰
+
+### 3.6 Story（叙事）
+#### MVP
+- 至少 1 个僵尸故事
+- 全局主线与旁白串联
+
+#### Potential
+- 多僵尸分支故事
+
+---
+
+## 4. 场景设计
+### MVP
+- Home Scene（含阴阳平台）
+- Yard Scene（连接探索区）
+- Exploration Scene（至少 1 张）
+- 场景切换流程可用
+
+### Potential
+- 再增加 1~2 张探索场景
+
+---
+
+## 5. 美术与动画清单（首版）
+### Player
+- 贴图：正/侧/后
+- 动画：站立/走路/挖掘
+
+### Zombie（首批2种）
+- 贴图：正/侧/后
+- 动画：站立/走路（挖掘可后置）
+
+---
+
+## 6. 开发计划（按里程碑倒排）
+
+### 阶段A：到 2026-03-09（第一次测试可玩）
+1. 完成玩家移动、交互、挖掘、收集入包
+2. 完成探索场景 1 张与挖掘点掉落逻辑
+3. 完成基础背包显示与数据联动
+4. 完成家园场景与阴阳平台基础交互
+5. 完成组装产出 1~2 种僵尸
+6. 完成僵尸跟随（最多2只）与基础管理入口
+7. 完成场景切换、基础音效/BGM、最小可玩流程串联
+
+验收标准：可从探索到组装再到僵尸跟随，形成完整闭环。
+
+### 阶段B：2026-03-10 ~ 2026-03-20（最终提交）
+1. 完善僵尸图鉴与 1 条故事内容
+2. 补齐岗位分配流程（放置生效或直接生效）
+3. 补充交互反馈（UI提示、动效、音效）
+4. 优化数值（掉率、背包、跟随体验）
+5. 修复 Bug，完成首轮体验打磨
+6. 视时间加入 1 个扩展点（小游戏或新僵尸或新场景）
+
+---
+
+## 7. 当前待确认项
+- 背包MVP容量：6格还是10格（文档中两版都有；当前项目脚本基线是10格）
+- 僵尸“放置生效”与“直接生效”是否同时进入首测
+- 跟随路径规则：采用严格贪吃蛇队列（已确认）
+- 组装小游戏是否首测必做（建议首测先做“可组装”，小游戏放到最终冲刺）
